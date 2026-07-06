@@ -1,0 +1,4 @@
+#pragma once
+
+#define M032_EXPECTED_FW_VERSION L"1.1.3"
+#define M032_EXPECTED_FW_VERSION_A "1.1.3"

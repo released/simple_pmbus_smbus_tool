@@ -1,0 +1,126 @@
+Kind,Selected,Profile,Type,Address,Command,Data,ReadLength,DelayMs,PEC,Comment
+Comment,,PMBus-TI-UCD90xxx,,,,,,,,Format=M032CSV; Source=button-suite; Suite=PMBus TI UCD90xxx Full; PEC=False; Address=0x5A; DelayMs=10
+Comment,,PMBus-TI-UCD90xxx,,,,,,,,Set the PMBus tab profile to the matching profile before Load/Run.
+Comment,,PMBus-TI-UCD90xxx,,,,,,,,"CSV covers bus transactions. GUI-only assertions, dynamic read/restore checks, group write, ARA, and manual lab items remain in the PMBus Full button."
+Command,1,PMBus-TI-UCD90xxx,SendByte,0x5A,0x03,,,10,0,Full preflight CLEAR_FAULTS
+Command,1,PMBus-TI-UCD90xxx,BusRecover,0x5A,,,,10,0,Bus idle/recovery preflight
+Comment,,PMBus-TI-UCD90xxx,,,,,,,,Basic checklist transaction coverage
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x98,,1,10,0,PMBUS_REVISION
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x98,,1,10,0,Repeated START read path
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x00,,1,10,0,PAGE baseline
+Command,1,PMBus-TI-UCD90xxx,WriteByte,0x5A,0x00,00,,10,0,PAGE write smoke
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x00,,1,10,0,PAGE readback
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x01,,1,10,0,OPERATION baseline
+Command,1,PMBus-TI-UCD90xxx,WriteByte,0x5A,0x01,80,,10,0,OPERATION write smoke
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x01,,1,10,0,OPERATION readback
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x02,,1,10,0,ON_OFF_CONFIG baseline
+Command,1,PMBus-TI-UCD90xxx,WriteByte,0x5A,0x02,1A,,10,0,ON_OFF_CONFIG write smoke
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x02,,1,10,0,ON_OFF_CONFIG readback
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x3A,,1,10,0,FAN_CONFIG_1_2 baseline
+Command,1,PMBus-TI-UCD90xxx,WriteByte,0x5A,0x3A,00,,10,0,FAN_CONFIG_1_2 write smoke
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x3A,,1,10,0,FAN_CONFIG_1_2 readback
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x20,,1,10,0,VOUT_MODE default
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x78,,,10,0,Status read 0x78
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0x79,,,10,0,Status read 0x79
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x7A,,,10,0,Status read 0x7A
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x7B,,,10,0,Status read 0x7B
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x7C,,,10,0,Status read 0x7C
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x7D,,,10,0,Status read 0x7D
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x7E,,,10,0,Status read 0x7E
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x7F,,,10,0,Status read 0x7F
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x80,,,10,0,Status read 0x80
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x81,,,10,0,Status read 0x81
+Comment,,PMBus-TI-UCD90xxx,,,,,,,,Telemetry checklist transaction coverage
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0x88,,,10,0,Telemetry ReadWord 0x88
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0x89,,,10,0,Telemetry ReadWord 0x89
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0x8B,,,10,0,Telemetry ReadWord 0x8B
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0x8C,,,10,0,Telemetry ReadWord 0x8C
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0x8D,,,10,0,Telemetry ReadWord 0x8D
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0x8E,,,10,0,Telemetry ReadWord 0x8E
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0x8F,,,10,0,Telemetry ReadWord 0x8F
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0x90,,,10,0,Telemetry ReadWord 0x90
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0x91,,,10,0,Telemetry ReadWord 0x91
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0x96,,,10,0,Telemetry ReadWord 0x96
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0x97,,,10,0,Telemetry ReadWord 0x97
+Command,1,PMBus-TI-UCD90xxx,Read32,0x5A,0x83,,,10,0,Telemetry Read32 0x83
+Command,1,PMBus-TI-UCD90xxx,Read32,0x5A,0x84,,,10,0,Telemetry Read32 0x84
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0x86,,40,10,0,Telemetry/identity BlockRead 0x86
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0x87,,40,10,0,Telemetry/identity BlockRead 0x87
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0x99,,40,10,0,Telemetry/identity BlockRead 0x99
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0x9A,,40,10,0,Telemetry/identity BlockRead 0x9A
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0x9B,,40,10,0,Telemetry/identity BlockRead 0x9B
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0x9E,,40,10,0,Telemetry/identity BlockRead 0x9E
+Comment,,PMBus-TI-UCD90xxx,,,,,,,,Transport extension and ordering stress coverage
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0x21,,,10,0,VOUT_COMMAND baseline
+Command,1,PMBus-TI-UCD90xxx,ProcessCall,0x5A,0x21,E0 2E,2,10,0,Process Call VOUT_COMMAND
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0x21,,,10,0,VOUT_COMMAND post Process Call
+Command,1,PMBus-TI-UCD90xxx,BlockWriteReadProcessCall,0x5A,0x1A,98,1,10,0,QUERY PMBUS_REVISION
+Command,1,PMBus-TI-UCD90xxx,BlockWriteReadProcessCall,0x5A,0x1B,00,2,10,0,SMBALERT_MASK read
+Command,1,PMBus-TI-UCD90xxx,WriteWord,0x5A,0x1B,00 00,,10,0,SMBALERT_MASK write smoke
+Command,1,PMBus-TI-UCD90xxx,BlockWriteReadProcessCall,0x5A,0x1B,00,2,10,0,SMBALERT_MASK readback
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x98,,1,10,0,Stress ReadByte before ReadWord
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0x79,,,10,0,Stress ReadWord
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x98,,1,10,0,Stress ReadByte after ReadWord
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0x9A,,32,10,0,Stress BlockRead before ReadByte
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x98,,1,10,0,Stress ReadByte after BlockRead
+Command,1,PMBus-TI-UCD90xxx,ProcessCall,0x5A,0x21,E0 2E,2,10,0,Stress ProcessCall before ReadByte
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x98,,1,10,0,Stress ReadByte after ProcessCall
+Command,1,PMBus-TI-UCD90xxx,BlockWriteReadProcessCall,0x5A,0x1A,98,1,10,0,Stress BWRPC before ReadByte
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x98,,1,10,0,Stress ReadByte after BWRPC
+Comment,,PMBus-TI-UCD90xxx,,,,,,,,PEC and negative-path coverage
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x98,,1,10,1,PEC Read Byte PMBUS_REVISION
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0x79,,,10,1,PEC Read Word STATUS_WORD
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0x9A,,32,10,1,PEC Block Read MFR_MODEL
+Command,1,PMBus-TI-UCD90xxx,BadPecWriteByte,0x5A,0x02,1A,,10,1,Expected bad-PEC negative write
+Command,1,PMBus-TI-UCD90xxx,SendByte,0x5A,0x03,,,10,0,Post bad-PEC CLEAR_FAULTS
+Command,1,PMBus-TI-UCD90xxx,BusRecover,0x5A,,,,10,0,Post bad-PEC bus recover
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0x98,,1,10,0,Positive read after bad PEC
+Comment,,PMBus-TI-UCD90xxx,,,,,,,,TI UCD90xxx profile command smoke coverage
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xB5,,32,10,0,TI UCD90xxx BlockRead 0xB5
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xB6,,32,10,0,TI UCD90xxx BlockRead 0xB6
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xB7,,32,10,0,TI UCD90xxx BlockRead 0xB7
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xB9,,32,10,0,TI UCD90xxx BlockRead 0xB9
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xD2,,32,10,0,TI UCD90xxx BlockRead 0xD2
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xD3,,32,10,0,TI UCD90xxx BlockRead 0xD3
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xD5,,32,10,0,TI UCD90xxx BlockRead 0xD5
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xD7,,32,10,0,TI UCD90xxx BlockRead 0xD7
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xDD,,32,10,0,TI UCD90xxx BlockRead 0xDD
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xDF,,32,10,0,TI UCD90xxx BlockRead 0xDF
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xE1,,32,10,0,TI UCD90xxx BlockRead 0xE1
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xE2,,32,10,0,TI UCD90xxx BlockRead 0xE2
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xE3,,32,10,0,TI UCD90xxx BlockRead 0xE3
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xE8,,32,10,0,TI UCD90xxx BlockRead 0xE8
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xE9,,32,10,0,TI UCD90xxx BlockRead 0xE9
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xEA,,32,10,0,TI UCD90xxx BlockRead 0xEA
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xEC,,32,10,0,TI UCD90xxx BlockRead 0xEC
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xED,,32,10,0,TI UCD90xxx BlockRead 0xED
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xEF,,32,10,0,TI UCD90xxx BlockRead 0xEF
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xF1,,32,10,0,TI UCD90xxx BlockRead 0xF1
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xF2,,32,10,0,TI UCD90xxx BlockRead 0xF2
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xF3,,32,10,0,TI UCD90xxx BlockRead 0xF3
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xF6,,32,10,0,TI UCD90xxx BlockRead 0xF6
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xF8,,32,10,0,TI UCD90xxx BlockRead 0xF8
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xF9,,32,10,0,TI UCD90xxx BlockRead 0xF9
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xFC,,32,10,0,TI UCD90xxx BlockRead 0xFC
+Command,1,PMBus-TI-UCD90xxx,BlockRead,0x5A,0xFD,,32,10,0,TI UCD90xxx BlockRead 0xFD
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0xD0,,,10,0,TI UCD90xxx ReadWord 0xD0
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0xD1,,,10,0,TI UCD90xxx ReadWord 0xD1
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0xD8,,,10,0,TI UCD90xxx ReadWord 0xD8
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0xDC,,,10,0,TI UCD90xxx ReadWord 0xDC
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0xE4,,,10,0,TI UCD90xxx ReadWord 0xE4
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0xE5,,,10,0,TI UCD90xxx ReadWord 0xE5
+Command,1,PMBus-TI-UCD90xxx,ReadWord,0x5A,0xEB,,,10,0,TI UCD90xxx ReadWord 0xEB
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0xD6,,1,10,0,TI UCD90xxx ReadByte 0xD6
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0xDA,,1,10,0,TI UCD90xxx ReadByte 0xDA
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0xE0,,1,10,0,TI UCD90xxx ReadByte 0xE0
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0xE7,,1,10,0,TI UCD90xxx ReadByte 0xE7
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0xEE,,1,10,0,TI UCD90xxx ReadByte 0xEE
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0xF5,,1,10,0,TI UCD90xxx ReadByte 0xF5
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0xF7,,1,10,0,TI UCD90xxx ReadByte 0xF7
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0xFA,,1,10,0,TI UCD90xxx ReadByte 0xFA
+Command,1,PMBus-TI-UCD90xxx,ReadByte,0x5A,0xFB,,1,10,0,TI UCD90xxx ReadByte 0xFB
+Command,1,PMBus-TI-UCD90xxx,SendByte,0x5A,0xD4,,,10,0,TI UCD90xxx SendByte smoke 0xD4
+Command,1,PMBus-TI-UCD90xxx,SendByte,0x5A,0xD9,,,10,0,TI UCD90xxx SendByte smoke 0xD9
+Command,1,PMBus-TI-UCD90xxx,SendByte,0x5A,0xDB,,,10,0,TI UCD90xxx SendByte smoke 0xDB
+Command,1,PMBus-TI-UCD90xxx,SendByte,0x5A,0xF0,,,10,0,TI UCD90xxx SendByte smoke 0xF0
+Command,1,PMBus-TI-UCD90xxx,WriteWord,0x5A,0xDE,00 00,,10,0,TI UCD90xxx RESEQUENCE WriteWord smoke

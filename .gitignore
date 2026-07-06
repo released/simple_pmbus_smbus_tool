@@ -1,0 +1,29 @@
+# Local runtime state
+.agents/
+teraterm.log
+build/pmbus_smbus_tool.ini
+build/*.log
+build/test_log/
+build/script_presets/_staging/*
+!build/script_presets/_staging/README.md
+
+# PC build outputs
+build/obj/
+build/*.exe
+build/*.pdb
+build/*.ilk
+build/*.idb
+build/*.iobj
+build/*.ipdb
+*.obj
+*.pdb
+*.ilk
+*.idb
+*.iobj
+*.ipdb
+
+# Keil local/user outputs
+demo_code/M031BSP_USB_HID_PMBus_SMBus/SampleCode/Template/Keil/lst/
+demo_code/M031BSP_USB_HID_PMBus_SMBus/SampleCode/Template/Keil/obj/
+demo_code/M031BSP_USB_HID_PMBus_SMBus/SampleCode/Template/Keil/*.uvguix.*
+demo_code/M031BSP_USB_HID_PMBus_SMBus/SampleCode/Template/Keil/Nu_Link_Driver.ini

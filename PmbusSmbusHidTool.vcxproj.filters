@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4B04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files\\core">
+      <UniqueIdentifier>{29C74898-6E97-4886-A5C9-F833A56BB5DD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\\hid">
+      <UniqueIdentifier>{CDCC0766-5E58-42BB-8652-9C2BE28AB3C6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\\config">
+      <UniqueIdentifier>{34507917-54C2-4086-B26F-7A6F1450A8A0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\\log">
+      <UniqueIdentifier>{490D80A1-018D-4DA9-8458-BEC7ACF75EF4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\\ui">
+      <UniqueIdentifier>{62F6B943-DACA-4EEA-9F13-D1CE173A6AFB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\\core">
+      <UniqueIdentifier>{22F574B6-DC10-42BB-9688-688EF59F8DDF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\\hid">
+      <UniqueIdentifier>{AFAEF3F2-4FA3-4FB8-BF4C-A8E76F30F0C2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\\config">
+      <UniqueIdentifier>{7E83F100-E0DD-4B50-9FCB-5D0A4A7A4A12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\\log">
+      <UniqueIdentifier>{10C294AE-0AF0-462A-BA6E-6970D7478B42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\\ui">
+      <UniqueIdentifier>{147D44FB-3A32-4C42-972D-B26186AD49D9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{523AAB8A-3CC9-4BBA-B92D-803820F94EFB}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ClCompile Include="src\app.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main_frame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\config\ini_manager.cpp">
+      <Filter>Source Files\config</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\app_state.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\bridge_service.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\pin_usage_registry.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\pmbus_utils.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\smbus_script.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\text_utils.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hid\hid_bridge_client.cpp">
+      <Filter>Source Files\hid</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hid\hid_scan.cpp">
+      <Filter>Source Files\hid</Filter>
+    </ClCompile>
+    <ClCompile Include="src\log\logger.cpp">
+      <Filter>Source Files\log</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\i2c_tab.cpp">
+      <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\pmbus_tab.cpp">
+      <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\script_tab.cpp">
+      <Filter>Source Files\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ui\smbus_tab.cpp">
+      <Filter>Source Files\ui</Filter>
+    </ClCompile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ClInclude Include="src\app.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main_frame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\config\ini_manager.h">
+      <Filter>Header Files\config</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\app_state.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\board_i2c_catalog.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\bridge_commands.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\bridge_service.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\pin_usage_registry.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\pmbus_utils.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\smbus_script.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\text_utils.h">
+      <Filter>Header Files\core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hid\hid_bridge_client.h">
+      <Filter>Header Files\hid</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hid\hid_scan.h">
+      <Filter>Header Files\hid</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hid\hid_types.h">
+      <Filter>Header Files\hid</Filter>
+    </ClInclude>
+    <ClInclude Include="src\log\logger.h">
+      <Filter>Header Files\log</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ui\i2c_tab.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ui\pmbus_tab.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ui\script_tab.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ui\smbus_tab.h">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ResourceCompile Include="src\pmbus_smbus_tool.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

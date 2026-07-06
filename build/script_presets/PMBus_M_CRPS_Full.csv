@@ -1,0 +1,136 @@
+Kind,Selected,Profile,Type,Address,Command,Data,ReadLength,DelayMs,PEC,Comment
+Comment,,PMBus-CRPS,,,,,,,,Format=M032CSV; Source=button-suite; Suite=PMBus M-CRPS Full; PEC=False; Address=0x5A; DelayMs=10
+Comment,,PMBus-CRPS,,,,,,,,Set the PMBus tab profile to the matching profile before Load/Run.
+Comment,,PMBus-CRPS,,,,,,,,"CSV covers bus transactions. GUI-only assertions, dynamic read/restore checks, group write, ARA, and manual lab items remain in the PMBus Full button."
+Command,1,PMBus-CRPS,SendByte,0x5A,0x03,,,10,0,Full preflight CLEAR_FAULTS
+Command,1,PMBus-CRPS,BusRecover,0x5A,,,,10,0,Bus idle/recovery preflight
+Comment,,PMBus-CRPS,,,,,,,,Basic checklist transaction coverage
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x98,,1,10,0,PMBUS_REVISION
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x98,,1,10,0,Repeated START read path
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x00,,1,10,0,PAGE baseline
+Command,1,PMBus-CRPS,WriteByte,0x5A,0x00,00,,10,0,PAGE write smoke
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x00,,1,10,0,PAGE readback
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x01,,1,10,0,OPERATION baseline
+Command,1,PMBus-CRPS,WriteByte,0x5A,0x01,80,,10,0,OPERATION write smoke
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x01,,1,10,0,OPERATION readback
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x02,,1,10,0,ON_OFF_CONFIG baseline
+Command,1,PMBus-CRPS,WriteByte,0x5A,0x02,1A,,10,0,ON_OFF_CONFIG write smoke
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x02,,1,10,0,ON_OFF_CONFIG readback
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x3A,,1,10,0,FAN_CONFIG_1_2 baseline
+Command,1,PMBus-CRPS,WriteByte,0x5A,0x3A,00,,10,0,FAN_CONFIG_1_2 write smoke
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x3A,,1,10,0,FAN_CONFIG_1_2 readback
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x20,,1,10,0,VOUT_MODE default
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x78,,,10,0,Status read 0x78
+Command,1,PMBus-CRPS,ReadWord,0x5A,0x79,,,10,0,Status read 0x79
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x7A,,,10,0,Status read 0x7A
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x7B,,,10,0,Status read 0x7B
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x7C,,,10,0,Status read 0x7C
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x7D,,,10,0,Status read 0x7D
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x7E,,,10,0,Status read 0x7E
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x7F,,,10,0,Status read 0x7F
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x80,,,10,0,Status read 0x80
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x81,,,10,0,Status read 0x81
+Comment,,PMBus-CRPS,,,,,,,,Telemetry checklist transaction coverage
+Command,1,PMBus-CRPS,ReadWord,0x5A,0x88,,,10,0,Telemetry ReadWord 0x88
+Command,1,PMBus-CRPS,ReadWord,0x5A,0x89,,,10,0,Telemetry ReadWord 0x89
+Command,1,PMBus-CRPS,ReadWord,0x5A,0x8B,,,10,0,Telemetry ReadWord 0x8B
+Command,1,PMBus-CRPS,ReadWord,0x5A,0x8C,,,10,0,Telemetry ReadWord 0x8C
+Command,1,PMBus-CRPS,ReadWord,0x5A,0x8D,,,10,0,Telemetry ReadWord 0x8D
+Command,1,PMBus-CRPS,ReadWord,0x5A,0x8E,,,10,0,Telemetry ReadWord 0x8E
+Command,1,PMBus-CRPS,ReadWord,0x5A,0x8F,,,10,0,Telemetry ReadWord 0x8F
+Command,1,PMBus-CRPS,ReadWord,0x5A,0x90,,,10,0,Telemetry ReadWord 0x90
+Command,1,PMBus-CRPS,ReadWord,0x5A,0x91,,,10,0,Telemetry ReadWord 0x91
+Command,1,PMBus-CRPS,ReadWord,0x5A,0x96,,,10,0,Telemetry ReadWord 0x96
+Command,1,PMBus-CRPS,ReadWord,0x5A,0x97,,,10,0,Telemetry ReadWord 0x97
+Command,1,PMBus-CRPS,Read32,0x5A,0x83,,,10,0,Telemetry Read32 0x83
+Command,1,PMBus-CRPS,Read32,0x5A,0x84,,,10,0,Telemetry Read32 0x84
+Command,1,PMBus-CRPS,BlockRead,0x5A,0x86,,40,10,0,Telemetry/identity BlockRead 0x86
+Command,1,PMBus-CRPS,BlockRead,0x5A,0x87,,40,10,0,Telemetry/identity BlockRead 0x87
+Command,1,PMBus-CRPS,BlockRead,0x5A,0x99,,40,10,0,Telemetry/identity BlockRead 0x99
+Command,1,PMBus-CRPS,BlockRead,0x5A,0x9A,,40,10,0,Telemetry/identity BlockRead 0x9A
+Command,1,PMBus-CRPS,BlockRead,0x5A,0x9B,,40,10,0,Telemetry/identity BlockRead 0x9B
+Command,1,PMBus-CRPS,BlockRead,0x5A,0x9E,,40,10,0,Telemetry/identity BlockRead 0x9E
+Comment,,PMBus-CRPS,,,,,,,,Transport extension and ordering stress coverage
+Command,1,PMBus-CRPS,ReadWord,0x5A,0x21,,,10,0,VOUT_COMMAND baseline
+Command,1,PMBus-CRPS,ProcessCall,0x5A,0x21,E0 2E,2,10,0,Process Call VOUT_COMMAND
+Command,1,PMBus-CRPS,ReadWord,0x5A,0x21,,,10,0,VOUT_COMMAND post Process Call
+Command,1,PMBus-CRPS,BlockWriteReadProcessCall,0x5A,0x1A,98,1,10,0,QUERY PMBUS_REVISION
+Command,1,PMBus-CRPS,BlockWriteReadProcessCall,0x5A,0x1B,00,2,10,0,SMBALERT_MASK read
+Command,1,PMBus-CRPS,WriteWord,0x5A,0x1B,00 00,,10,0,SMBALERT_MASK write smoke
+Command,1,PMBus-CRPS,BlockWriteReadProcessCall,0x5A,0x1B,00,2,10,0,SMBALERT_MASK readback
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x98,,1,10,0,Stress ReadByte before ReadWord
+Command,1,PMBus-CRPS,ReadWord,0x5A,0x79,,,10,0,Stress ReadWord
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x98,,1,10,0,Stress ReadByte after ReadWord
+Command,1,PMBus-CRPS,BlockRead,0x5A,0x9A,,32,10,0,Stress BlockRead before ReadByte
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x98,,1,10,0,Stress ReadByte after BlockRead
+Command,1,PMBus-CRPS,ProcessCall,0x5A,0x21,E0 2E,2,10,0,Stress ProcessCall before ReadByte
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x98,,1,10,0,Stress ReadByte after ProcessCall
+Command,1,PMBus-CRPS,BlockWriteReadProcessCall,0x5A,0x1A,98,1,10,0,Stress BWRPC before ReadByte
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x98,,1,10,0,Stress ReadByte after BWRPC
+Comment,,PMBus-CRPS,,,,,,,,PEC and negative-path coverage
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x98,,1,10,1,PEC Read Byte PMBUS_REVISION
+Command,1,PMBus-CRPS,ReadWord,0x5A,0x79,,,10,1,PEC Read Word STATUS_WORD
+Command,1,PMBus-CRPS,BlockRead,0x5A,0x9A,,32,10,1,PEC Block Read MFR_MODEL
+Command,1,PMBus-CRPS,BadPecWriteByte,0x5A,0x02,1A,,10,1,Expected bad-PEC negative write
+Command,1,PMBus-CRPS,SendByte,0x5A,0x03,,,10,0,Post bad-PEC CLEAR_FAULTS
+Command,1,PMBus-CRPS,BusRecover,0x5A,,,,10,0,Post bad-PEC bus recover
+Command,1,PMBus-CRPS,ReadByte,0x5A,0x98,,1,10,0,Positive read after bad PEC
+Comment,,PMBus-CRPS,,,,,,,,M-CRPS profile command shadow read coverage
+Command,1,PMBus-CRPS,BlockRead,0x5A,0xB3,,16,10,0,MFR_EFFICIENCY_DATA
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xC0,,,10,0,M-CRPS ReadWord 0xC0
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xC1,,,10,0,M-CRPS ReadWord 0xC1
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xC2,,,10,0,M-CRPS ReadWord 0xC2
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xD2,,,10,0,M-CRPS ReadWord 0xD2
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xD4,,,10,0,M-CRPS ReadWord 0xD4
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xD8,,,10,0,M-CRPS ReadWord 0xD8
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xE2,,,10,0,M-CRPS ReadWord 0xE2
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xE3,,,10,0,M-CRPS ReadWord 0xE3
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xEC,,,10,0,M-CRPS ReadWord 0xEC
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xED,,,10,0,M-CRPS ReadWord 0xED
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xF0,,,10,0,M-CRPS ReadWord 0xF0
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xF2,,,10,0,M-CRPS ReadWord 0xF2
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xF3,,,10,0,M-CRPS ReadWord 0xF3
+Command,1,PMBus-CRPS,ReadByte,0x5A,0xD0,,1,10,0,M-CRPS ReadByte 0xD0
+Command,1,PMBus-CRPS,ReadByte,0x5A,0xD5,,1,10,0,M-CRPS ReadByte 0xD5
+Command,1,PMBus-CRPS,ReadByte,0x5A,0xD6,,1,10,0,M-CRPS ReadByte 0xD6
+Command,1,PMBus-CRPS,ReadByte,0x5A,0xDB,,1,10,0,M-CRPS ReadByte 0xDB
+Command,1,PMBus-CRPS,ReadByte,0x5A,0xDF,,1,10,0,M-CRPS ReadByte 0xDF
+Command,1,PMBus-CRPS,ReadByte,0x5A,0xE1,,1,10,0,M-CRPS ReadByte 0xE1
+Command,1,PMBus-CRPS,ReadByte,0x5A,0xE4,,1,10,0,M-CRPS ReadByte 0xE4
+Command,1,PMBus-CRPS,WriteByte,0x5A,0xD0,01,,10,0,M-CRPS WriteByte smoke 0xD0
+Command,1,PMBus-CRPS,ReadByte,0x5A,0xD0,,1,10,0,M-CRPS ReadByte after write 0xD0
+Command,1,PMBus-CRPS,WriteByte,0x5A,0xDB,01,,10,0,M-CRPS WriteByte smoke 0xDB
+Command,1,PMBus-CRPS,ReadByte,0x5A,0xDB,,1,10,0,M-CRPS ReadByte after write 0xDB
+Command,1,PMBus-CRPS,WriteByte,0x5A,0xDF,01,,10,0,M-CRPS WriteByte smoke 0xDF
+Command,1,PMBus-CRPS,ReadByte,0x5A,0xDF,,1,10,0,M-CRPS ReadByte after write 0xDF
+Command,1,PMBus-CRPS,WriteByte,0x5A,0xE1,01,,10,0,M-CRPS WriteByte smoke 0xE1
+Command,1,PMBus-CRPS,ReadByte,0x5A,0xE1,,1,10,0,M-CRPS ReadByte after write 0xE1
+Command,1,PMBus-CRPS,WriteByte,0x5A,0xE4,01,,10,0,M-CRPS WriteByte smoke 0xE4
+Command,1,PMBus-CRPS,ReadByte,0x5A,0xE4,,1,10,0,M-CRPS ReadByte after write 0xE4
+Command,1,PMBus-CRPS,WriteWord,0x5A,0xD8,00 00,,10,0,M-CRPS WriteWord smoke 0xD8
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xD8,,,10,0,M-CRPS ReadWord after write 0xD8
+Command,1,PMBus-CRPS,WriteWord,0x5A,0xE2,00 00,,10,0,M-CRPS WriteWord smoke 0xE2
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xE2,,,10,0,M-CRPS ReadWord after write 0xE2
+Command,1,PMBus-CRPS,WriteWord,0x5A,0xED,00 00,,10,0,M-CRPS WriteWord smoke 0xED
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xED,,,10,0,M-CRPS ReadWord after write 0xED
+Command,1,PMBus-CRPS,WriteWord,0x5A,0xF0,00 00,,10,0,M-CRPS WriteWord smoke 0xF0
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xF0,,,10,0,M-CRPS ReadWord after write 0xF0
+Command,1,PMBus-CRPS,WriteWord,0x5A,0xF2,00 00,,10,0,M-CRPS WriteWord smoke 0xF2
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xF2,,,10,0,M-CRPS ReadWord after write 0xF2
+Command,1,PMBus-CRPS,WriteWord,0x5A,0xF3,00 00,,10,0,M-CRPS WriteWord smoke 0xF3
+Command,1,PMBus-CRPS,ReadWord,0x5A,0xF3,,,10,0,M-CRPS ReadWord after write 0xF3
+Command,1,PMBus-CRPS,BlockRead,0x5A,0xD1,,32,10,0,M-CRPS BlockRead 0xD1
+Command,1,PMBus-CRPS,BlockRead,0x5A,0xD9,,32,10,0,M-CRPS BlockRead 0xD9
+Command,1,PMBus-CRPS,BlockRead,0x5A,0xDC,,32,10,0,M-CRPS BlockRead 0xDC
+Command,1,PMBus-CRPS,BlockRead,0x5A,0xDD,,32,10,0,M-CRPS BlockRead 0xDD
+Command,1,PMBus-CRPS,BlockRead,0x5A,0xDE,,32,10,0,M-CRPS BlockRead 0xDE
+Command,1,PMBus-CRPS,BlockRead,0x5A,0xE9,,32,10,0,M-CRPS BlockRead 0xE9
+Command,1,PMBus-CRPS,BlockRead,0x5A,0xEB,,32,10,0,M-CRPS BlockRead 0xEB
+Command,1,PMBus-CRPS,BlockRead,0x5A,0xEE,,32,10,0,M-CRPS BlockRead 0xEE
+Command,1,PMBus-CRPS,BlockRead,0x5A,0xF1,,32,10,0,M-CRPS BlockRead 0xF1
+Command,1,PMBus-CRPS,BlockWriteReadProcessCall,0x5A,0xD3,00,16,10,0,MFR_READ_CONFIG_FILE BWRPC
+Command,1,PMBus-CRPS,BlockWriteReadProcessCall,0x5A,0xDA,00 01,16,10,0,MFR_SPDM BWRPC
+Command,1,PMBus-CRPS,BlockWrite,0x5A,0xE9,01 02 03 04 05 06 07 08,,10,0,MFR_PEAK_CURRENT_RECORD write smoke
+Command,1,PMBus-CRPS,BlockRead,0x5A,0xE9,,16,10,0,MFR_PEAK_CURRENT_RECORD readback
+Command,1,PMBus-CRPS,BlockWrite,0x5A,0xEE,10 20 30 40 50 60 70 80,,10,0,MFR_OCWPL1_SETTING write smoke
+Command,1,PMBus-CRPS,BlockRead,0x5A,0xEE,,16,10,0,MFR_OCWPL1_SETTING readback

@@ -1,0 +1,84 @@
+Kind,Selected,Profile,Type,Address,Command,Data,ReadLength,DelayMs,PEC,Comment
+Comment,,PMBus-Base,,,,,,,,Format=M032CSV; Source=button-suite; Suite=PMBus Base Full; PEC=False; Address=0x5A; DelayMs=10
+Comment,,PMBus-Base,,,,,,,,Set the PMBus tab profile to the matching profile before Load/Run.
+Comment,,PMBus-Base,,,,,,,,"CSV covers bus transactions. GUI-only assertions, dynamic read/restore checks, group write, ARA, and manual lab items remain in the PMBus Full button."
+Command,1,PMBus-Base,SendByte,0x5A,0x03,,,10,0,Full preflight CLEAR_FAULTS
+Command,1,PMBus-Base,BusRecover,0x5A,,,,10,0,Bus idle/recovery preflight
+Comment,,PMBus-Base,,,,,,,,Basic checklist transaction coverage
+Command,1,PMBus-Base,ReadByte,0x5A,0x98,,1,10,0,PMBUS_REVISION
+Command,1,PMBus-Base,ReadByte,0x5A,0x98,,1,10,0,Repeated START read path
+Command,1,PMBus-Base,ReadByte,0x5A,0x00,,1,10,0,PAGE baseline
+Command,1,PMBus-Base,WriteByte,0x5A,0x00,00,,10,0,PAGE write smoke
+Command,1,PMBus-Base,ReadByte,0x5A,0x00,,1,10,0,PAGE readback
+Command,1,PMBus-Base,ReadByte,0x5A,0x01,,1,10,0,OPERATION baseline
+Command,1,PMBus-Base,WriteByte,0x5A,0x01,80,,10,0,OPERATION write smoke
+Command,1,PMBus-Base,ReadByte,0x5A,0x01,,1,10,0,OPERATION readback
+Command,1,PMBus-Base,ReadByte,0x5A,0x02,,1,10,0,ON_OFF_CONFIG baseline
+Command,1,PMBus-Base,WriteByte,0x5A,0x02,1A,,10,0,ON_OFF_CONFIG write smoke
+Command,1,PMBus-Base,ReadByte,0x5A,0x02,,1,10,0,ON_OFF_CONFIG readback
+Command,1,PMBus-Base,ReadByte,0x5A,0x3A,,1,10,0,FAN_CONFIG_1_2 baseline
+Command,1,PMBus-Base,WriteByte,0x5A,0x3A,00,,10,0,FAN_CONFIG_1_2 write smoke
+Command,1,PMBus-Base,ReadByte,0x5A,0x3A,,1,10,0,FAN_CONFIG_1_2 readback
+Command,1,PMBus-Base,ReadByte,0x5A,0x20,,1,10,0,VOUT_MODE default
+Command,1,PMBus-Base,ReadByte,0x5A,0x78,,,10,0,Status read 0x78
+Command,1,PMBus-Base,ReadWord,0x5A,0x79,,,10,0,Status read 0x79
+Command,1,PMBus-Base,ReadByte,0x5A,0x7A,,,10,0,Status read 0x7A
+Command,1,PMBus-Base,ReadByte,0x5A,0x7B,,,10,0,Status read 0x7B
+Command,1,PMBus-Base,ReadByte,0x5A,0x7C,,,10,0,Status read 0x7C
+Command,1,PMBus-Base,ReadByte,0x5A,0x7D,,,10,0,Status read 0x7D
+Command,1,PMBus-Base,ReadByte,0x5A,0x7E,,,10,0,Status read 0x7E
+Command,1,PMBus-Base,ReadByte,0x5A,0x7F,,,10,0,Status read 0x7F
+Command,1,PMBus-Base,ReadByte,0x5A,0x80,,,10,0,Status read 0x80
+Command,1,PMBus-Base,ReadByte,0x5A,0x81,,,10,0,Status read 0x81
+Comment,,PMBus-Base,,,,,,,,Telemetry checklist transaction coverage
+Command,1,PMBus-Base,ReadWord,0x5A,0x88,,,10,0,Telemetry ReadWord 0x88
+Command,1,PMBus-Base,ReadWord,0x5A,0x89,,,10,0,Telemetry ReadWord 0x89
+Command,1,PMBus-Base,ReadWord,0x5A,0x8B,,,10,0,Telemetry ReadWord 0x8B
+Command,1,PMBus-Base,ReadWord,0x5A,0x8C,,,10,0,Telemetry ReadWord 0x8C
+Command,1,PMBus-Base,ReadWord,0x5A,0x8D,,,10,0,Telemetry ReadWord 0x8D
+Command,1,PMBus-Base,ReadWord,0x5A,0x8E,,,10,0,Telemetry ReadWord 0x8E
+Command,1,PMBus-Base,ReadWord,0x5A,0x8F,,,10,0,Telemetry ReadWord 0x8F
+Command,1,PMBus-Base,ReadWord,0x5A,0x90,,,10,0,Telemetry ReadWord 0x90
+Command,1,PMBus-Base,ReadWord,0x5A,0x91,,,10,0,Telemetry ReadWord 0x91
+Command,1,PMBus-Base,ReadWord,0x5A,0x96,,,10,0,Telemetry ReadWord 0x96
+Command,1,PMBus-Base,ReadWord,0x5A,0x97,,,10,0,Telemetry ReadWord 0x97
+Command,1,PMBus-Base,Read32,0x5A,0x83,,,10,0,Telemetry Read32 0x83
+Command,1,PMBus-Base,Read32,0x5A,0x84,,,10,0,Telemetry Read32 0x84
+Command,1,PMBus-Base,BlockRead,0x5A,0x86,,40,10,0,Telemetry/identity BlockRead 0x86
+Command,1,PMBus-Base,BlockRead,0x5A,0x87,,40,10,0,Telemetry/identity BlockRead 0x87
+Command,1,PMBus-Base,BlockRead,0x5A,0x99,,40,10,0,Telemetry/identity BlockRead 0x99
+Command,1,PMBus-Base,BlockRead,0x5A,0x9A,,40,10,0,Telemetry/identity BlockRead 0x9A
+Command,1,PMBus-Base,BlockRead,0x5A,0x9B,,40,10,0,Telemetry/identity BlockRead 0x9B
+Command,1,PMBus-Base,BlockRead,0x5A,0x9E,,40,10,0,Telemetry/identity BlockRead 0x9E
+Comment,,PMBus-Base,,,,,,,,Transport extension and ordering stress coverage
+Command,1,PMBus-Base,ReadWord,0x5A,0x21,,,10,0,VOUT_COMMAND baseline
+Command,1,PMBus-Base,ProcessCall,0x5A,0x21,E0 2E,2,10,0,Process Call VOUT_COMMAND
+Command,1,PMBus-Base,ReadWord,0x5A,0x21,,,10,0,VOUT_COMMAND post Process Call
+Command,1,PMBus-Base,BlockWriteReadProcessCall,0x5A,0x1A,98,1,10,0,QUERY PMBUS_REVISION
+Command,1,PMBus-Base,BlockWriteReadProcessCall,0x5A,0x1B,00,2,10,0,SMBALERT_MASK read
+Command,1,PMBus-Base,WriteWord,0x5A,0x1B,00 00,,10,0,SMBALERT_MASK write smoke
+Command,1,PMBus-Base,BlockWriteReadProcessCall,0x5A,0x1B,00,2,10,0,SMBALERT_MASK readback
+Command,1,PMBus-Base,ReadByte,0x5A,0x98,,1,10,0,Stress ReadByte before ReadWord
+Command,1,PMBus-Base,ReadWord,0x5A,0x79,,,10,0,Stress ReadWord
+Command,1,PMBus-Base,ReadByte,0x5A,0x98,,1,10,0,Stress ReadByte after ReadWord
+Command,1,PMBus-Base,BlockRead,0x5A,0x9A,,32,10,0,Stress BlockRead before ReadByte
+Command,1,PMBus-Base,ReadByte,0x5A,0x98,,1,10,0,Stress ReadByte after BlockRead
+Command,1,PMBus-Base,ProcessCall,0x5A,0x21,E0 2E,2,10,0,Stress ProcessCall before ReadByte
+Command,1,PMBus-Base,ReadByte,0x5A,0x98,,1,10,0,Stress ReadByte after ProcessCall
+Command,1,PMBus-Base,BlockWriteReadProcessCall,0x5A,0x1A,98,1,10,0,Stress BWRPC before ReadByte
+Command,1,PMBus-Base,ReadByte,0x5A,0x98,,1,10,0,Stress ReadByte after BWRPC
+Comment,,PMBus-Base,,,,,,,,PEC and negative-path coverage
+Command,1,PMBus-Base,ReadByte,0x5A,0x98,,1,10,1,PEC Read Byte PMBUS_REVISION
+Command,1,PMBus-Base,ReadWord,0x5A,0x79,,,10,1,PEC Read Word STATUS_WORD
+Command,1,PMBus-Base,BlockRead,0x5A,0x9A,,32,10,1,PEC Block Read MFR_MODEL
+Command,1,PMBus-Base,BadPecWriteByte,0x5A,0x02,1A,,10,1,Expected bad-PEC negative write
+Command,1,PMBus-Base,SendByte,0x5A,0x03,,,10,0,Post bad-PEC CLEAR_FAULTS
+Command,1,PMBus-Base,BusRecover,0x5A,,,,10,0,Post bad-PEC bus recover
+Command,1,PMBus-Base,ReadByte,0x5A,0x98,,1,10,0,Positive read after bad PEC
+Comment,,PMBus-Base,,,,,,,,PMBus Base USER/MFR namespace shadow coverage
+Command,1,PMBus-Base,BlockRead,0x5A,0xB0,,32,10,0,USER_DATA_00 baseline
+Command,1,PMBus-Base,BlockWrite,0x5A,0xB0,55 A5 10 20,,10,0,USER_DATA_00 block write smoke
+Command,1,PMBus-Base,BlockRead,0x5A,0xB0,,32,10,0,USER_DATA_00 readback
+Command,1,PMBus-Base,BlockRead,0x5A,0xC4,,32,10,0,MFR_SPECIFIC_C4 baseline
+Command,1,PMBus-Base,BlockWrite,0x5A,0xC4,C4 11 22 33,,10,0,MFR_SPECIFIC_C4 block write smoke
+Command,1,PMBus-Base,BlockRead,0x5A,0xC4,,32,10,0,MFR_SPECIFIC_C4 readback

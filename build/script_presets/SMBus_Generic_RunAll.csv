@@ -1,0 +1,36 @@
+Kind,Selected,Profile,Type,Address,Command,Data,ReadLength,DelayMs,PEC,Comment
+Comment,,SMBus-Generic,,,,,,,,Format=M032CSV; Source=SMBus Generic Run All button; PEC=True on normal rows; Address=0x5A; DelayMs=10
+Command,1,SMBus-Generic,QuickWrite,0x5A,,,,10,0,Example Quick Write
+Command,1,SMBus-Generic,QuickRead,0x5A,,,,10,0,Example Quick Read
+Command,1,SMBus-Generic,SendByte,0x5A,0x10,,,10,1,Example Send Byte A
+Command,1,SMBus-Generic,SendByte,0x5A,0x11,,,10,1,Example Send Byte B
+Command,1,SMBus-Generic,SendByte,0x5A,0x12,,,10,1,Example Receive Select A
+Command,1,SMBus-Generic,ReceiveByte,0x5A,,,1,10,1,Example Receive Byte A
+Command,1,SMBus-Generic,SendByte,0x5A,0x13,,,10,1,Example Receive Select B
+Command,1,SMBus-Generic,ReceiveByte,0x5A,,,1,10,1,Example Receive Byte B
+Command,1,SMBus-Generic,SendByte,0x5A,0x12,,,10,1,Stress Back-to-back Receive Select A
+Command,1,SMBus-Generic,ReceiveByte,0x5A,,,1,10,1,Stress Back-to-back Receive Byte A
+Command,1,SMBus-Generic,WriteByte,0x5A,0x20,00,,10,1,Example Write Byte A
+Command,1,SMBus-Generic,WriteByte,0x5A,0x21,81,,10,1,Example Write Byte B
+Command,1,SMBus-Generic,ReadByte,0x5A,0x22,,1,10,1,Example Read Byte A
+Command,1,SMBus-Generic,ReadByte,0x5A,0x23,,1,10,1,Example Read Byte B
+Command,1,SMBus-Generic,WriteWord,0x5A,0x30,34 02,,10,1,Example Write Word A
+Command,1,SMBus-Generic,WriteWord,0x5A,0x31,CD 83,,10,1,Example Write Word B
+Command,1,SMBus-Generic,ReadWord,0x5A,0x32,,2,10,1,Example Read Word A
+Command,1,SMBus-Generic,ReadWord,0x5A,0x33,,2,10,1,Example Read Word B
+Command,1,SMBus-Generic,BlockWrite,0x5A,0x40,10 11 12 13 14 15 16 04,,10,1,Example Block Write A
+Command,1,SMBus-Generic,BlockWrite,0x5A,0x41,20 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E 85,,10,1,Example Block Write B
+Command,1,SMBus-Generic,BlockRead,0x5A,0x42,,8,10,1,Example Block Read A
+Command,1,SMBus-Generic,BlockRead,0x5A,0x43,,16,10,1,Example Block Read B
+Command,1,SMBus-Generic,SendByte,0x5A,0x12,,,10,1,Stress After Block Read B Select A
+Command,1,SMBus-Generic,ReceiveByte,0x5A,,,1,10,1,Stress After Block Read B Receive A
+Command,1,SMBus-Generic,ProcessCall,0x5A,0x50,34 06,2,10,1,Example Process Call A
+Command,1,SMBus-Generic,ProcessCall,0x5A,0x51,CD 87,2,10,1,Example Process Call B
+Command,1,SMBus-Generic,BlockWriteReadProcessCall,0x5A,0x60,01 02 03 04 05 06 07 08,8,10,1,Example Block Process A
+Command,1,SMBus-Generic,BlockWriteReadProcessCall,0x5A,0x61,11 12 13 14 15 16 17 18 19 1A 1B 1C 1D 1E 1F 89,16,10,1,Example Block Process B
+Command,1,SMBus-Generic,SendByte,0x5A,0x12,,,10,1,Stress After Block Process B Select A
+Command,1,SMBus-Generic,ReceiveByte,0x5A,,,1,10,1,Stress After Block Process B Receive A
+Command,1,SMBus-Generic,BadPecWriteByte,0x5A,0x20,4A,,10,1,Example Bad PEC Write Byte
+Command,1,SMBus-Generic,SendByte,0x5A,0x12,,,10,1,Stress After Bad PEC Select A
+Command,1,SMBus-Generic,ReceiveByte,0x5A,,,1,10,1,Stress After Bad PEC Receive A
+Command,1,SMBus-Generic,BusRecover,0x5A,,,,10,0,Bus Recover Preflight

@@ -1,0 +1,35 @@
+Kind,Selected,Profile,Type,Address,Command,Data,ReadLength,DelayMs,PEC,Comment
+Comment,,SMBus-UBM,,,,,,,,Format=M032CSV; Source=SMBus UBM Controller Run All button; Address=0x5A; DelayMs=10
+Command,1,SMBus-UBM,ReadByte,0x5A,0x00,,1,10,0,UBM Operational State
+Command,1,SMBus-UBM,ReadByte,0x5A,0x01,,1,10,0,UBM Last Command Status
+Command,1,SMBus-UBM,BlockRead,0x5A,0x02,,14,10,0,UBM Silicon Identity
+Command,1,SMBus-UBM,ReadByte,0x5A,0x03,,1,10,0,UBM Update Capabilities
+Command,1,SMBus-UBM,ReadByte,0x5A,0x30,,1,10,0,UBM HFC Info
+Command,1,SMBus-UBM,ReadByte,0x5A,0x31,,1,10,0,UBM Backplane Info
+Command,1,SMBus-UBM,ReadByte,0x5A,0x32,,1,10,0,UBM Starting Slot
+Command,1,SMBus-UBM,ReadWord,0x5A,0x33,,2,10,0,UBM Capabilities
+Command,1,SMBus-UBM,ReadWord,0x5A,0x34,,2,10,0,UBM Features Read
+Command,1,SMBus-UBM,WriteWord,0x5A,0x34,00 00,,10,0,UBM Features Write
+Command,1,SMBus-UBM,ReadByte,0x5A,0x01,,1,10,0,UBM LCS After Features
+Command,1,SMBus-UBM,ReadWord,0x5A,0x35,,2,10,0,UBM Change Count Read
+Command,1,SMBus-UBM,WriteWord,0x5A,0x35,01 00,,10,0,UBM Change Count Clear
+Command,1,SMBus-UBM,ReadByte,0x5A,0x01,,1,10,0,UBM LCS After Change Clear
+Command,1,SMBus-UBM,WriteByte,0x5A,0x36,00,,10,0,UBM DFC Index 0
+Command,1,SMBus-UBM,BlockRead,0x5A,0x40,,8,10,0,UBM DFC Descriptor 0
+Command,1,SMBus-UBM,WriteByte,0x5A,0x36,01,,10,0,UBM DFC Index 1
+Command,1,SMBus-UBM,BlockRead,0x5A,0x40,,8,10,0,UBM DFC Descriptor 1
+Command,1,SMBus-UBM,BlockRead,0x5A,0x20,,5,10,0,UBM Enter Update Shell Read
+Command,1,SMBus-UBM,BlockWrite,0x5A,0x20,B8 55 42 4D 01,,10,0,UBM Enter Update Shell Write
+Command,1,SMBus-UBM,ReadByte,0x5A,0x00,,1,10,0,UBM Operational State Reduced
+Command,1,SMBus-UBM,BlockWrite,0x5A,0x21,00 02 AA 55,,10,0,UBM PMDT Shell Write
+Command,1,SMBus-UBM,BlockRead,0x5A,0x22,,4,10,0,UBM Exit Update Shell Read
+Command,1,SMBus-UBM,BlockWrite,0x5A,0x22,55 42 4D 01,,10,0,UBM Exit Update Shell Write
+Command,1,SMBus-UBM,ReadByte,0x5A,0x00,,1,10,0,UBM Operational State Ready
+Command,1,SMBus-UBM,WriteByte,0x5A,0x37,00,,10,0,UBM CCC Control
+Command,1,SMBus-UBM,WriteByte,0x5A,0x38,00,,10,0,UBM CCC Result Index
+Command,1,SMBus-UBM,BlockRead,0x5A,0x41,,35,10,0,UBM CCC Result Descriptor
+Command,1,SMBus-UBM,WriteByte,0x5A,0x50,00,,10,0,UBM Flex IO Index
+Command,1,SMBus-UBM,BlockRead,0x5A,0x51,,5,10,0,UBM Flex IO Descriptor
+Command,1,SMBus-UBM,BlockRead,0x5A,0x60,,32,10,0,UBM Power Event Data
+Command,1,SMBus-UBM,BadChecksumWrite,0x5A,0x34,00 00,,10,0,UBM Bad Checksum Negative
+Command,1,SMBus-UBM,ReadByte,0x5A,0x01,,1,10,0,UBM LCS After Bad Checksum
