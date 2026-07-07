@@ -431,7 +431,7 @@ Preset script validation workflow:
 5. Use `Stop` to cancel the remaining selected rows after the in-flight transaction completes.
 6. Compare the script GUI log against the matching button-test log. Script runs should match the same bus transaction intent; button tests may include extra GUI-side assertions and manual-only checks.
 
-Validation logs captured during local bring-up are kept under `build\test_log` in this workspace. They are local evidence files and can contain machine paths from the run environment, so review or sanitize them before publishing.
+Validation logs captured during local bring-up are kept under `build\test_log` in this workspace. These logs are published with the repository as validation evidence for the known-good PMBus/SMBus button and script runs.
 
 ## SMBus Tab
 
@@ -601,7 +601,7 @@ Saved state includes:
 - Script tab CSV path
 - PMBus/SMBus runner CSV paths
 
-Local runtime files such as `build\pmbus_smbus_tool.ini`, saved logs, and `build\test_log` are machine-specific. Review or exclude them before publishing a public repository.
+This repository intentionally keeps `build\PmbusSmbusHidTool.exe`, `build\pmbus_smbus_tool.ini`, and `build\test_log` so a new user can launch the known-good binary and inspect the validation evidence directly after checkout.
 
 ## Project Structure
 
@@ -632,25 +632,30 @@ Expected source-controlled content for GitHub:
 
 ## GitHub Upload Notes
 
-Before uploading a public copy, keep source, scripts, docs, firmware project files, generated script presets, and the TI reference files. Exclude local and generated artifacts:
+Before uploading a public copy, keep source, scripts, docs, firmware project files, generated script presets, TI reference files, the built GUI executable, the default INI, and validation logs:
 
+- `build\PmbusSmbusHidTool.exe`
 - `build\pmbus_smbus_tool.ini`
+- `build\test_log\`
+
+Exclude the remaining local and generated artifacts:
+
 - `build\obj\`
-- `build\*.exe`, `build\*.pdb`, and other PC build outputs
-- `build\test_log\` unless logs are intentionally sanitized and published
+- `build\*.pdb` and other PC build intermediates
 - root `teraterm.log`
 - root `*.obj`, `*.pdb`, and other compiler/linker intermediates
 - Keil `lst\`, `obj\`, `*.uvguix.*`, and local debug-driver INI files
 
-The included `.gitignore` is set up for this split. It keeps source-controlled validation assets such as `build\script_presets\*.csv`, `build\script_presets\ti_reference\SMBusI2CScriptForm.csv`, and `build\script_presets\ti_reference\TI_USB_TO_GPIO_2006_PMBUS_SMBUS_SCRIPT_SEQUENCE.md` available while excluding local runtime/build artifacts and scratch files under `build\script_presets\_staging`.
+The included `.gitignore` is set up for this split. It keeps source-controlled validation assets such as `build\script_presets\*.csv`, `build\script_presets\ti_reference\SMBusI2CScriptForm.csv`, `build\script_presets\ti_reference\TI_USB_TO_GPIO_2006_PMBUS_SMBUS_SCRIPT_SEQUENCE.md`, `build\PmbusSmbusHidTool.exe`, `build\pmbus_smbus_tool.ini`, and `build\test_log\` available while excluding other local runtime/build artifacts and scratch files under `build\script_presets\_staging`.
 
 Repository check before upload:
 
 1. Confirm the local folder is a valid Git worktree. If `git status` reports `not a git repository`, initialize or recreate the repository metadata before uploading.
-2. Confirm `git status --short` does not include local logs, build outputs, root object files, Keil `obj`/`lst`, or user-specific Keil files.
-3. Confirm no accidental FW upload source files are present in this workspace.
-4. Confirm `Get Info` expects `m032-pmbus-smbus-bridge/1.1.3`.
-5. Keep target firmware upload content in `simple_programming_tool`, not this repository.
+2. Confirm `git status --short` includes `build\PmbusSmbusHidTool.exe`, `build\pmbus_smbus_tool.ini`, and `build\test_log\` when they are not already tracked.
+3. Confirm `git status --short` does not include root `teraterm.log`, `build\obj`, root object files, Keil `obj`/`lst`, or user-specific Keil files.
+4. Confirm no accidental FW upload source files are present in this workspace.
+5. Confirm `Get Info` expects `m032-pmbus-smbus-bridge/1.1.3`.
+6. Keep target firmware upload content in `simple_programming_tool`, not this repository.
 
 ## Verification
 

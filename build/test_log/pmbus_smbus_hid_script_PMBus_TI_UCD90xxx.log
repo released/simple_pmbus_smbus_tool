@@ -1,0 +1,16 @@
+﻿[20:52:14] PMBus Base master disabled
+[20:52:15] MCU reset command sent.
+[20:52:15] Device scan complete: 1 found
+[20:52:16] Device scan complete: 1 found
+[20:52:16] Device scan complete: 1 found
+[20:52:16] Connected VID:PID
+[20:52:16] Connected bridge: m032-pmbus-smbus-bridge/1.1.1
+[20:52:16] Reset reason: NONE
+[20:52:16] Firmware version check OK: 1.1.1
+[20:52:20] PMBus profile selected: TI UCD90xxx
+[20:52:20] INI saved.
+[20:52:21] TI UCD90xxx master enabled on I2C0  PB.4=SDA / PB.5=SCL at 400000Hz
+[20:52:35] INI saved.
+[20:52:35] PMBus SMBus script loaded: D:\SourceCode\python\simple_pmbus_smbus_tool\build\script_presets\PMBus_TI_UCD90xxx_Full.csv
+[20:53:19] PMBus SMBus script run started: D:\SourceCode\python\simple_pmbus_smbus_tool\build\script_presets\PMBus_TI_UCD90xxx_Full.csv
+[20:53:24] PMBus SMBus script run complete: commands=117, pauses=0, reads=102, writes=19

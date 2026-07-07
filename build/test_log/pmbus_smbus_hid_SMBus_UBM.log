@@ -1,0 +1,113 @@
+﻿[09:33:32] SMBus master disabled
+[09:33:33] SMBus profile selected: UBM Controller
+[09:33:34] INI saved.
+[09:33:39] MCU reset command sent.
+[09:33:39] Device scan complete: 1 found
+[09:33:40] Device scan complete: 1 found
+[09:33:41] Connected VID:PID
+[09:33:41] Connected bridge: m032-pmbus-smbus-bridge/1.1.1
+[09:33:41] Reset reason: NONE
+[09:33:41] Firmware version check OK: 1.1.1
+[09:33:42] SMBus master enabled on I2C0  PB.4=SDA / PB.5=SCL at 400000Hz
+[09:33:59] UBM Controller Run All loop 1/1 started
+[09:33:59] SMBus PASS UBM Operational State raw=03 58
+[09:33:59] SMBus PASS UBM Last Command Status raw=01 5A
+[09:34:00] SMBus PASS UBM Silicon Identity raw=15 AB 10 00 32 00 00 00 00 00 00 01 55 42 C1
+[09:34:00] SMBus PASS UBM Update Capabilities raw=01 5A
+[09:34:00] SMBus PASS UBM HFC Info raw=01 5A
+[09:34:00] SMBus PASS UBM Backplane Info raw=01 5A
+[09:34:00] SMBus PASS UBM Starting Slot raw=00 5B
+[09:34:00] SMBus PASS UBM Capabilities raw=80 60 7B
+[09:34:00] SMBus PASS UBM Features Read raw=00 00 5B
+[09:34:00] SMBus PASS UBM Features Write raw=34 00 00 73
+[09:34:00] SMBus PASS UBM LCS After Features raw=01 5A
+[09:34:00] SMBus PASS UBM Change Count Read raw=01 00 5A
+[09:34:00] SMBus PASS UBM Change Count Clear raw=35 01 00 71
+[09:34:00] SMBus PASS UBM LCS After Change Clear raw=01 5A
+[09:34:00] SMBus PASS UBM DFC Index 0 raw=36 00 71
+[09:34:00] SMBus PASS UBM DFC Descriptor 0 raw=01 10 00 00 00 01 00 00 49
+[09:34:00] SMBus PASS UBM DFC Index 1 raw=36 01 70
+[09:34:00] SMBus PASS UBM DFC Descriptor 1 raw=01 11 00 00 00 01 00 00 48
+[09:34:00] SMBus PASS UBM Enter Update Shell Read raw=B8 55 42 4D 00 BF
+[09:34:00] SMBus PASS UBM Enter Update Shell Write raw=20 B8 55 42 4D 01 EA
+[09:34:00] SMBus PASS UBM Operational State Reduced raw=04 57
+[09:34:00] SMBus PASS UBM PMDT Shell Write raw=21 00 02 AA 55 85
+[09:34:00] SMBus PASS UBM Exit Update Shell Read raw=55 42 4D 00 77
+[09:34:00] SMBus PASS UBM Exit Update Shell Write raw=22 55 42 4D 01 A0
+[09:34:00] SMBus PASS UBM Operational State Ready raw=03 58
+[09:34:00] SMBus PASS UBM CCC Control raw=37 00 70
+[09:34:00] SMBus PASS UBM CCC Result Index raw=38 00 6F
+[09:34:00] SMBus PASS UBM CCC Result Descriptor raw=A0 A1 A2 A3 A4 A5 A6 A7 A8 A9 AA AB AC AD AE AF B0 B1 B2 B3 B4 B5 B6 B7 B8 B9 BA BB BC BD BE BF C0 C1 C2 28
+[09:34:00] SMBus PASS UBM Flex I/O Index raw=50 00 57
+[09:34:00] SMBus PASS UBM Flex I/O Descriptor raw=10 11 12 13 14 01
+[09:34:00] SMBus PASS UBM Power Event Data raw=60 61 62 63 64 65 66 67 68 69 6A 6B 6C 6D 6E 6F 70 71 72 73 74 75 76 77 78 79 7A 7B 7C 7D 7E 7F 6B
+[09:34:00] SMBus PASS UBM Bad Checksum Negative raw=34 00 00 8C
+[09:34:00] UBM Controller Run All complete: loops=1 PASS=32 FAIL=0
+[09:34:01] UBM Controller Run All loop 1/1 started
+[09:34:01] SMBus PASS UBM Operational State raw=03 58
+[09:34:01] SMBus PASS UBM Last Command Status raw=02 59
+[09:34:01] SMBus PASS UBM Silicon Identity raw=15 AB 10 00 32 00 00 00 00 00 00 01 55 42 C1
+[09:34:01] SMBus PASS UBM Update Capabilities raw=01 5A
+[09:34:01] SMBus PASS UBM HFC Info raw=01 5A
+[09:34:01] SMBus PASS UBM Backplane Info raw=01 5A
+[09:34:01] SMBus PASS UBM Starting Slot raw=00 5B
+[09:34:01] SMBus PASS UBM Capabilities raw=80 60 7B
+[09:34:01] SMBus PASS UBM Features Read raw=00 00 5B
+[09:34:01] SMBus PASS UBM Features Write raw=34 00 00 73
+[09:34:01] SMBus PASS UBM LCS After Features raw=01 5A
+[09:34:01] SMBus PASS UBM Change Count Read raw=01 00 5A
+[09:34:01] SMBus PASS UBM Change Count Clear raw=35 01 00 71
+[09:34:01] SMBus PASS UBM LCS After Change Clear raw=01 5A
+[09:34:01] SMBus PASS UBM DFC Index 0 raw=36 00 71
+[09:34:01] SMBus PASS UBM DFC Descriptor 0 raw=01 10 00 00 00 01 00 00 49
+[09:34:01] SMBus PASS UBM DFC Index 1 raw=36 01 70
+[09:34:01] SMBus PASS UBM DFC Descriptor 1 raw=01 11 00 00 00 01 00 00 48
+[09:34:02] SMBus PASS UBM Enter Update Shell Read raw=B8 55 42 4D 00 BF
+[09:34:02] SMBus PASS UBM Enter Update Shell Write raw=20 B8 55 42 4D 01 EA
+[09:34:02] SMBus PASS UBM Operational State Reduced raw=04 57
+[09:34:02] SMBus PASS UBM PMDT Shell Write raw=21 00 02 AA 55 85
+[09:34:02] SMBus PASS UBM Exit Update Shell Read raw=55 42 4D 00 77
+[09:34:02] SMBus PASS UBM Exit Update Shell Write raw=22 55 42 4D 01 A0
+[09:34:02] SMBus PASS UBM Operational State Ready raw=03 58
+[09:34:02] SMBus PASS UBM CCC Control raw=37 00 70
+[09:34:02] SMBus PASS UBM CCC Result Index raw=38 00 6F
+[09:34:02] SMBus PASS UBM CCC Result Descriptor raw=A0 A1 A2 A3 A4 A5 A6 A7 A8 A9 AA AB AC AD AE AF B0 B1 B2 B3 B4 B5 B6 B7 B8 B9 BA BB BC BD BE BF C0 C1 C2 28
+[09:34:02] SMBus PASS UBM Flex I/O Index raw=50 00 57
+[09:34:02] SMBus PASS UBM Flex I/O Descriptor raw=10 11 12 13 14 01
+[09:34:02] SMBus PASS UBM Power Event Data raw=60 61 62 63 64 65 66 67 68 69 6A 6B 6C 6D 6E 6F 70 71 72 73 74 75 76 77 78 79 7A 7B 7C 7D 7E 7F 6B
+[09:34:02] SMBus PASS UBM Bad Checksum Negative raw=34 00 00 8C
+[09:34:02] UBM Controller Run All complete: loops=1 PASS=32 FAIL=0
+[09:34:02] UBM Controller Run All loop 1/1 started
+[09:34:02] SMBus PASS UBM Operational State raw=03 58
+[09:34:02] SMBus PASS UBM Last Command Status raw=02 59
+[09:34:03] SMBus PASS UBM Silicon Identity raw=15 AB 10 00 32 00 00 00 00 00 00 01 55 42 C1
+[09:34:03] SMBus PASS UBM Update Capabilities raw=01 5A
+[09:34:03] SMBus PASS UBM HFC Info raw=01 5A
+[09:34:03] SMBus PASS UBM Backplane Info raw=01 5A
+[09:34:03] SMBus PASS UBM Starting Slot raw=00 5B
+[09:34:03] SMBus PASS UBM Capabilities raw=80 60 7B
+[09:34:03] SMBus PASS UBM Features Read raw=00 00 5B
+[09:34:03] SMBus PASS UBM Features Write raw=34 00 00 73
+[09:34:03] SMBus PASS UBM LCS After Features raw=01 5A
+[09:34:03] SMBus PASS UBM Change Count Read raw=01 00 5A
+[09:34:03] SMBus PASS UBM Change Count Clear raw=35 01 00 71
+[09:34:03] SMBus PASS UBM LCS After Change Clear raw=01 5A
+[09:34:03] SMBus PASS UBM DFC Index 0 raw=36 00 71
+[09:34:03] SMBus PASS UBM DFC Descriptor 0 raw=01 10 00 00 00 01 00 00 49
+[09:34:03] SMBus PASS UBM DFC Index 1 raw=36 01 70
+[09:34:03] SMBus PASS UBM DFC Descriptor 1 raw=01 11 00 00 00 01 00 00 48
+[09:34:03] SMBus PASS UBM Enter Update Shell Read raw=B8 55 42 4D 00 BF
+[09:34:03] SMBus PASS UBM Enter Update Shell Write raw=20 B8 55 42 4D 01 EA
+[09:34:03] SMBus PASS UBM Operational State Reduced raw=04 57
+[09:34:03] SMBus PASS UBM PMDT Shell Write raw=21 00 02 AA 55 85
+[09:34:03] SMBus PASS UBM Exit Update Shell Read raw=55 42 4D 00 77
+[09:34:03] SMBus PASS UBM Exit Update Shell Write raw=22 55 42 4D 01 A0
+[09:34:03] SMBus PASS UBM Operational State Ready raw=03 58
+[09:34:03] SMBus PASS UBM CCC Control raw=37 00 70
+[09:34:03] SMBus PASS UBM CCC Result Index raw=38 00 6F
+[09:34:03] SMBus PASS UBM CCC Result Descriptor raw=A0 A1 A2 A3 A4 A5 A6 A7 A8 A9 AA AB AC AD AE AF B0 B1 B2 B3 B4 B5 B6 B7 B8 B9 BA BB BC BD BE BF C0 C1 C2 28
+[09:34:03] SMBus PASS UBM Flex I/O Index raw=50 00 57
+[09:34:03] SMBus PASS UBM Flex I/O Descriptor raw=10 11 12 13 14 01
+[09:34:03] SMBus PASS UBM Power Event Data raw=60 61 62 63 64 65 66 67 68 69 6A 6B 6C 6D 6E 6F 70 71 72 73 74 75 76 77 78 79 7A 7B 7C 7D 7E 7F 6B
+[09:34:03] SMBus PASS UBM Bad Checksum Negative raw=34 00 00 8C
+[09:34:03] UBM Controller Run All complete: loops=1 PASS=32 FAIL=0

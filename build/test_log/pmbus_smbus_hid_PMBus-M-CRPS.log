@@ -1,0 +1,139 @@
+﻿[09:03:09] M-CRPS master enabled on I2C0  PB.4=SDA / PB.5=SCL at 400000Hz
+[09:03:14] PMBus scan preflight recover OK: addr=0x5A
+[09:03:14] PMBus scan hit: addr=0x5A, PMBUS_REVISION=1.3/1.3, MFR_ID="MFR_ID_001" | PEC OK | PEC(rx=0x0B, calc=0x0B), MFR_MODEL="MFR_MODEL_001" | PEC OK | PEC(rx=0x06, calc=0x06)
+[09:03:14] PMBus scan complete: 1 device(s) responded to PMBUS_REVISION
+[09:03:15] PMBus checklist [Basic] started, repeat=1
+[09:03:15] PMBus checklist [Basic] loop 1/1 started
+[09:03:16] [PASS] Bus write ACK / CLEAR_FAULTS -> SLA+W path ACKed
+[09:03:16] [PASS] Bus read ACK / PMBUS_REVISION -> PMBUS_REVISION=0x33
+[09:03:16] [PASS] Repeated START read path -> Read path OK, value=0x33
+[09:03:16] [PASS] PAGE write/readback -> PAGE=0x00
+[09:03:16] [PASS] OPERATION write/readback -> original=0x80, restore OK
+[09:03:16] [PASS] ON_OFF_CONFIG write/readback -> original=0x1A, test=0x1B
+[09:03:16] [PASS] FAN_CONFIG_1_2 write/readback -> original=0x00, test=0x01
+[09:03:16] [PASS] VOUT_MODE default -> VOUT_MODE=0x17
+[09:03:16] [PASS] STATUS_BYTE read -> STATUS_BYTE=0x80
+[09:03:16] [PASS] STATUS_WORD read -> STATUS_WORD=0x0080
+[09:03:16] [PASS] STATUS_VOUT read -> STATUS_VOUT=0x00
+[09:03:16] [PASS] STATUS_IOUT read -> STATUS_IOUT=0x00
+[09:03:16] [PASS] STATUS_INPUT read -> STATUS_INPUT=0x00
+[09:03:16] [PASS] STATUS_TEMPERATURE read -> STATUS_TEMPERATURE=0x00
+[09:03:17] [PASS] STATUS_CML read -> STATUS_CML=0x00
+[09:03:17] [PASS] STATUS_OTHER read -> STATUS_OTHER=0x00
+[09:03:17] [PASS] STATUS_MFR_SPECIFIC read -> STATUS_MFR_SPECIFIC=0x00
+[09:03:17] [PASS] STATUS_FANS_1_2 read -> STATUS_FANS_1_2=0x00
+[09:03:17] PMBus checklist [Basic] complete: loops 1, PASS 18 test group(s), FAIL 0
+[09:03:18] PMBus checklist [PEC] started, repeat=1
+[09:03:18] PMBus checklist [PEC] loop 1/1 started
+[09:03:18] [PASS] PEC Read Byte / PMBUS_REVISION -> PEC OK, PMBUS_REVISION=0x33
+[09:03:18] [PASS] PEC Read Word / STATUS_WORD -> PEC OK, STATUS_WORD=0x0080
+[09:03:18] [PASS] PEC Block Read / MFR_MODEL -> "MFR_MODEL_001" | PEC OK | PEC(rx=0x06, calc=0x06)
+[09:03:18] [PASS] Force Bad PEC negative test -> STATUS_CML=0x20
+[09:03:18] PMBus checklist [PEC] complete: loops 1, PASS 4 test group(s), FAIL 0
+[09:03:19] PMBus checklist [Error] started, repeat=1
+[09:03:19] PMBus checklist [Error] loop 1/1 started
+[09:03:19] [PASS] Unsupported command probe -> STATUS_CML=0x80
+[09:03:19] [PASS] Illegal transaction probe -> STATUS_CML=0x40
+[09:03:19] PMBus checklist post-error ARA recovery skipped by Production policy
+[09:03:19] PMBus checklist [Error] complete: loops 1, PASS 2 test group(s), FAIL 0
+[09:03:20] PMBus checklist [Telemetry] started, repeat=1
+[09:03:20] PMBus checklist [Telemetry] loop 1/1 started
+[09:03:20] [PASS] READ_VIN -> 230.0000 | raw=0xF398 | PEC OK | PEC(rx=0x7B, calc=0x7B)
+[09:03:20] [PASS] READ_IIN -> 1.2500 | raw=0xBA80 | PEC OK | PEC(rx=0x6A, calc=0x6A)
+[09:03:20] [PASS] READ_VOUT -> 12.0000 | fmt=ULINEAR16 | exp=-9 | raw=0x1800 | PEC OK | PEC(rx=0x97, calc=0x97)
+[09:03:20] [PASS] READ_IOUT -> 18.5000 | raw=0xDA50 | PEC OK | PEC(rx=0xB9, calc=0xB9)
+[09:03:20] [PASS] READ_TEMPERATURE_1 -> 35.0000 | raw=0xE230 | PEC OK | PEC(rx=0xF2, calc=0xF2)
+[09:03:20] [PASS] READ_TEMPERATURE_2 -> 43.0000 | raw=0xE2B0 | PEC OK | PEC(rx=0x7E, calc=0x7E)
+[09:03:20] [PASS] READ_TEMPERATURE_3 -> 50.0000 | raw=0xE320 | PEC OK | PEC(rx=0x8E, calc=0x8E)
+[09:03:20] [PASS] READ_FAN_SPEED_1 -> 0x22EE | PEC OK | PEC(rx=0x49, calc=0x49)
+[09:03:21] [PASS] READ_FAN_SPEED_2 -> 0x22E2 | PEC OK | PEC(rx=0xA3, calc=0xA3)
+[09:03:21] [PASS] READ_POUT -> 222.0000 | raw=0xF378 | PEC OK | PEC(rx=0x9B, calc=0x9B)
+[09:03:21] [PASS] READ_PIN -> 276.0000 | raw=0xFA28 | PEC OK | PEC(rx=0xBE, calc=0xBE)
+[09:03:21] [PASS] READ_EIN -> CC 2B 20 D7 1D 00 | PEC OK | PEC(rx=0x29, calc=0x29)
+[09:03:21] [PASS] READ_EOUT -> FC E9 19 E2 1D 00 | PEC OK | PEC(rx=0x40, calc=0x40)
+[09:03:21] [PASS] MFR_ID -> "MFR_ID_001" | PEC OK | PEC(rx=0x0B, calc=0x0B)
+[09:03:21] [PASS] MFR_MODEL -> "MFR_MODEL_001" | PEC OK | PEC(rx=0x06, calc=0x06)
+[09:03:21] [PASS] MFR_REVISION -> "MFR_REV_001" | PEC OK | PEC(rx=0xA9, calc=0xA9)
+[09:03:21] [PASS] MFR_SERIAL -> "MFR_SERIAL_001" | PEC OK | PEC(rx=0xFC, calc=0xFC)
+[09:03:21] PMBus checklist [Telemetry] complete: loops 1, PASS 17 test group(s), FAIL 0
+[09:03:21] PMBus checklist [MFR] started, repeat=1
+[09:03:21] PMBus checklist [MFR] loop 1/1 started
+[09:03:27] [PASS] Profile command coverage sweep -> M-CRPS visible=184, read-capable checked=172 (ReadByte=41, ReadWord=95, Read32=2, BlockRead=28, BWRPC=6), skipped write-only/side-effect=12 examples: 0x03 CLEAR_FAULTS; 0x05 PAGE_PLUS_WRITE; 0x11 STORE_DEFAULT_ALL; 0x12 RESTORE_DEFAULT_ALL; 0x13 STORE_DEFAULT_CODE; 0x14 RESTORE_DEFAULT_CODE; 0x15 STORE_USER_ALL; 0x16 RESTORE_USER_ALL
+[09:03:27] [PASS] Write Word / Process Call / VOUT_COMMAND -> original=0x1800, echoed=0x1801
+[09:03:28] [PASS] VOUT_MODE Direct/IEEE/VID conversions -> Direct raw=0x2EE0, IEEE-half raw=0x4A00, VID raw=0x0123; original restored
+[09:03:28] [PASS] Block Write / USER_DATA_00 restore -> wrote/read/restored 6 bytes
+[09:03:28] [PASS] Block Write-Read Process Call / QUERY -> QUERY(PMBUS_REVISION)=0xB0
+[09:03:28] [PASS] SMBALERT_MASK shadow read/write restore -> original=0x0000, test=0x0001, restored=0x0000
+[09:03:31] [PASS] M-CRPS profile command shadows -> 32 focused CRPS commands checked; B3=8B, C0/C1/C2=0xE230/0xE2B0/0xE320, D0 restored, D1=4B, D2=0x0010, D3=16B, D4=0x0001, D5=0x01, D6=0x00, D8 restored, D9=7B, DA=8B, DB/DF/E1/E2/E4/ED/F0/F2/F3 restored, DC=32B, DD=4B, DE=32B, E3=0x0020, E9 restored, EB=12B, EC=0xFA80, EE restored, F1=14B
+[09:03:31] [PASS] Group Command / PAGE + PHASE restore -> PAGE 0x00 restored, PHASE 0x00 restored
+[09:03:31] PMBus checklist [MFR] complete: loops 1, PASS 8 test group(s), FAIL 0
+[09:03:32] PMBus checklist [Full] started, repeat=1
+[09:03:32] PMBus checklist [Full] loop 1/1 started
+[09:03:32] PMBus bus status: idle_before=1, recovered=0, idle_after=1
+[09:03:32] [PASS] Bus idle / recovery preflight -> idle_before=1, recovered=0, idle_after=1
+[09:03:32] [PASS] Contract-driven GUI presets -> 222 generated presets; base + full M-CRPS Table 12-38 overlay masks OK; FE/FF remain Extended UI selectors
+[09:03:32] [PASS] Bus write ACK / CLEAR_FAULTS -> SLA+W path ACKed
+[09:03:32] [PASS] Bus read ACK / PMBUS_REVISION -> PMBUS_REVISION=0x33
+[09:03:32] [PASS] Repeated START read path -> Read path OK, value=0x33
+[09:03:32] [PASS] PAGE write/readback -> PAGE=0x00
+[09:03:32] [PASS] OPERATION write/readback -> original=0x80, restore OK
+[09:03:33] [PASS] ON_OFF_CONFIG write/readback -> original=0x1A, test=0x1B
+[09:03:33] [PASS] FAN_CONFIG_1_2 write/readback -> original=0x00, test=0x01
+[09:03:33] [PASS] VOUT_MODE default -> VOUT_MODE=0x17
+[09:03:33] [PASS] STATUS_BYTE read -> STATUS_BYTE=0x80
+[09:03:33] [PASS] STATUS_WORD read -> STATUS_WORD=0x0080
+[09:03:33] [PASS] STATUS_VOUT read -> STATUS_VOUT=0x00
+[09:03:33] [PASS] STATUS_IOUT read -> STATUS_IOUT=0x00
+[09:03:33] [PASS] STATUS_INPUT read -> STATUS_INPUT=0x00
+[09:03:33] [PASS] STATUS_TEMPERATURE read -> STATUS_TEMPERATURE=0x00
+[09:03:33] [PASS] STATUS_CML read -> STATUS_CML=0x00
+[09:03:33] [PASS] STATUS_OTHER read -> STATUS_OTHER=0x00
+[09:03:33] [PASS] STATUS_MFR_SPECIFIC read -> STATUS_MFR_SPECIFIC=0x00
+[09:03:33] [PASS] STATUS_FANS_1_2 read -> STATUS_FANS_1_2=0x00
+[09:03:33] [PASS] READ_VIN -> 230.0000 | raw=0xF398 | PEC OK | PEC(rx=0x7B, calc=0x7B)
+[09:03:33] [PASS] READ_IIN -> 1.2500 | raw=0xBA80 | PEC OK | PEC(rx=0x6A, calc=0x6A)
+[09:03:33] [PASS] READ_VOUT -> 12.0000 | fmt=ULINEAR16 | exp=-9 | raw=0x1800 | PEC OK | PEC(rx=0x97, calc=0x97)
+[09:03:33] [PASS] READ_IOUT -> 18.5000 | raw=0xDA50 | PEC OK | PEC(rx=0xB9, calc=0xB9)
+[09:03:33] [PASS] READ_TEMPERATURE_1 -> 35.0000 | raw=0xE230 | PEC OK | PEC(rx=0xF2, calc=0xF2)
+[09:03:34] [PASS] READ_TEMPERATURE_2 -> 43.0000 | raw=0xE2B0 | PEC OK | PEC(rx=0x7E, calc=0x7E)
+[09:03:34] [PASS] READ_TEMPERATURE_3 -> 50.0000 | raw=0xE320 | PEC OK | PEC(rx=0x8E, calc=0x8E)
+[09:03:34] [PASS] READ_FAN_SPEED_1 -> 0x22EE | PEC OK | PEC(rx=0x49, calc=0x49)
+[09:03:34] [PASS] READ_FAN_SPEED_2 -> 0x22E2 | PEC OK | PEC(rx=0xA3, calc=0xA3)
+[09:03:34] [PASS] READ_POUT -> 222.0000 | raw=0xF378 | PEC OK | PEC(rx=0x9B, calc=0x9B)
+[09:03:34] [PASS] READ_PIN -> 276.0000 | raw=0xFA28 | PEC OK | PEC(rx=0xBE, calc=0xBE)
+[09:03:34] [PASS] READ_EIN -> 00 C7 29 C0 26 00 | PEC OK | PEC(rx=0x89, calc=0x89)
+[09:03:34] [PASS] READ_EOUT -> 2C A3 21 CA 26 00 | PEC OK | PEC(rx=0x34, calc=0x34)
+[09:03:34] [PASS] MFR_ID -> "MFR_ID_001" | PEC OK | PEC(rx=0x0B, calc=0x0B)
+[09:03:34] [PASS] MFR_MODEL -> "MFR_MODEL_001" | PEC OK | PEC(rx=0x06, calc=0x06)
+[09:03:34] [PASS] MFR_REVISION -> "MFR_REV_001" | PEC OK | PEC(rx=0xA9, calc=0xA9)
+[09:03:34] [PASS] MFR_SERIAL -> "MFR_SERIAL_001" | PEC OK | PEC(rx=0xFC, calc=0xFC)
+[09:03:39] [PASS] Table31 read-only contract smoke -> ReadByte=34, ReadWord=86, Read32=2, BlockRead=20 commands OK
+[09:03:44] [PASS] Profile command coverage sweep -> M-CRPS visible=184, read-capable checked=172 (ReadByte=41, ReadWord=95, Read32=2, BlockRead=28, BWRPC=6), skipped write-only/side-effect=12 examples: 0x03 CLEAR_FAULTS; 0x05 PAGE_PLUS_WRITE; 0x11 STORE_DEFAULT_ALL; 0x12 RESTORE_DEFAULT_ALL; 0x13 STORE_DEFAULT_CODE; 0x14 RESTORE_DEFAULT_CODE; 0x15 STORE_USER_ALL; 0x16 RESTORE_USER_ALL
+[09:03:44] [PASS] Write Word / Process Call / VOUT_COMMAND -> original=0x1800, echoed=0x1801
+[09:03:45] [PASS] VOUT_MODE Direct/IEEE/VID conversions -> Direct raw=0x2EE0, IEEE-half raw=0x4A00, VID raw=0x0123; original restored
+[09:03:45] [PASS] Block Write / USER_DATA_00 restore -> wrote/read/restored 6 bytes
+[09:03:45] [PASS] Block Write-Read Process Call / QUERY -> QUERY(PMBUS_REVISION)=0xB0
+[09:03:45] [PASS] SMBALERT_MASK shadow read/write restore -> original=0x0000, test=0x0001, restored=0x0000
+[09:03:48] [PASS] M-CRPS profile command shadows -> 32 focused CRPS commands checked; B3=8B, C0/C1/C2=0xE230/0xE2B0/0xE320, D0 restored, D1=4B, D2=0x0010, D3=16B, D4=0x0001, D5=0x01, D6=0x00, D8 restored, D9=7B, DA=8B, DB/DF/E1/E2/E4/ED/F0/F2/F3 restored, DC=32B, DD=4B, DE=32B, E3=0x0020, E9 restored, EB=12B, EC=0xFA80, EE restored, F1=14B
+[09:03:48] [PASS] Group Command / PAGE + PHASE restore -> PAGE 0x00 restored, PHASE 0x00 restored
+[09:03:48] [PASS] Stress Read Byte / Read Word / Read Byte ordering -> PMBUS_REVISION 0x33 -> STATUS_WORD 0x80A0 -> PMBUS_REVISION 0x33
+[09:03:48] [PASS] Stress Block Read then Read Byte -> MFR_MODEL block=13B -> PMBUS_REVISION=0x33
+[09:03:49] [PASS] Stress Process Call then Read Byte -> VOUT_COMMAND echoed=0x1800 -> PMBUS_REVISION=0x33
+[09:03:49] [PASS] Stress Block Write-Read then Read Byte -> QUERY(PMBUS_REVISION)=0xB0 -> PMBUS_REVISION=0x33
+[09:03:49] PMBus checklist stress bad-PEC ARA recovery skipped by Production policy
+[09:03:49] [PASS] Stress Bad PEC then positive Read Byte -> bad PEC cleaned, PMBUS_REVISION=0x33
+[09:03:49] [PASS] PEC Read Byte / PMBUS_REVISION -> PEC OK, PMBUS_REVISION=0x33
+[09:03:49] [PASS] PEC Read Word / STATUS_WORD -> PEC OK, STATUS_WORD=0x0080
+[09:03:49] [PASS] PEC Block Read / MFR_MODEL -> "MFR_MODEL_001" | PEC OK | PEC(rx=0x06, calc=0x06)
+[09:03:49] [PASS] Force Bad PEC negative test -> STATUS_CML=0x20
+[09:03:49] [PASS] Unsupported command probe -> STATUS_CML=0x80
+[09:03:50] [PASS] Illegal transaction probe -> STATUS_CML=0x40
+[09:03:50] PMBus checklist post-error ARA recovery skipped by Production policy
+[09:03:50] [MANUAL] Receive Byte transaction -> Manual: execute a target-specific Receive Byte case and verify returned data + PEC.
+[09:03:50] [MANUAL] SMBALERT_MASK side-effect policy -> Manual/conditional: target-specific mask bit semantics and SMBALERT side effects must be reviewed with the device design.
+[09:03:50] [MANUAL] ARA end-to-end -> Manual/lab-policy: if the target asserts SMBALERT externally, run ARA and verify the responder address.
+[09:03:50] [MANUAL] No debug printf in ISR path -> Manual: verify no ISR-path debug print side effect under sustained traffic.
+[09:03:50] [MANUAL] Threshold / fault injection commands -> Manual: VOUT/IOUT/VIN/TEMP warn/fault threshold scenarios still require external condition review.
+[09:03:50] [MANUAL] FWUPLOAD / blackbox side-effect flow -> Manual: MFR_FWUPLOAD / MFR_FWUPLOAD_STATUS and MFR_CLEAR_BLACK_BOX side-effect sequences are not auto-run.
+[09:03:50] [MANUAL] Forced clock-low timeout -> Manual: force SCL/SDA stuck-low and verify timeout/recover/recover-fail path with a logic analyzer.
+[09:03:50] PMBus checklist [Full] complete: loops 1, PASS 57 test group(s), FAIL 0, MANUAL 7

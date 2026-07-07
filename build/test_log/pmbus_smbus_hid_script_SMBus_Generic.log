@@ -1,0 +1,15 @@
+﻿[20:35:31] SMBus master disabled
+[20:35:33] SMBus profile selected: Generic
+[20:35:33] INI saved.
+[20:35:35] MCU reset command sent.
+[20:35:35] Device scan complete: 1 found
+[20:35:37] Device scan complete: 1 found
+[20:35:37] Connected VID:PID
+[20:35:37] Connected bridge: m032-pmbus-smbus-bridge/1.1.1
+[20:35:37] Reset reason: NONE
+[20:35:37] Firmware version check OK: 1.1.1
+[20:35:39] SMBus master enabled on I2C0  PB.4=SDA / PB.5=SCL at 400000Hz
+[20:36:05] INI saved.
+[20:36:05] SMBus script loaded: D:\SourceCode\python\simple_pmbus_smbus_tool\build\script_presets\SMBus_Generic_RunAll.csv
+[20:36:07] SMBus script run started: D:\SourceCode\python\simple_pmbus_smbus_tool\build\script_presets\SMBus_Generic_RunAll.csv
+[20:36:08] SMBus script run complete: commands=34, pauses=0, reads=17, writes=20

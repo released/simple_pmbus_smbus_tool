@@ -1,0 +1,120 @@
+﻿[09:31:31] INI loaded.
+[09:31:31] Device scan complete: 1 found
+[09:31:31] PMBus/SMBus HID tool initialized.
+[09:31:31] M032 EVB I2C pin selection is available inside PMBus, SMBus, I2C, and FW Upload tabs.
+[09:31:54] Device scan complete: 1 found
+[09:31:55] Connected VID:PID
+[09:31:55] Connected bridge: m032-pmbus-smbus-bridge/1.1.1
+[09:31:55] Reset reason: NONE
+[09:31:55] Firmware version check OK: 1.1.1
+[09:31:58] Bridge info: m032-pmbus-smbus-bridge/1.1.1
+[09:31:58] Reset reason: NONE
+[09:32:03] SMBus master enabled on I2C0  PB.4=SDA / PB.5=SCL at 400000Hz
+[09:32:10] SMBus Run All loop 1/1 started
+[09:32:10] SMBus PASS Example Quick Write raw=00 5A 00 01
+[09:32:10] SMBus PASS Example Quick Read raw=00 5A 01 01
+[09:32:10] SMBus PASS Example Send Byte A raw=10 6B
+[09:32:10] SMBus PASS Example Send Byte B raw=11 6C
+[09:32:10] SMBus PASS Example Receive Select A raw=12 65
+[09:32:10] SMBus PASS Example Receive Byte A raw=01 09
+[09:32:10] SMBus PASS Example Receive Select B raw=13 62
+[09:32:10] SMBus PASS Example Receive Byte B raw=80 87
+[09:32:10] SMBus PASS Stress Back-to-back Receive Select A raw=12 65
+[09:32:10] SMBus PASS Stress Back-to-back Receive Byte A raw=02 00
+[09:32:10] SMBus PASS Example Write Byte A raw=20 00 EF
+[09:32:10] SMBus PASS Example Write Byte B raw=21 81 74
+[09:32:10] SMBus PASS Example Read Byte A raw=00 5B
+[09:32:10] SMBus PASS Example Read Byte B raw=80 B9
+[09:32:10] SMBus PASS Example Write Word A raw=30 34 02 82
+[09:32:10] SMBus PASS Example Write Word B raw=31 CD 83 CE
+[09:32:11] SMBus PASS Example Read Word A raw=32 00 32
+[09:32:11] SMBus PASS Example Read Word B raw=33 80 B8
+[09:32:11] SMBus PASS Example Block Write A raw=40 08 10 11 12 13 14 15 16 04 43
+[09:32:11] SMBus PASS Example Block Write B raw=41 10 20 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E 85 6D
+[09:32:11] SMBus PASS Example Block Read A raw=08 10 11 12 13 14 15 16 00 AC
+[09:32:11] SMBus PASS Example Block Read B raw=10 20 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E 80 85
+[09:32:11] SMBus PASS Stress After Block Read B Select A raw=12 65
+[09:32:11] SMBus PASS Stress After Block Read B Receive A raw=03 07
+[09:32:11] SMBus PASS Example Process Call A raw=45 00 F8
+[09:32:11] SMBus PASS Example Process Call B raw=32 80 C4
+[09:32:11] SMBus PASS Example Block Process A raw=08 02 03 04 05 06 07 08 00 EB
+[09:32:11] SMBus PASS Example Block Process B raw=10 89 1F 1E 1D 1C 1B 1A 19 18 17 16 15 14 13 12 80 7C
+[09:32:11] SMBus PASS Stress After Block Process B Select A raw=12 65
+[09:32:11] SMBus PASS Stress After Block Process B Receive A raw=04 12
+[09:32:11] SMBus PASS Example Bad PEC Write Byte raw=20 4A E1
+[09:32:11] SMBus PASS Stress After Bad PEC Select A raw=12 65
+[09:32:11] SMBus PASS Stress After Bad PEC Receive A raw=05 15
+[09:32:11] SMBus PASS Bus Recover Preflight raw=00 01 00 01
+[09:32:11] SMBus Run All complete: loops=1 PASS=34 FAIL=0
+[09:32:11] SMBus Run All loop 1/1 started
+[09:32:12] SMBus PASS Example Quick Write raw=00 5A 00 01
+[09:32:12] SMBus PASS Example Quick Read raw=00 5A 01 01
+[09:32:12] SMBus PASS Example Send Byte A raw=10 6B
+[09:32:12] SMBus PASS Example Send Byte B raw=11 6C
+[09:32:12] SMBus PASS Example Receive Select A raw=12 65
+[09:32:12] SMBus PASS Example Receive Byte A raw=07 1B
+[09:32:12] SMBus PASS Example Receive Select B raw=13 62
+[09:32:12] SMBus PASS Example Receive Byte B raw=81 80
+[09:32:12] SMBus PASS Stress Back-to-back Receive Select A raw=12 65
+[09:32:12] SMBus PASS Stress Back-to-back Receive Byte A raw=08 36
+[09:32:12] SMBus PASS Example Write Byte A raw=20 00 EF
+[09:32:12] SMBus PASS Example Write Byte B raw=21 81 74
+[09:32:12] SMBus PASS Example Read Byte A raw=01 5C
+[09:32:12] SMBus PASS Example Read Byte B raw=81 BE
+[09:32:12] SMBus PASS Example Write Word A raw=30 34 02 82
+[09:32:12] SMBus PASS Example Write Word B raw=31 CD 83 CE
+[09:32:12] SMBus PASS Example Read Word A raw=32 01 35
+[09:32:12] SMBus PASS Example Read Word B raw=33 81 BF
+[09:32:12] SMBus PASS Example Block Write A raw=40 08 10 11 12 13 14 15 16 04 43
+[09:32:12] SMBus PASS Example Block Write B raw=41 10 20 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E 85 6D
+[09:32:12] SMBus PASS Example Block Read A raw=08 10 11 12 13 14 15 16 01 AB
+[09:32:12] SMBus PASS Example Block Read B raw=10 20 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E 81 82
+[09:32:12] SMBus PASS Stress After Block Read B Select A raw=12 65
+[09:32:12] SMBus PASS Stress After Block Read B Receive A raw=09 31
+[09:32:12] SMBus PASS Example Process Call A raw=45 01 FF
+[09:32:12] SMBus PASS Example Process Call B raw=32 81 C3
+[09:32:12] SMBus PASS Example Block Process A raw=08 02 03 04 05 06 07 08 01 EC
+[09:32:12] SMBus PASS Example Block Process B raw=10 89 1F 1E 1D 1C 1B 1A 19 18 17 16 15 14 13 12 81 7B
+[09:32:12] SMBus PASS Stress After Block Process B Select A raw=12 65
+[09:32:12] SMBus PASS Stress After Block Process B Receive A raw=0A 38
+[09:32:12] SMBus PASS Example Bad PEC Write Byte raw=20 4A E1
+[09:32:12] SMBus PASS Stress After Bad PEC Select A raw=12 65
+[09:32:13] SMBus PASS Stress After Bad PEC Receive A raw=0B 3F
+[09:32:13] SMBus PASS Bus Recover Preflight raw=00 01 00 01
+[09:32:13] SMBus Run All complete: loops=1 PASS=34 FAIL=0
+[09:32:13] SMBus Run All loop 1/1 started
+[09:32:13] SMBus PASS Example Quick Write raw=00 5A 00 01
+[09:32:13] SMBus PASS Example Quick Read raw=00 5A 01 01
+[09:32:13] SMBus PASS Example Send Byte A raw=10 6B
+[09:32:13] SMBus PASS Example Send Byte B raw=11 6C
+[09:32:13] SMBus PASS Example Receive Select A raw=12 65
+[09:32:13] SMBus PASS Example Receive Byte A raw=0D 2D
+[09:32:13] SMBus PASS Example Receive Select B raw=13 62
+[09:32:13] SMBus PASS Example Receive Byte B raw=82 89
+[09:32:13] SMBus PASS Stress Back-to-back Receive Select A raw=12 65
+[09:32:13] SMBus PASS Stress Back-to-back Receive Byte A raw=0E 24
+[09:32:13] SMBus PASS Example Write Byte A raw=20 00 EF
+[09:32:13] SMBus PASS Example Write Byte B raw=21 81 74
+[09:32:13] SMBus PASS Example Read Byte A raw=02 55
+[09:32:13] SMBus PASS Example Read Byte B raw=82 B7
+[09:32:13] SMBus PASS Example Write Word A raw=30 34 02 82
+[09:32:14] SMBus PASS Example Write Word B raw=31 CD 83 CE
+[09:32:14] SMBus PASS Example Read Word A raw=32 02 3C
+[09:32:14] SMBus PASS Example Read Word B raw=33 82 B6
+[09:32:14] SMBus PASS Example Block Write A raw=40 08 10 11 12 13 14 15 16 04 43
+[09:32:14] SMBus PASS Example Block Write B raw=41 10 20 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E 85 6D
+[09:32:14] SMBus PASS Example Block Read A raw=08 10 11 12 13 14 15 16 02 A2
+[09:32:14] SMBus PASS Example Block Read B raw=10 20 21 22 23 24 25 26 27 28 29 2A 2B 2C 2D 2E 82 8B
+[09:32:14] SMBus PASS Stress After Block Read B Select A raw=12 65
+[09:32:14] SMBus PASS Stress After Block Read B Receive A raw=0F 23
+[09:32:14] SMBus PASS Example Process Call A raw=45 02 F6
+[09:32:14] SMBus PASS Example Process Call B raw=32 82 CA
+[09:32:14] SMBus PASS Example Block Process A raw=08 02 03 04 05 06 07 08 02 E5
+[09:32:14] SMBus PASS Example Block Process B raw=10 89 1F 1E 1D 1C 1B 1A 19 18 17 16 15 14 13 12 82 72
+[09:32:14] SMBus PASS Stress After Block Process B Select A raw=12 65
+[09:32:14] SMBus PASS Stress After Block Process B Receive A raw=10 7E
+[09:32:14] SMBus PASS Example Bad PEC Write Byte raw=20 4A E1
+[09:32:14] SMBus PASS Stress After Bad PEC Select A raw=12 65
+[09:32:14] SMBus PASS Stress After Bad PEC Receive A raw=11 79
+[09:32:14] SMBus PASS Bus Recover Preflight raw=00 01 00 01
+[09:32:14] SMBus Run All complete: loops=1 PASS=34 FAIL=0

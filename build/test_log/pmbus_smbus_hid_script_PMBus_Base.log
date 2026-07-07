@@ -1,0 +1,15 @@
+﻿[20:51:03] M-CRPS master disabled
+[20:51:05] PMBus profile selected: PMBus Base
+[20:51:05] INI saved.
+[20:51:09] MCU reset command sent.
+[20:51:09] Device scan complete: 1 found
+[20:51:11] Device scan complete: 1 found
+[20:51:11] Connected VID:PID
+[20:51:11] Connected bridge: m032-pmbus-smbus-bridge/1.1.1
+[20:51:11] Reset reason: NONE
+[20:51:11] Firmware version check OK: 1.1.1
+[20:51:14] PMBus Base master enabled on I2C0  PB.4=SDA / PB.5=SCL at 400000Hz
+[20:51:20] INI saved.
+[20:51:20] PMBus SMBus script loaded: D:\SourceCode\python\simple_pmbus_smbus_tool\build\script_presets\PMBus_Base_Full.csv
+[20:51:26] PMBus SMBus script run started: D:\SourceCode\python\simple_pmbus_smbus_tool\build\script_presets\PMBus_Base_Full.csv
+[20:51:29] PMBus SMBus script run complete: commands=75, pauses=0, reads=63, writes=16

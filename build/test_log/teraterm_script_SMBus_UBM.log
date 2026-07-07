@@ -1,0 +1,113 @@
+CLK_GetCPUFreq :
+CLK_GetCPUFreq : 48000000
+CLK_GetHCLKFreq : 48000000
+CLK_GetHXTFreq :        0
+CLK_GetLXTFreq :        0
+CLK_GetPCLK0Freq : 48000000
+CLK_GetPCLK1Freq : 48000000
+Reset Source <0x00000041>
+0)POR Reset Flag
+6)Reserved.
+power on from POR
+task1 id = 0
+task2 id = 1
+task3 id = 2
+SMBus RX cmd=0x00 (UBM_OPERATIONAL_STATE) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x00],[0xA7],
+SMBus TX cmd=0x00 (UBM_OPERATIONAL_STATE) proto=11 (UBM_CONTROLLER_READ) len=2 raw=03 58
+SMBus RX cmd=0x01 (UBM_LAST_COMMAND_STATUS) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x01],[0xA6],
+SMBus TX cmd=0x01 (UBM_LAST_COMMAND_STATUS) proto=11 (UBM_CONTROLLER_READ) len=2 raw=01 5A
+SMBus RX cmd=0x02 (UBM_SILICON_IDENTITY_VERSION) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x02],[0xA5],
+SMBus TX cmd=0x02 (UBM_SILICON_IDENTITY_VERSION) proto=11 (UBM_CONTROLLER_READ) len=15 raw=15 AB 10 00 32 00 00 00 00 00 00 01 55 42 C1
+SMBus RX cmd=0x03 (UBM_PROGRAMMING_UPDATE_MODE_CAPABILITIES) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x03],[0xA4],
+SMBus TX cmd=0x03 (UBM_PROGRAMMING_UPDATE_MODE_CAPABILITIES) proto=11 (UBM_CONTROLLER_READ) len=2 raw=01 5A
+SMBus RX cmd=0x30 (UBM_HOST_FACING_CONNECTOR_INFO) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x30],[0x77],
+SMBus TX cmd=0x30 (UBM_HOST_FACING_CONNECTOR_INFO) proto=11 (UBM_CONTROLLER_READ) len=2 raw=01 5A
+SMBus RX cmd=0x31 (UBM_BACKPLANE_INFO) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x31],[0x76],
+SMBus TX cmd=0x31 (UBM_BACKPLANE_INFO) proto=11 (UBM_CONTROLLER_READ) len=2 raw=01 5A
+SMBus RX cmd=0x32 (UBM_STARTING_SLOT) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x32],[0x75],
+SMBus TX cmd=0x32 (UBM_STARTING_SLOT) proto=11 (UBM_CONTROLLER_READ) len=2 raw=00 5B
+SMBus RX cmd=0x33 (UBM_CAPABILITIES) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x33],[0x74],
+SMBus TX cmd=0x33 (UBM_CAPABILITIES) proto=11 (UBM_CONTROLLER_READ) len=3 raw=80 60 7B
+SMBus RX cmd=0x34 (UBM_FEATURES) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x34],[0x73],
+SMBus TX cmd=0x34 (UBM_FEATURES) proto=11 (UBM_CONTROLLER_READ) len=3 raw=00 00 5B
+SMBus RX cmd=0x34 (UBM_FEATURES) raw=4 payload=3 proto=12 rs=0 pec=0 valid=1
+address=0xB4:[0x34],[0x00],[0x00],[0x73],
+SMBus write done cmd=0x34 len=3
+SMBus RX cmd=0x01 (UBM_LAST_COMMAND_STATUS) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x01],[0xA6],
+SMBus TX cmd=0x01 (UBM_LAST_COMMAND_STATUS) proto=11 (UBM_CONTROLLER_READ) len=2 raw=01 5A
+SMBus RX cmd=0x35 (UBM_CHANGE_COUNT) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x35],[0x72],
+SMBus TX cmd=0x35 (UBM_CHANGE_COUNT) proto=11 (UBM_CONTROLLER_READ) len=3 raw=01 00 5A
+SMBus RX cmd=0x35 (UBM_CHANGE_COUNT) raw=4 payload=3 proto=12 rs=0 pec=0 valid=1
+address=0xB4:[0x35],[0x01],[0x00],[0x71],
+SMBus write done cmd=0x35 len=3
+SMBus RX cmd=0x01 (UBM_LAST_COMMAND_STATUS) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x01],[0xA6],
+SMBus TX cmd=0x01 (UBM_LAST_COMMAND_STATUS) proto=11 (UBM_CONTROLLER_READ) len=2 raw=01 5A
+SMBus RX cmd=0x36 (UBM_DFC_STATUS_CONTROL_DESCRIPTOR_INDEX) raw=3 payload=2 proto=12 rs=0 pec=0 valid=1
+address=0xB4:[0x36],[0x00],[0x71],
+SMBus write done cmd=0x36 len=2
+SMBus RX cmd=0x40 (UBM_DFC_STATUS_CONTROL_DESCRIPTOR) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x40],[0x67],
+SMBus TX cmd=0x40 (UBM_DFC_STATUS_CONTROL_DESCRIPTOR) proto=11 (UBM_CONTROLLER_READ) len=9 raw=01 10 00 00 00 01 00 00 49
+SMBus RX cmd=0x36 (UBM_DFC_STATUS_CONTROL_DESCRIPTOR_INDEX) raw=3 payload=2 proto=12 rs=0 pec=0 valid=1
+address=0xB4:[0x36],[0x01],[0x70],
+SMBus write done cmd=0x36 len=2
+SMBus RX cmd=0x40 (UBM_DFC_STATUS_CONTROL_DESCRIPTOR) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x40],[0x67],
+SMBus TX cmd=0x40 (UBM_DFC_STATUS_CONTROL_DESCRIPTOR) proto=11 (UBM_CONTROLLER_READ) len=9 raw=01 11 00 00 00 01 00 00 48
+SMBus RX cmd=0x20 (UBM_ENTER_PROGRAMMABLE_UPDATE_MODE) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x20],[0x87],
+SMBus TX cmd=0x20 (UBM_ENTER_PROGRAMMABLE_UPDATE_MODE) proto=11 (UBM_CONTROLLER_READ) len=6 raw=B8 55 42 4D 00 BF
+SMBus RX cmd=0x20 (UBM_ENTER_PROGRAMMABLE_UPDATE_MODE) raw=7 payload=6 proto=12 rs=0 pec=0 valid=1
+address=0xB4:[0x20],[0xB8],[0x55],[0x42],[0x4D],[0x01],[0xEA],
+SMBus write done cmd=0x20 len=6
+SMBus RX cmd=0x00 (UBM_OPERATIONAL_STATE) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x00],[0xA7],
+SMBus TX cmd=0x00 (UBM_OPERATIONAL_STATE) proto=11 (UBM_CONTROLLER_READ) len=2 raw=04 57
+SMBus RX cmd=0x21 (UBM_PROGRAMMABLE_MODE_DATA_TRANSFER) raw=6 payload=5 proto=12 rs=0 pec=0 valid=1
+address=0xB4:[0x21],[0x00],[0x02],[0xAA],[0x55],[0x85],
+SMBus write done cmd=0x21 len=5
+SMBus RX cmd=0x22 (UBM_EXIT_PROGRAMMABLE_UPDATE_MODE) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x22],[0x85],
+SMBus TX cmd=0x22 (UBM_EXIT_PROGRAMMABLE_UPDATE_MODE) proto=11 (UBM_CONTROLLER_READ) len=5 raw=55 42 4D 00 77
+SMBus RX cmd=0x22 (UBM_EXIT_PROGRAMMABLE_UPDATE_MODE) raw=6 payload=5 proto=12 rs=0 pec=0 valid=1
+address=0xB4:[0x22],[0x55],[0x42],[0x4D],[0x01],[0xA0],
+SMBus write done cmd=0x22 len=5
+SMBus RX cmd=0x00 (UBM_OPERATIONAL_STATE) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x00],[0xA7],
+SMBus TX cmd=0x00 (UBM_OPERATIONAL_STATE) proto=11 (UBM_CONTROLLER_READ) len=2 raw=03 58
+SMBus RX cmd=0x37 (UBM_CABLE_CONTIGUOUS_CHECK) raw=3 payload=2 proto=12 rs=0 pec=0 valid=1
+address=0xB4:[0x37],[0x00],[0x70],
+SMBus write done cmd=0x37 len=2
+SMBus RX cmd=0x38 (UBM_CCC_RESULT_INDEX) raw=3 payload=2 proto=12 rs=0 pec=0 valid=1
+address=0xB4:[0x38],[0x00],[0x6F],
+SMBus write done cmd=0x38 len=2
+SMBus RX cmd=0x41 (UBM_CCC_RESULT_DESCRIPTOR) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x41],[0x66],
+SMBus TX cmd=0x41 (UBM_CCC_RESULT_DESCRIPTOR) proto=11 (UBM_CONTROLLER_READ) len=36 raw=A0 A1 A2 A3 A4 A5 A6 A7 A8 A9 AA AB AC AD AE AF B0 B1 B2 B3 B4 B5 B6 B7 B8 B9 BA BB BC BD BE BF C0 C1 C2 28
+SMBus RX cmd=0x50 (UBM_FLEX_IO_DESCRIPTOR_INDEX) raw=3 payload=2 proto=12 rs=0 pec=0 valid=1
+address=0xB4:[0x50],[0x00],[0x57],
+SMBus write done cmd=0x50 len=2
+SMBus RX cmd=0x51 (UBM_FLEX_IO_DESCRIPTOR) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x51],[0x56],
+SMBus TX cmd=0x51 (UBM_FLEX_IO_DESCRIPTOR) proto=11 (UBM_CONTROLLER_READ) len=6 raw=10 11 12 13 14 01
+SMBus RX cmd=0x60 (UBM_POWER_EVENT_DATA) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x60],[0x47],
+SMBus TX cmd=0x60 (UBM_POWER_EVENT_DATA) proto=11 (UBM_CONTROLLER_READ) len=33 raw=60 61 62 63 64 65 66 67 68 69 6A 6B 6C 6D 6E 6F 70 71 72 73 74 75 76 77 78 79 7A 7B 7C 7D 7E 7F 6B
+SMBus RX cmd=0x34 (UBM_FEATURES) raw=4 payload=3 proto=12 rs=0 pec=0 valid=1
+address=0xB4:[0x34],[0x00],[0x00],[0x8C],
+SMBus write done cmd=0x34 len=3
+SMBus RX cmd=0x01 (UBM_LAST_COMMAND_STATUS) raw=2 payload=1 proto=11 rs=1 pec=0 valid=1
+address=0xB4:[0x01],[0xA6],
+SMBus TX cmd=0x01 (UBM_LAST_COMMAND_STATUS) proto=11 (UBM_CONTROLLER_READ) len=2 raw=02 59

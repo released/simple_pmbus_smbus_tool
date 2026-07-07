@@ -1,0 +1,143 @@
+﻿[09:08:23] MCU reset command sent.
+[09:08:23] Device scan complete: 1 found
+[09:08:24] Device scan complete: 1 found
+[09:08:25] Connected VID:PID
+[09:08:25] Connected bridge: m032-pmbus-smbus-bridge/1.1.0
+[09:08:25] Reset reason: NONE
+[09:08:25] Firmware version check OK: 1.1.0
+[09:08:26] TI UCD90xxx master enabled on I2C0  PB.4=SDA / PB.5=SCL at 400000Hz
+[09:09:09] PMBus scan preflight recover OK: addr=0x5A
+[09:09:09] PMBus scan hit: addr=0x5A, PMBUS_REVISION=1.3/1.3, MFR_ID="MFR_ID_001" | PEC OK | PEC(rx=0x0B, calc=0x0B), MFR_MODEL="MFR_MODEL_001" | PEC OK | PEC(rx=0x06, calc=0x06)
+[09:09:09] PMBus scan complete: 1 device(s) responded to PMBUS_REVISION
+[09:09:10] PMBus checklist [Basic] started, repeat=1
+[09:09:10] PMBus checklist [Basic] loop 1/1 started
+[09:09:10] [PASS] Bus write ACK / CLEAR_FAULTS -> SLA+W path ACKed
+[09:09:10] [PASS] Bus read ACK / PMBUS_REVISION -> PMBUS_REVISION=0x33
+[09:09:10] [PASS] Repeated START read path -> Read path OK, value=0x33
+[09:09:10] [PASS] PAGE write/readback -> PAGE=0x00
+[09:09:11] [PASS] OPERATION write/readback -> original=0x80, restore OK
+[09:09:11] [PASS] ON_OFF_CONFIG write/readback -> original=0x1A, test=0x1B
+[09:09:11] [PASS] FAN_CONFIG_1_2 write/readback -> original=0x00, test=0x01
+[09:09:11] [PASS] VOUT_MODE default -> VOUT_MODE=0x17
+[09:09:11] [PASS] STATUS_BYTE read -> STATUS_BYTE=0x80
+[09:09:11] [PASS] STATUS_WORD read -> STATUS_WORD=0x0080
+[09:09:11] [PASS] STATUS_VOUT read -> STATUS_VOUT=0x00
+[09:09:11] [PASS] STATUS_IOUT read -> STATUS_IOUT=0x00
+[09:09:11] [PASS] STATUS_INPUT read -> STATUS_INPUT=0x00
+[09:09:11] [PASS] STATUS_TEMPERATURE read -> STATUS_TEMPERATURE=0x00
+[09:09:11] [PASS] STATUS_CML read -> STATUS_CML=0x00
+[09:09:11] [PASS] STATUS_OTHER read -> STATUS_OTHER=0x00
+[09:09:11] [PASS] STATUS_MFR_SPECIFIC read -> STATUS_MFR_SPECIFIC=0x00
+[09:09:11] [PASS] STATUS_FANS_1_2 read -> STATUS_FANS_1_2=0x00
+[09:09:11] PMBus checklist [Basic] complete: loops 1, PASS 18 test group(s), FAIL 0
+[09:09:12] PMBus checklist [PEC] started, repeat=1
+[09:09:12] PMBus checklist [PEC] loop 1/1 started
+[09:09:12] [PASS] PEC Read Byte / PMBUS_REVISION -> PEC OK, PMBUS_REVISION=0x33
+[09:09:12] [PASS] PEC Read Word / STATUS_WORD -> PEC OK, STATUS_WORD=0x0080
+[09:09:12] [PASS] PEC Block Read / MFR_MODEL -> "MFR_MODEL_001" | PEC OK | PEC(rx=0x06, calc=0x06)
+[09:09:12] [PASS] Force Bad PEC negative test -> STATUS_CML=0x20
+[09:09:12] PMBus checklist [PEC] complete: loops 1, PASS 4 test group(s), FAIL 0
+[09:09:15] PMBus checklist [Error] started, repeat=1
+[09:09:15] PMBus checklist [Error] loop 1/1 started
+[09:09:15] [PASS] Unsupported command probe -> STATUS_CML=0x80
+[09:09:16] [PASS] Illegal transaction probe -> STATUS_CML=0x40
+[09:09:16] PMBus checklist post-error ARA recovery skipped by Production policy
+[09:09:16] PMBus checklist [Error] complete: loops 1, PASS 2 test group(s), FAIL 0
+[09:09:18] PMBus checklist [Telemetry] started, repeat=1
+[09:09:18] PMBus checklist [Telemetry] loop 1/1 started
+[09:09:18] [PASS] READ_VIN -> 230.0000 | raw=0xF398 | PEC OK | PEC(rx=0x7B, calc=0x7B)
+[09:09:18] [PASS] READ_IIN -> 1.2500 | raw=0xBA80 | PEC OK | PEC(rx=0x6A, calc=0x6A)
+[09:09:18] [PASS] READ_VOUT -> 12.0000 | fmt=ULINEAR16 | exp=-9 | raw=0x1800 | PEC OK | PEC(rx=0x97, calc=0x97)
+[09:09:18] [PASS] READ_IOUT -> 18.5000 | raw=0xDA50 | PEC OK | PEC(rx=0xB9, calc=0xB9)
+[09:09:18] [PASS] READ_TEMPERATURE_1 -> 35.0000 | raw=0xE230 | PEC OK | PEC(rx=0xF2, calc=0xF2)
+[09:09:18] [PASS] READ_TEMPERATURE_2 -> 43.0000 | raw=0xE2B0 | PEC OK | PEC(rx=0x7E, calc=0x7E)
+[09:09:18] [PASS] READ_TEMPERATURE_3 -> 50.0000 | raw=0xE320 | PEC OK | PEC(rx=0x8E, calc=0x8E)
+[09:09:18] [PASS] READ_FAN_SPEED_1 -> 0x22EE | PEC OK | PEC(rx=0x49, calc=0x49)
+[09:09:18] [PASS] READ_FAN_SPEED_2 -> 0x22E2 | PEC OK | PEC(rx=0xA3, calc=0xA3)
+[09:09:18] [PASS] READ_POUT -> 222.0000 | raw=0xF378 | PEC OK | PEC(rx=0x9B, calc=0x9B)
+[09:09:18] [PASS] READ_PIN -> 276.0000 | raw=0xFA28 | PEC OK | PEC(rx=0xBE, calc=0xBE)
+[09:09:18] [PASS] READ_EIN -> CC AE 2A 97 27 00 | PEC OK | PEC(rx=0x32, calc=0x32)
+[09:09:18] [PASS] READ_EOUT -> 9E 5D 22 A1 27 00 | PEC OK | PEC(rx=0x72, calc=0x72)
+[09:09:18] [PASS] MFR_ID -> "MFR_ID_001" | PEC OK | PEC(rx=0x0B, calc=0x0B)
+[09:09:18] [PASS] MFR_MODEL -> "MFR_MODEL_001" | PEC OK | PEC(rx=0x06, calc=0x06)
+[09:09:18] [PASS] MFR_REVISION -> "MFR_REV_001" | PEC OK | PEC(rx=0xA9, calc=0xA9)
+[09:09:18] [PASS] MFR_SERIAL -> "MFR_SERIAL_001" | PEC OK | PEC(rx=0xFC, calc=0xFC)
+[09:09:18] PMBus checklist [Telemetry] complete: loops 1, PASS 17 test group(s), FAIL 0
+[09:09:20] PMBus checklist [MFR] started, repeat=1
+[09:09:21] PMBus checklist [MFR] loop 1/1 started
+[09:09:27] [PASS] Profile command coverage sweep -> TI UCD90xxx visible=195, read-capable checked=180 (ReadByte=43, ReadWord=89, Read32=2, BlockRead=42, BWRPC=4), skipped write-only/side-effect=15 examples: 0x03 CLEAR_FAULTS; 0x05 PAGE_PLUS_WRITE; 0x11 STORE_DEFAULT_ALL; 0x12 RESTORE_DEFAULT_ALL; 0x13 STORE_DEFAULT_CODE; 0x14 RESTORE_DEFAULT_CODE; 0x15 STORE_USER_ALL; 0x16 RESTORE_USER_ALL
+[09:09:27] [PASS] Write Word / Process Call / VOUT_COMMAND -> original=0x1800, echoed=0x1801
+[09:09:27] [PASS] VOUT_MODE Direct/IEEE/VID conversions -> Direct raw=0x2EE0, IEEE-half raw=0x4A00, VID raw=0x0123; original restored
+[09:09:27] [PASS] Block Write-Read Process Call / QUERY -> QUERY(PMBUS_REVISION)=0xB0
+[09:09:28] [PASS] SMBALERT_MASK shadow read/write restore -> original=0x0000, test=0x0001, restored=0x0000
+[09:09:28] [PASS] TI UCD90xxx profile command smoke -> SEQ_TIMEOUT=0x0000, NUM_PAGES=0x00, PARM_VALUE=1B, SEQ_CONFIG=1B, DEVICE_ID=1B
+[09:09:28] [PASS] Group Command / PAGE + PHASE restore -> PAGE 0x00 restored, PHASE 0x00 restored
+[09:09:28] PMBus checklist [MFR] complete: loops 1, PASS 7 test group(s), FAIL 0
+[09:09:29] PMBus checklist [Full] started, repeat=1
+[09:09:29] PMBus checklist [Full] loop 1/1 started
+[09:09:29] PMBus bus status: idle_before=1, recovered=0, idle_after=1
+[09:09:29] [PASS] Bus idle / recovery preflight -> idle_before=1, recovered=0, idle_after=1
+[09:09:29] [PASS] Contract-driven GUI presets -> 222 generated presets; TI UCD90xxx overlay rows visible; FE/FF remain Extended UI selectors
+[09:09:29] [PASS] Bus write ACK / CLEAR_FAULTS -> SLA+W path ACKed
+[09:09:29] [PASS] Bus read ACK / PMBUS_REVISION -> PMBUS_REVISION=0x33
+[09:09:29] [PASS] Repeated START read path -> Read path OK, value=0x33
+[09:09:29] [PASS] PAGE write/readback -> PAGE=0x00
+[09:09:29] [PASS] OPERATION write/readback -> original=0x80, restore OK
+[09:09:30] [PASS] ON_OFF_CONFIG write/readback -> original=0x1A, test=0x1B
+[09:09:30] [PASS] FAN_CONFIG_1_2 write/readback -> original=0x00, test=0x01
+[09:09:30] [PASS] VOUT_MODE default -> VOUT_MODE=0x17
+[09:09:30] [PASS] STATUS_BYTE read -> STATUS_BYTE=0x80
+[09:09:30] [PASS] STATUS_WORD read -> STATUS_WORD=0x0080
+[09:09:30] [PASS] STATUS_VOUT read -> STATUS_VOUT=0x00
+[09:09:30] [PASS] STATUS_IOUT read -> STATUS_IOUT=0x00
+[09:09:30] [PASS] STATUS_INPUT read -> STATUS_INPUT=0x00
+[09:09:30] [PASS] STATUS_TEMPERATURE read -> STATUS_TEMPERATURE=0x00
+[09:09:30] [PASS] STATUS_CML read -> STATUS_CML=0x00
+[09:09:30] [PASS] STATUS_OTHER read -> STATUS_OTHER=0x00
+[09:09:30] [PASS] STATUS_MFR_SPECIFIC read -> STATUS_MFR_SPECIFIC=0x00
+[09:09:30] [PASS] STATUS_FANS_1_2 read -> STATUS_FANS_1_2=0x00
+[09:09:30] [PASS] READ_VIN -> 230.0000 | raw=0xF398 | PEC OK | PEC(rx=0x7B, calc=0x7B)
+[09:09:30] [PASS] READ_IIN -> 1.2500 | raw=0xBA80 | PEC OK | PEC(rx=0x6A, calc=0x6A)
+[09:09:30] [PASS] READ_VOUT -> 12.0000 | fmt=ULINEAR16 | exp=-9 | raw=0x1800 | PEC OK | PEC(rx=0x97, calc=0x97)
+[09:09:30] [PASS] READ_IOUT -> 18.5000 | raw=0xDA50 | PEC OK | PEC(rx=0xB9, calc=0xB9)
+[09:09:30] [PASS] READ_TEMPERATURE_1 -> 35.0000 | raw=0xE230 | PEC OK | PEC(rx=0xF2, calc=0xF2)
+[09:09:30] [PASS] READ_TEMPERATURE_2 -> 43.0000 | raw=0xE2B0 | PEC OK | PEC(rx=0x7E, calc=0x7E)
+[09:09:31] [PASS] READ_TEMPERATURE_3 -> 50.0000 | raw=0xE320 | PEC OK | PEC(rx=0x8E, calc=0x8E)
+[09:09:31] [PASS] READ_FAN_SPEED_1 -> 0x22EE | PEC OK | PEC(rx=0x49, calc=0x49)
+[09:09:31] [PASS] READ_FAN_SPEED_2 -> 0x22E2 | PEC OK | PEC(rx=0xA3, calc=0xA3)
+[09:09:31] [PASS] READ_POUT -> 222.0000 | raw=0xF378 | PEC OK | PEC(rx=0x9B, calc=0x9B)
+[09:09:31] [PASS] READ_PIN -> 276.0000 | raw=0xFA28 | PEC OK | PEC(rx=0xBE, calc=0xBE)
+[09:09:31] [PASS] READ_EIN -> D0 C9 35 E4 31 00 | PEC OK | PEC(rx=0x84, calc=0x84)
+[09:09:31] [PASS] READ_EOUT -> EE 55 2B F9 31 00 | PEC OK | PEC(rx=0x42, calc=0x42)
+[09:09:31] [PASS] MFR_ID -> "MFR_ID_001" | PEC OK | PEC(rx=0x0B, calc=0x0B)
+[09:09:31] [PASS] MFR_MODEL -> "MFR_MODEL_001" | PEC OK | PEC(rx=0x06, calc=0x06)
+[09:09:31] [PASS] MFR_REVISION -> "MFR_REV_001" | PEC OK | PEC(rx=0xA9, calc=0xA9)
+[09:09:31] [PASS] MFR_SERIAL -> "MFR_SERIAL_001" | PEC OK | PEC(rx=0xFC, calc=0xFC)
+[09:09:35] [PASS] Table31 read-only contract smoke -> ReadByte=30, ReadWord=83, Read32=2, BlockRead=13 commands OK; TI namespace covered by profile sweep
+[09:09:41] [PASS] Profile command coverage sweep -> TI UCD90xxx visible=195, read-capable checked=180 (ReadByte=43, ReadWord=89, Read32=2, BlockRead=42, BWRPC=4), skipped write-only/side-effect=15 examples: 0x03 CLEAR_FAULTS; 0x05 PAGE_PLUS_WRITE; 0x11 STORE_DEFAULT_ALL; 0x12 RESTORE_DEFAULT_ALL; 0x13 STORE_DEFAULT_CODE; 0x14 RESTORE_DEFAULT_CODE; 0x15 STORE_USER_ALL; 0x16 RESTORE_USER_ALL
+[09:09:41] [PASS] Write Word / Process Call / VOUT_COMMAND -> original=0x1800, echoed=0x1801
+[09:09:42] [PASS] VOUT_MODE Direct/IEEE/VID conversions -> Direct raw=0x2EE0, IEEE-half raw=0x4A00, VID raw=0x0123; original restored
+[09:09:42] [PASS] Block Write-Read Process Call / QUERY -> QUERY(PMBUS_REVISION)=0xB0
+[09:09:42] [PASS] SMBALERT_MASK shadow read/write restore -> original=0x0000, test=0x0001, restored=0x0000
+[09:09:42] [PASS] TI UCD90xxx profile command smoke -> SEQ_TIMEOUT=0x0000, NUM_PAGES=0x00, PARM_VALUE=1B, SEQ_CONFIG=1B, DEVICE_ID=1B
+[09:09:43] [PASS] Group Command / PAGE + PHASE restore -> PAGE 0x00 restored, PHASE 0x00 restored
+[09:09:43] [PASS] Stress Read Byte / Read Word / Read Byte ordering -> PMBUS_REVISION 0x33 -> STATUS_WORD 0x80A0 -> PMBUS_REVISION 0x33
+[09:09:43] [PASS] Stress Block Read then Read Byte -> MFR_MODEL block=13B -> PMBUS_REVISION=0x33
+[09:09:43] [PASS] Stress Process Call then Read Byte -> VOUT_COMMAND echoed=0x1800 -> PMBUS_REVISION=0x33
+[09:09:43] [PASS] Stress Block Write-Read then Read Byte -> QUERY(PMBUS_REVISION)=0xB0 -> PMBUS_REVISION=0x33
+[09:09:43] PMBus checklist stress bad-PEC ARA recovery skipped by Production policy
+[09:09:43] [PASS] Stress Bad PEC then positive Read Byte -> bad PEC cleaned, PMBUS_REVISION=0x33
+[09:09:43] [PASS] PEC Read Byte / PMBUS_REVISION -> PEC OK, PMBUS_REVISION=0x33
+[09:09:43] [PASS] PEC Read Word / STATUS_WORD -> PEC OK, STATUS_WORD=0x0080
+[09:09:44] [PASS] PEC Block Read / MFR_MODEL -> "MFR_MODEL_001" | PEC OK | PEC(rx=0x06, calc=0x06)
+[09:09:44] [PASS] Force Bad PEC negative test -> STATUS_CML=0x20
+[09:09:44] [PASS] Unsupported command probe -> STATUS_CML=0x80
+[09:09:44] [PASS] Illegal transaction probe -> STATUS_CML=0x40
+[09:09:44] PMBus checklist post-error ARA recovery skipped by Production policy
+[09:09:44] [MANUAL] Receive Byte transaction -> Manual: execute a target-specific Receive Byte case and verify returned data + PEC.
+[09:09:44] [MANUAL] SMBALERT_MASK side-effect policy -> Manual/conditional: target-specific mask bit semantics and SMBALERT side effects must be reviewed with the device design.
+[09:09:44] [MANUAL] ARA end-to-end -> Manual/lab-policy: if the target asserts SMBALERT externally, run ARA and verify the responder address.
+[09:09:44] [MANUAL] No debug printf in ISR path -> Manual: verify no ISR-path debug print side effect under sustained traffic.
+[09:09:44] [MANUAL] Threshold / fault injection commands -> Manual: VOUT/IOUT/VIN/TEMP warn/fault threshold scenarios still require external condition review.
+[09:09:44] [MANUAL] Forced clock-low timeout -> Manual: force SCL/SDA stuck-low and verify timeout/recover/recover-fail path with a logic analyzer.
+[09:09:44] PMBus checklist [Full] complete: loops 1, PASS 56 test group(s), FAIL 0, MANUAL 6

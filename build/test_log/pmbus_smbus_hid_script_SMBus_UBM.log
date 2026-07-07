@@ -1,0 +1,14 @@
+﻿[20:32:47] INI loaded.
+[20:32:47] Device scan complete: 1 found
+[20:32:47] PMBus/SMBus HID tool initialized.
+[20:32:47] M032 EVB I2C pin selection is available inside PMBus, SMBus, I2C, and FW Upload tabs.
+[20:33:02] Device scan complete: 1 found
+[20:33:02] Connected VID:PID
+[20:33:02] Connected bridge: m032-pmbus-smbus-bridge/1.1.1
+[20:33:02] Reset reason: NONE
+[20:33:02] Firmware version check OK: 1.1.1
+[20:33:15] SMBus master enabled on I2C0  PB.4=SDA / PB.5=SCL at 400000Hz
+[20:33:26] INI saved.
+[20:33:26] SMBus script loaded: D:\SourceCode\python\simple_pmbus_smbus_tool\build\script_presets\SMBus_UBM_RunAll.csv
+[20:33:31] SMBus script run started: D:\SourceCode\python\simple_pmbus_smbus_tool\build\script_presets\SMBus_UBM_RunAll.csv
+[20:33:32] SMBus script run complete: commands=33, pauses=0, reads=22, writes=11
