@@ -34,6 +34,8 @@ std::wstring NowTimeText() {
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_WM_CREATE()
     ON_WM_SIZE()
+    ON_MESSAGE(WM_DPICHANGED, &CMainFrame::OnDpiChanged)
+    ON_WM_GETMINMAXINFO()
     ON_NOTIFY(TCN_SELCHANGE, ID_TAB_CTRL, &CMainFrame::OnTabSelChange)
     ON_BN_CLICKED(ID_TOP_REFRESH_BTN, &CMainFrame::OnBnClickedRefresh)
     ON_BN_CLICKED(ID_TOP_CONNECT_BTN, &CMainFrame::OnBnClickedConnect)
@@ -75,7 +77,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct) {
         return -1;
     }
 
-    ui_font_.CreatePointFont(90, L"Segoe UI");
+    current_dpi_ = mfc_tool::ui::GetDpiForWnd(*this);
+    RecreateUiFont();
     status_chip_brush_.CreateSolidBrush(status_chip_color_);
     HICON app_icon = AfxGetApp()->LoadIconW(IDR_MAINFRAME);
     SetIcon(app_icon, TRUE);
@@ -134,17 +137,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct) {
     i2c_tab_.Bind(&service_, tab_log, &pin_usage_);
     script_tab_.Bind(tab_log, [this]() { SaveIni(); }, [this](bool dirty) { SetScriptTabDirty(dirty); });
 
-    const std::array<CWnd*, 30> controls = {
-        &vid_label_, &vid_edit_, &pid_label_, &pid_edit_, &timeout_label_, &timeout_edit_,
-        &refresh_btn_, &connect_btn_, &disconnect_btn_, &status_title_, &status_chip_, &save_ini_btn_,
-        &load_ini_btn_, &reset_ini_btn_, &ini_path_title_, &ini_path_value_, &build_info_title_,
-        &build_info_value_, &fw_info_title_, &fw_info_value_, &device_label_, &device_combo_,
-        &get_info_btn_, &ping_btn_, &reset_mcu_btn_, &tab_ctrl_, &save_log_check_, &save_log_btn_,
-        &clear_log_btn_, &log_edit_
-    };
-    for (CWnd* w : controls) {
-        w->SetFont(&ui_font_);
-    }
+    ApplyTopControlFont();
 
     InitializeTabs();
     vid_edit_.SetWindowTextW(state_.ui.vid.c_str());
@@ -174,18 +167,80 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy) {
     LayoutControls(cx, cy);
 }
 
+LRESULT CMainFrame::OnDpiChanged(WPARAM wParam, LPARAM lParam) {
+    current_dpi_ = HIWORD(wParam);
+    RecreateUiFont();
+    ApplyTopControlFont();
+    pmbus_tab_.RefreshDpiLayout();
+    smbus_tab_.RefreshDpiLayout();
+    i2c_tab_.RefreshDpiLayout();
+    script_tab_.RefreshDpiLayout();
+
+    const RECT* suggested_rect = reinterpret_cast<const RECT*>(lParam);
+    if (suggested_rect != nullptr) {
+        SetWindowPos(nullptr,
+                     suggested_rect->left,
+                     suggested_rect->top,
+                     suggested_rect->right - suggested_rect->left,
+                     suggested_rect->bottom - suggested_rect->top,
+                     SWP_NOZORDER | SWP_NOACTIVATE);
+    }
+
+    CRect rc;
+    GetClientRect(&rc);
+    LayoutControls(rc.Width(), rc.Height());
+    RedrawWindow(nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
+    return 0;
+}
+
+void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI) {
+    CFrameWnd::OnGetMinMaxInfo(lpMMI);
+    if (lpMMI == nullptr) {
+        return;
+    }
+
+    const mfc_tool::ui::DpiScaler dpi(current_dpi_ != 0u ? current_dpi_ : mfc_tool::ui::GetDpiForWnd(*this));
+    const LONG min_w = static_cast<LONG>(dpi.Scale(1180));
+    const LONG min_h = static_cast<LONG>(dpi.Scale(760));
+    lpMMI->ptMinTrackSize.x = (std::max)(lpMMI->ptMinTrackSize.x, min_w);
+    lpMMI->ptMinTrackSize.y = (std::max)(lpMMI->ptMinTrackSize.y, min_h);
+}
+
+void CMainFrame::RecreateUiFont() {
+    (void)mfc_tool::ui::CreatePointFontForWindow(ui_font_, *this, 90);
+}
+
+void CMainFrame::ApplyTopControlFont() {
+    const std::array<CWnd*, 30> controls = {
+        &vid_label_, &vid_edit_, &pid_label_, &pid_edit_, &timeout_label_, &timeout_edit_,
+        &refresh_btn_, &connect_btn_, &disconnect_btn_, &status_title_, &status_chip_, &save_ini_btn_,
+        &load_ini_btn_, &reset_ini_btn_, &ini_path_title_, &ini_path_value_, &build_info_title_,
+        &build_info_value_, &fw_info_title_, &fw_info_value_, &device_label_, &device_combo_,
+        &get_info_btn_, &ping_btn_, &reset_mcu_btn_, &tab_ctrl_, &save_log_check_, &save_log_btn_,
+        &clear_log_btn_, &log_edit_
+    };
+    for (CWnd* w : controls) {
+        if (w != nullptr && ::IsWindow(w->GetSafeHwnd())) {
+            w->SetFont(&ui_font_, FALSE);
+        }
+    }
+}
+
 void CMainFrame::LayoutControls(int cx, int cy) {
     if (cx <= 0 || cy <= 0) {
         return;
     }
 
-    const int margin = 8;
-    const int gap = 6;
-    const int row_h = 26;
-    const int label_y_pad = 4;
-    const int label_pad = 10;
-    const int log_h = (std::max)(120, cy / 5);
-    int btn_w = 86;
+    const mfc_tool::ui::DpiScaler dpi(current_dpi_ != 0u ? current_dpi_ : mfc_tool::ui::GetDpiForWnd(*this));
+    const mfc_tool::ui::LayoutMetrics metrics = mfc_tool::ui::MetricsForWindow(*this);
+    const int margin = metrics.margin8;
+    const int gap = metrics.gap;
+    const int row_h = metrics.row26;
+    const int label_h = metrics.label18;
+    const int label_y_pad = dpi.Scale(4);
+    const int label_pad = dpi.Scale(10);
+    const int log_h = (std::max)(dpi.Scale(120), cy / 5);
+    int btn_w = dpi.Scale(86);
     btn_w = (std::max)(btn_w, mfc_tool::ui::MeasureButtonMinWidth(refresh_btn_));
     btn_w = (std::max)(btn_w, mfc_tool::ui::MeasureButtonMinWidth(connect_btn_));
     btn_w = (std::max)(btn_w, mfc_tool::ui::MeasureButtonMinWidth(save_ini_btn_));
@@ -202,8 +257,8 @@ void CMainFrame::LayoutControls(int cx, int cy) {
     mfc_tool::ui::SafeMoveWindow(disconnect_btn_, x, y, (std::max)(btn_w, mfc_tool::ui::MeasureButtonMinWidth(disconnect_btn_)), row_h);
     x += (std::max)(btn_w, mfc_tool::ui::MeasureButtonMinWidth(disconnect_btn_)) + 10;
     x += mfc_tool::ui::PlaceLabel(status_title_, x, y + label_y_pad, label_pad) + gap;
-    mfc_tool::ui::SafeMoveWindow(status_chip_, x, y + 1, 112, row_h - 2);
-    x += 122;
+    mfc_tool::ui::SafeMoveWindow(status_chip_, x, y + dpi.Scale(1), dpi.Scale(112), row_h - dpi.Scale(2));
+    x += dpi.Scale(122);
     mfc_tool::ui::SafeMoveWindow(save_ini_btn_, x, y, btn_w, row_h);
     x += btn_w + gap;
     mfc_tool::ui::SafeMoveWindow(load_ini_btn_, x, y, btn_w, row_h);
@@ -215,36 +270,36 @@ void CMainFrame::LayoutControls(int cx, int cy) {
     x += mfc_tool::ui::PlaceLabel(device_label_, x, y + label_y_pad, label_pad) + gap;
     const int action_w = btn_w * 3 + gap * 2;
     const int combo_w = (std::max)(260, cx - x - action_w - margin - gap);
-    mfc_tool::ui::SafeMoveWindow(device_combo_, x, y, combo_w, row_h + 120);
+    mfc_tool::ui::SafeMoveWindow(device_combo_, x, y, combo_w, row_h + metrics.comboDrop120);
     x += combo_w + gap;
     mfc_tool::ui::SafeMoveWindow(get_info_btn_, x, y, btn_w, row_h);
     x += btn_w + gap;
     mfc_tool::ui::SafeMoveWindow(ping_btn_, x, y, btn_w, row_h);
     x += btn_w + gap;
-    mfc_tool::ui::SafeMoveWindow(reset_mcu_btn_, x, y, btn_w + 8, row_h);
+    mfc_tool::ui::SafeMoveWindow(reset_mcu_btn_, x, y, btn_w + dpi.Scale(8), row_h);
 
     y += row_h + gap;
     x = margin;
     x += mfc_tool::ui::PlaceLabel(ini_path_title_, x, y + label_y_pad, label_pad) + gap;
-    const int build_block_w = 360;
-    mfc_tool::ui::SafeMoveWindow(ini_path_value_, x, y + label_y_pad, (std::max)(120, cx - x - build_block_w - margin), 18);
+    const int build_block_w = dpi.Scale(360);
+    mfc_tool::ui::SafeMoveWindow(ini_path_value_, x, y + label_y_pad, (std::max)(dpi.Scale(120), cx - x - build_block_w - margin), label_h);
     x = (std::max)(margin, cx - build_block_w);
     x += mfc_tool::ui::PlaceLabel(build_info_title_, x, y + label_y_pad, label_pad) + gap;
-    mfc_tool::ui::SafeMoveWindow(build_info_value_, x, y + label_y_pad, cx - x - margin, 18);
+    mfc_tool::ui::SafeMoveWindow(build_info_value_, x, y + label_y_pad, cx - x - margin, label_h);
 
     y += row_h + gap;
     x = margin;
     x += mfc_tool::ui::PlaceLabel(fw_info_title_, x, y + label_y_pad, label_pad) + gap;
-    mfc_tool::ui::SafeMoveWindow(fw_info_value_, x, y + label_y_pad, cx - x - margin, 18);
+    mfc_tool::ui::SafeMoveWindow(fw_info_value_, x, y + label_y_pad, cx - x - margin, label_h);
 
     const int top_h = y + row_h + gap;
     const int log_y = cy - log_h - margin;
     const int log_btn_y = log_y - row_h - gap;
-    mfc_tool::ui::SafeMoveWindow(save_log_check_, margin, log_btn_y + 3, 110, 20);
-    mfc_tool::ui::SafeMoveWindow(save_log_btn_, margin + 116, log_btn_y, btn_w, row_h);
-    mfc_tool::ui::SafeMoveWindow(clear_log_btn_, margin + 116 + btn_w + gap, log_btn_y, btn_w, row_h);
+    mfc_tool::ui::SafeMoveWindow(save_log_check_, margin, log_btn_y + dpi.Scale(3), dpi.Scale(110), metrics.checkbox20);
+    mfc_tool::ui::SafeMoveWindow(save_log_btn_, margin + dpi.Scale(116), log_btn_y, btn_w, row_h);
+    mfc_tool::ui::SafeMoveWindow(clear_log_btn_, margin + dpi.Scale(116) + btn_w + gap, log_btn_y, btn_w, row_h);
     mfc_tool::ui::SafeMoveWindow(log_edit_, margin, log_y, cx - margin * 2, cy - log_y - margin);
-    mfc_tool::ui::SafeMoveWindow(tab_ctrl_, margin, top_h, cx - margin * 2, (std::max)(120, log_btn_y - top_h - gap));
+    mfc_tool::ui::SafeMoveWindow(tab_ctrl_, margin, top_h, cx - margin * 2, (std::max)(dpi.Scale(120), log_btn_y - top_h - gap));
     ShowActiveTabPage();
 }
 
@@ -254,7 +309,10 @@ void CMainFrame::InitializeTabs() {
     tab_ctrl_.InsertItem(1, L"SMBus");
     tab_ctrl_.InsertItem(2, L"I2C");
     tab_ctrl_.InsertItem(3, L"Script");
-    tab_ctrl_.SetItemSize(CSize(96, 24));
+    {
+        const mfc_tool::ui::DpiScaler dpi(current_dpi_ != 0u ? current_dpi_ : mfc_tool::ui::GetDpiForWnd(*this));
+        tab_ctrl_.SetItemSize(CSize(dpi.Scale(96), dpi.Scale(24)));
+    }
     SetScriptTabDirty(script_tab_.HasUnsavedChanges());
     tab_ctrl_.SetCurSel(0);
     ShowActiveTabPage();
@@ -267,7 +325,11 @@ void CMainFrame::ShowActiveTabPage() {
     CRect rc;
     tab_ctrl_.GetClientRect(&rc);
     tab_ctrl_.AdjustRect(FALSE, &rc);
-    rc.DeflateRect(4, 4, 4, 4);
+    {
+        const mfc_tool::ui::DpiScaler dpi(current_dpi_ != 0u ? current_dpi_ : mfc_tool::ui::GetDpiForWnd(*this));
+        const int page_pad = dpi.Scale(4);
+        rc.DeflateRect(page_pad, page_pad, page_pad, page_pad);
+    }
 
     const int sel = tab_ctrl_.GetCurSel();
     mfc_tool::ui::SafeMoveWindow(pmbus_tab_, rc);

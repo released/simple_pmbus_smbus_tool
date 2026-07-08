@@ -12,6 +12,18 @@ After the split, this workspace is back to the same functional scope it had befo
 
 Per-tab screenshots are embedded in the `PMBus`, `SMBus`, `I2C`, and `Script` sections below.
 
+## Display Scaling
+
+This tool is designed and validated with Windows display scaling set to `125%` by default:
+
+- Windows Settings path: `System > Display > Scale & layout`
+- Traditional Chinese UI path: `系統 > 顯示器 > 縮放與配置`
+- Default / recommended scale for this workspace: `125%`
+
+The current GUI layout includes DPI-aware sizing for 100%, 125%, and 150% scale settings. PMBus and SMBus tabs also provide vertical scrolling when the scaled content is taller than the available tab area, so script command lists and response panes remain reachable at 150%.
+
+Implementation notes for keeping other simple-series MFC tools aligned with this behavior are documented in `docs\MFC_DPI_SCALING_GUIDE.md`.
+
 ## Current Scope
 
 - Bridge board: M032 EVB
@@ -607,7 +619,7 @@ This repository intentionally keeps `build\PmbusSmbusHidTool.exe`, `build\pmbus_
 
 - `src\` - MFC app, HID transport, PMBus/SMBus/I2C/Script tabs, app state
 - `scripts\` - MFC build, version, and validation helper scripts
-- `docs\` - PMBus command contract, support matrix, and protocol references
+- `docs\` - PMBus command contract, support matrix, DPI scaling notes, and protocol references
 - `demo_code\` - M032 EVB HID bridge firmware project
 - `build\` - generated PC build output
 - `SELF_CHECK.md` - latest verification record

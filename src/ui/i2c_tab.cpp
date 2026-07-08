@@ -131,7 +131,7 @@ int CI2cTab::OnCreate(LPCREATESTRUCT lpCreateStruct) {
         return -1;
     }
 
-    ui_font_.CreatePointFont(90, L"Segoe UI");
+    (void)mfc_tool::ui::CreatePointFontForWindow(ui_font_, *this, 90);
 
     auto fail = [this](BOOL ok, const wchar_t* name) -> bool {
         if (!ok && log_) {
@@ -238,52 +238,56 @@ void CI2cTab::OnSize(UINT nType, int cx, int cy) {
         return;
     }
 
-    const int margin = 8;
-    const int gap = 6;
-    const int row_h = 26;
-    const int label_y_pad = 4;
-    const int group_top_pad = 22;
-    const int config_h = 104;
-    const int tools_h = 104;
-    const int status_h = (std::max)(90, cy / 5);
-    const int available_w = (std::max)(200, cx - margin * 2);
-    const int half_w = (std::max)(260, (available_w - gap) / 2);
-    const int master_slave_h = (std::max)(132, cy - margin * 5 - config_h - tools_h - status_h);
+    const mfc_tool::ui::DpiScaler dpi = mfc_tool::ui::DpiScaler::FromWindow(*this);
+    const mfc_tool::ui::LayoutMetrics metrics = mfc_tool::ui::MetricsForWindow(*this);
+    const int margin = metrics.margin8;
+    const int gap = metrics.gap;
+    const int row_h = metrics.row26;
+    const int label_y_pad = dpi.Scale(4);
+    const int group_top_pad = metrics.groupTopPad;
+    const int label_pad = dpi.Scale(8);
+    const int label_h = metrics.label18;
+    const int config_h = dpi.Scale(104);
+    const int tools_h = dpi.Scale(104);
+    const int status_h = (std::max)(dpi.Scale(90), cy / 5);
+    const int available_w = (std::max)(dpi.Scale(200), cx - margin * 2);
+    const int half_w = (std::max)(dpi.Scale(260), (available_w - gap) / 2);
+    const int master_slave_h = (std::max)(dpi.Scale(132), cy - margin * 5 - config_h - tools_h - status_h);
     int x;
     int y;
     int right_x;
 
     mfc_tool::ui::SafeMoveWindow(config_group_, margin, margin, available_w, config_h);
-    x = margin + 12;
+    x = margin + dpi.Scale(12);
     y = margin + group_top_pad;
     {
-        const int group_left = margin + 12;
-        const int group_right = margin + available_w - 12;
-        const int port_w = 78;
-        const int addr_w = 70;
-        const int baud_w = 92;
-        const int restart_w = (std::max)(126, mfc_tool::ui::MeasureButtonMinWidth(repeated_start_check_, 8));
+        const int group_left = margin + dpi.Scale(12);
+        const int group_right = margin + available_w - dpi.Scale(12);
+        const int port_w = dpi.Scale(78);
+        const int addr_w = dpi.Scale(70);
+        const int baud_w = dpi.Scale(92);
+        const int restart_w = (std::max)(dpi.Scale(126), mfc_tool::ui::MeasureButtonMinWidth(repeated_start_check_, label_pad));
         const int fixed_w =
-            mfc_tool::ui::MeasureControlTextWidth(port_label_, 8) + gap + port_w + gap +
-            mfc_tool::ui::MeasureControlTextWidth(pins_label_, 8) + gap +
-            mfc_tool::ui::MeasureControlTextWidth(addr_label_, 8) + gap + addr_w + gap +
-            mfc_tool::ui::MeasureControlTextWidth(baud_label_, 8) + gap + baud_w + gap +
+            mfc_tool::ui::MeasureControlTextWidth(port_label_, label_pad) + gap + port_w + gap +
+            mfc_tool::ui::MeasureControlTextWidth(pins_label_, label_pad) + gap +
+            mfc_tool::ui::MeasureControlTextWidth(addr_label_, label_pad) + gap + addr_w + gap +
+            mfc_tool::ui::MeasureControlTextWidth(baud_label_, label_pad) + gap + baud_w + gap +
             restart_w;
-        const int pins_w = (std::max)(180, group_right - group_left - fixed_w);
-        const int master_w = (std::max)(112, mfc_tool::ui::MeasureButtonMinWidth(master_enable_btn_));
-        const int slave_w = (std::max)(104, mfc_tool::ui::MeasureButtonMinWidth(slave_enable_btn_));
-        const int disable_w = (std::max)(78, mfc_tool::ui::MeasureButtonMinWidth(disable_btn_));
+        const int pins_w = (std::max)(dpi.Scale(180), group_right - group_left - fixed_w);
+        const int master_w = (std::max)(dpi.Scale(112), mfc_tool::ui::MeasureButtonMinWidth(master_enable_btn_));
+        const int slave_w = (std::max)(dpi.Scale(104), mfc_tool::ui::MeasureButtonMinWidth(slave_enable_btn_));
+        const int disable_w = (std::max)(dpi.Scale(78), mfc_tool::ui::MeasureButtonMinWidth(disable_btn_));
         const int action_w = master_w + gap + slave_w + gap + disable_w;
         const int action_x = (std::max)(group_left, group_left + ((group_right - group_left) - action_w) / 2);
         int action_y;
 
-        x = mfc_tool::ui::PlaceLabelAndControl(port_label_, port_combo_, x, y + label_y_pad, y, port_w, row_h + 120, gap, 8) + gap;
-        x = mfc_tool::ui::PlaceLabelAndControl(pins_label_, pins_combo_, x, y + label_y_pad, y, pins_w, row_h + 160, gap, 8) + gap;
-        x = mfc_tool::ui::PlaceLabelAndControl(addr_label_, addr_edit_, x, y + label_y_pad, y, addr_w, row_h, gap, 8) + gap;
-        x = mfc_tool::ui::PlaceLabelAndControl(baud_label_, baud_edit_, x, y + label_y_pad, y, baud_w, row_h, gap, 8) + gap;
-        mfc_tool::ui::SafeMoveWindow(repeated_start_check_, x, y + 3, restart_w, 20);
+        x = mfc_tool::ui::PlaceLabelAndControl(port_label_, port_combo_, x, y + label_y_pad, y, port_w, row_h + metrics.comboDrop120, gap, label_pad, label_h) + gap;
+        x = mfc_tool::ui::PlaceLabelAndControl(pins_label_, pins_combo_, x, y + label_y_pad, y, pins_w, row_h + metrics.comboDrop160, gap, label_pad, label_h) + gap;
+        x = mfc_tool::ui::PlaceLabelAndControl(addr_label_, addr_edit_, x, y + label_y_pad, y, addr_w, row_h, gap, label_pad, label_h) + gap;
+        x = mfc_tool::ui::PlaceLabelAndControl(baud_label_, baud_edit_, x, y + label_y_pad, y, baud_w, row_h, gap, label_pad, label_h) + gap;
+        mfc_tool::ui::SafeMoveWindow(repeated_start_check_, x, y + dpi.Scale(3), restart_w, metrics.checkbox20);
 
-        action_y = y + row_h + 8;
+        action_y = y + row_h + dpi.Scale(8);
         x = action_x;
         mfc_tool::ui::SafeMoveWindow(master_enable_btn_, x, action_y, master_w, row_h);
         x += master_w + gap;
@@ -294,69 +298,81 @@ void CI2cTab::OnSize(UINT nType, int cx, int cy) {
 
     y = margin + config_h + gap;
     mfc_tool::ui::SafeMoveWindow(master_group_, margin, y, half_w, master_slave_h);
-    x = margin + 12;
+    x = margin + dpi.Scale(12);
     int gy = y + group_top_pad;
     right_x = margin + half_w + gap;
-    mfc_tool::ui::PlaceLabel(master_tx_label_, x, gy + label_y_pad);
-    mfc_tool::ui::SafeMoveWindow(master_tx_edit_, x + 62, gy, (std::max)(140, half_w - 260), row_h);
-    mfc_tool::ui::PlaceLabel(master_read_label_, x + half_w - 188, gy + label_y_pad);
-    mfc_tool::ui::SafeMoveWindow(master_read_edit_, x + half_w - 118, gy, 58, row_h);
+    mfc_tool::ui::PlaceLabel(master_tx_label_, x, gy + label_y_pad, label_pad, label_h);
+    mfc_tool::ui::SafeMoveWindow(master_tx_edit_, x + dpi.Scale(62), gy, (std::max)(dpi.Scale(140), half_w - dpi.Scale(260)), row_h);
+    mfc_tool::ui::PlaceLabel(master_read_label_, x + half_w - dpi.Scale(188), gy + label_y_pad, label_pad, label_h);
+    mfc_tool::ui::SafeMoveWindow(master_read_edit_, x + half_w - dpi.Scale(118), gy, dpi.Scale(58), row_h);
     gy += row_h + gap;
-    mfc_tool::ui::SafeMoveWindow(master_write_btn_, x, gy, 82, row_h);
-    mfc_tool::ui::SafeMoveWindow(master_read_btn_, x + 88, gy, 82, row_h);
-    mfc_tool::ui::SafeMoveWindow(write_read_btn_, x + 176, gy, 132, row_h);
+    mfc_tool::ui::SafeMoveWindow(master_write_btn_, x, gy, (std::max)(dpi.Scale(82), mfc_tool::ui::MeasureButtonMinWidth(master_write_btn_)), row_h);
+    mfc_tool::ui::SafeMoveWindow(master_read_btn_, x + dpi.Scale(88), gy, (std::max)(dpi.Scale(82), mfc_tool::ui::MeasureButtonMinWidth(master_read_btn_)), row_h);
+    mfc_tool::ui::SafeMoveWindow(write_read_btn_, x + dpi.Scale(176), gy, (std::max)(dpi.Scale(132), mfc_tool::ui::MeasureButtonMinWidth(write_read_btn_)), row_h);
     gy += row_h + gap;
-    mfc_tool::ui::PlaceLabel(master_rx_label_, x, gy + label_y_pad);
-    gy += 20;
-    mfc_tool::ui::SafeMoveWindow(master_rx_edit_, x, gy, half_w - 24, (std::max)(50, y + master_slave_h - gy - 10));
+    mfc_tool::ui::PlaceLabel(master_rx_label_, x, gy + label_y_pad, label_pad, label_h);
+    gy += metrics.checkbox20;
+    mfc_tool::ui::SafeMoveWindow(master_rx_edit_, x, gy, half_w - dpi.Scale(24), (std::max)(dpi.Scale(50), y + master_slave_h - gy - dpi.Scale(10)));
 
     mfc_tool::ui::SafeMoveWindow(slave_group_, right_x, y, available_w - half_w - gap, master_slave_h);
-    x = right_x + 12;
+    x = right_x + dpi.Scale(12);
     gy = y + group_top_pad;
     const int slave_w = available_w - half_w - gap;
-    mfc_tool::ui::PlaceLabel(slave_tx_label_, x, gy + label_y_pad);
-    mfc_tool::ui::SafeMoveWindow(slave_tx_edit_, x + 62, gy, (std::max)(140, slave_w - 260), row_h);
-    mfc_tool::ui::PlaceLabel(slave_rx_max_label_, x + slave_w - 188, gy + label_y_pad);
-    mfc_tool::ui::SafeMoveWindow(slave_rx_max_edit_, x + slave_w - 118, gy, 58, row_h);
+    mfc_tool::ui::PlaceLabel(slave_tx_label_, x, gy + label_y_pad, label_pad, label_h);
+    mfc_tool::ui::SafeMoveWindow(slave_tx_edit_, x + dpi.Scale(62), gy, (std::max)(dpi.Scale(140), slave_w - dpi.Scale(260)), row_h);
+    mfc_tool::ui::PlaceLabel(slave_rx_max_label_, x + slave_w - dpi.Scale(188), gy + label_y_pad, label_pad, label_h);
+    mfc_tool::ui::SafeMoveWindow(slave_rx_max_edit_, x + slave_w - dpi.Scale(118), gy, dpi.Scale(58), row_h);
     gy += row_h + gap;
-    mfc_tool::ui::SafeMoveWindow(slave_set_tx_btn_, x, gy, 82, row_h);
-    mfc_tool::ui::SafeMoveWindow(slave_get_rx_btn_, x + 88, gy, 82, row_h);
+    mfc_tool::ui::SafeMoveWindow(slave_set_tx_btn_, x, gy, (std::max)(dpi.Scale(82), mfc_tool::ui::MeasureButtonMinWidth(slave_set_tx_btn_)), row_h);
+    mfc_tool::ui::SafeMoveWindow(slave_get_rx_btn_, x + dpi.Scale(88), gy, (std::max)(dpi.Scale(82), mfc_tool::ui::MeasureButtonMinWidth(slave_get_rx_btn_)), row_h);
     gy += row_h + gap;
-    mfc_tool::ui::PlaceLabel(slave_rx_label_, x, gy + label_y_pad);
-    gy += 20;
-    mfc_tool::ui::SafeMoveWindow(slave_rx_edit_, x, gy, slave_w - 24, (std::max)(50, y + master_slave_h - gy - 10));
+    mfc_tool::ui::PlaceLabel(slave_rx_label_, x, gy + label_y_pad, label_pad, label_h);
+    gy += metrics.checkbox20;
+    mfc_tool::ui::SafeMoveWindow(slave_rx_edit_, x, gy, slave_w - dpi.Scale(24), (std::max)(dpi.Scale(50), y + master_slave_h - gy - dpi.Scale(10)));
 
     y += master_slave_h + gap;
     mfc_tool::ui::SafeMoveWindow(tools_group_, margin, y, available_w, tools_h);
-    x = margin + 12;
+    x = margin + dpi.Scale(12);
     gy = y + group_top_pad;
-    x = mfc_tool::ui::PlaceLabelAndControl(monitor_label_, monitor_edit_, x, gy + label_y_pad, gy, 70, row_h, gap, 8) + gap;
-    mfc_tool::ui::SafeMoveWindow(monitor_start_btn_, x, gy, 70, row_h);
-    x += 76;
-    mfc_tool::ui::SafeMoveWindow(monitor_stop_btn_, x, gy, 70, row_h);
-    x += 86;
-    x = mfc_tool::ui::PlaceLabelAndControl(interval_label_, interval_edit_, x, gy + label_y_pad, gy, 58, row_h, gap, 8) + gap;
-    mfc_tool::ui::SafeMoveWindow(interval_start_btn_, x, gy, 70, row_h);
-    x += 76;
-    mfc_tool::ui::SafeMoveWindow(interval_stop_btn_, x, gy, 70, row_h);
+    x = mfc_tool::ui::PlaceLabelAndControl(monitor_label_, monitor_edit_, x, gy + label_y_pad, gy, dpi.Scale(70), row_h, gap, label_pad, label_h) + gap;
+    mfc_tool::ui::SafeMoveWindow(monitor_start_btn_, x, gy, (std::max)(dpi.Scale(70), mfc_tool::ui::MeasureButtonMinWidth(monitor_start_btn_)), row_h);
+    x += dpi.Scale(76);
+    mfc_tool::ui::SafeMoveWindow(monitor_stop_btn_, x, gy, (std::max)(dpi.Scale(70), mfc_tool::ui::MeasureButtonMinWidth(monitor_stop_btn_)), row_h);
+    x += dpi.Scale(86);
+    x = mfc_tool::ui::PlaceLabelAndControl(interval_label_, interval_edit_, x, gy + label_y_pad, gy, dpi.Scale(58), row_h, gap, label_pad, label_h) + gap;
+    mfc_tool::ui::SafeMoveWindow(interval_start_btn_, x, gy, (std::max)(dpi.Scale(70), mfc_tool::ui::MeasureButtonMinWidth(interval_start_btn_)), row_h);
+    x += dpi.Scale(76);
+    mfc_tool::ui::SafeMoveWindow(interval_stop_btn_, x, gy, (std::max)(dpi.Scale(70), mfc_tool::ui::MeasureButtonMinWidth(interval_stop_btn_)), row_h);
 
-    x = margin + 12;
+    x = margin + dpi.Scale(12);
     gy += row_h + gap;
-    x = mfc_tool::ui::PlaceLabelAndControl(target_label_, target_combo_, x, gy + label_y_pad, gy, 110, row_h + 80, gap, 8) + gap;
-    x = mfc_tool::ui::PlaceLabelAndControl(gen_len_label_, gen_len_edit_, x, gy + label_y_pad, gy, 58, row_h, gap, 8) + gap;
-    x = mfc_tool::ui::PlaceLabelAndControl(gen_start_label_, gen_start_edit_, x, gy + label_y_pad, gy, 70, row_h, gap, 8) + gap;
-    x = mfc_tool::ui::PlaceLabelAndControl(gen_step_label_, gen_step_edit_, x, gy + label_y_pad, gy, 58, row_h, gap, 8) + gap;
-    mfc_tool::ui::SafeMoveWindow(gen_btn_, x, gy, 86, row_h);
-    x += 100;
-    mfc_tool::ui::SafeMoveWindow(counter_check_, x, gy + 3, 88, 20);
-    x += 96;
-    x = mfc_tool::ui::PlaceLabelAndControl(counter_idx_label_, counter_idx_edit_, x, gy + label_y_pad, gy, 58, row_h, gap, 8) + gap;
-    x = mfc_tool::ui::PlaceLabelAndControl(counter_step_label_, counter_step_edit_, x, gy + label_y_pad, gy, 58, row_h, gap, 8) + gap;
-    mfc_tool::ui::SafeMoveWindow(counter_reset_btn_, x, gy, 70, row_h);
+    x = mfc_tool::ui::PlaceLabelAndControl(target_label_, target_combo_, x, gy + label_y_pad, gy, dpi.Scale(110), row_h + dpi.Scale(80), gap, label_pad, label_h) + gap;
+    x = mfc_tool::ui::PlaceLabelAndControl(gen_len_label_, gen_len_edit_, x, gy + label_y_pad, gy, dpi.Scale(58), row_h, gap, label_pad, label_h) + gap;
+    x = mfc_tool::ui::PlaceLabelAndControl(gen_start_label_, gen_start_edit_, x, gy + label_y_pad, gy, dpi.Scale(70), row_h, gap, label_pad, label_h) + gap;
+    x = mfc_tool::ui::PlaceLabelAndControl(gen_step_label_, gen_step_edit_, x, gy + label_y_pad, gy, dpi.Scale(58), row_h, gap, label_pad, label_h) + gap;
+    mfc_tool::ui::SafeMoveWindow(gen_btn_, x, gy, (std::max)(dpi.Scale(86), mfc_tool::ui::MeasureButtonMinWidth(gen_btn_)), row_h);
+    x += dpi.Scale(100);
+    mfc_tool::ui::SafeMoveWindow(counter_check_, x, gy + dpi.Scale(3), dpi.Scale(88), metrics.checkbox20);
+    x += dpi.Scale(96);
+    x = mfc_tool::ui::PlaceLabelAndControl(counter_idx_label_, counter_idx_edit_, x, gy + label_y_pad, gy, dpi.Scale(58), row_h, gap, label_pad, label_h) + gap;
+    x = mfc_tool::ui::PlaceLabelAndControl(counter_step_label_, counter_step_edit_, x, gy + label_y_pad, gy, dpi.Scale(58), row_h, gap, label_pad, label_h) + gap;
+    mfc_tool::ui::SafeMoveWindow(counter_reset_btn_, x, gy, (std::max)(dpi.Scale(70), mfc_tool::ui::MeasureButtonMinWidth(counter_reset_btn_)), row_h);
 
     y += tools_h + gap;
-    mfc_tool::ui::SafeMoveWindow(status_group_, margin, y, available_w, (std::max)(60, cy - y - margin));
-    mfc_tool::ui::SafeMoveWindow(status_edit_, margin + 12, y + group_top_pad, available_w - 24, (std::max)(34, cy - y - margin - group_top_pad - 8));
+    mfc_tool::ui::SafeMoveWindow(status_group_, margin, y, available_w, (std::max)(dpi.Scale(60), cy - y - margin));
+    mfc_tool::ui::SafeMoveWindow(status_edit_, margin + dpi.Scale(12), y + group_top_pad, available_w - dpi.Scale(24), (std::max)(dpi.Scale(34), cy - y - margin - group_top_pad - dpi.Scale(8)));
+}
+
+void CI2cTab::RefreshDpiLayout() {
+    if (!::IsWindow(GetSafeHwnd())) {
+        return;
+    }
+    (void)mfc_tool::ui::CreatePointFontForWindow(ui_font_, *this, 90);
+    mfc_tool::ui::ApplyFontToChildWindows(*this, ui_font_, FALSE);
+    CRect page;
+    GetClientRect(&page);
+    OnSize(SIZE_RESTORED, page.Width(), page.Height());
+    RedrawWindow(nullptr, nullptr, RDW_INVALIDATE | RDW_ALLCHILDREN);
 }
 
 void CI2cTab::SetConnected(bool connected) {

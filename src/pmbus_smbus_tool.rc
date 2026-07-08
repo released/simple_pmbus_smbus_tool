@@ -4,8 +4,8 @@
 IDR_MAINFRAME ICON "res\\p_tool.ico"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,247
- PRODUCTVERSION 1,0,0,247
+ FILEVERSION 1,0,0,253
+ PRODUCTVERSION 1,0,0,253
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS VS_FF_DEBUG
@@ -22,11 +22,11 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "PMBus SMBus HID Tool Team\0"
             VALUE "FileDescription", "PMBus SMBus HID Tool\0"
-            VALUE "FileVersion", "1.0.0.247\0"
+            VALUE "FileVersion", "1.0.0.253\0"
             VALUE "InternalName", "PmbusSmbusHidTool.exe\0"
             VALUE "OriginalFilename", "PmbusSmbusHidTool.exe\0"
             VALUE "ProductName", "PMBus SMBus HID Tool\0"
-            VALUE "ProductVersion", "1.0.0.247\0"
+            VALUE "ProductVersion", "1.0.0.253\0"
         END
     END
     BLOCK "VarFileInfo"

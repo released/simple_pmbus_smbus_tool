@@ -62,6 +62,7 @@ public:
               std::function<void()> persist_settings = nullptr);
     void SetConnected(bool connected);
     void OnDisconnected();
+    void RefreshDpiLayout();
 
     void LoadState(const mfc_tool::core::AppState& state);
     void SaveState(mfc_tool::core::AppState* state) const;
@@ -69,6 +70,8 @@ public:
 protected:
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
     afx_msg void OnSize(UINT nType, int cx, int cy);
+    afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+    afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
     afx_msg void OnMasterEnable();
     afx_msg void OnMasterDisable();
     afx_msg void OnMasterPortChanged();
@@ -86,6 +89,10 @@ protected:
     DECLARE_MESSAGE_MAP()
 
 private:
+    int CalculateVirtualContentHeight(int client_height) const;
+    void ScrollToOffset(int next_offset);
+    void LayoutScrolledContent();
+    void UpdateVerticalScroll(const CRect& client);
     void LayoutControls(const CRect& r);
     void UpdateEnableState();
     void RefreshPinUsage();
@@ -162,6 +169,8 @@ private:
     mfc_tool::core::SmbusScriptDocument script_doc_;
 
     CFont ui_font_;
+    int scroll_offset_ = 0;
+    int virtual_content_height_ = 0;
     CButton master_group_;
     CStatic profile_label_;
     CComboBox profile_combo_;

@@ -151,7 +151,7 @@ int CScriptTab::OnCreate(LPCREATESTRUCT lpCreateStruct) {
         return -1;
     }
 
-    ui_font_.CreatePointFont(90, L"Segoe UI");
+    (void)mfc_tool::ui::CreatePointFontForWindow(ui_font_, *this, 90);
     path_label_.Create(L"Path", WS_CHILD | WS_VISIBLE, CRect(), this);
     path_edit_.Create(WS_CHILD | WS_VISIBLE | WS_BORDER | ES_AUTOHSCROLL | ES_READONLY, CRect(), this, IDC_SCRIPT_PATH);
     dirty_label_.Create(L"Unsaved changes", WS_CHILD, CRect(), this);
@@ -162,16 +162,19 @@ int CScriptTab::OnCreate(LPCREATESTRUCT lpCreateStruct) {
 
     list_.Create(WS_CHILD | WS_VISIBLE | WS_BORDER | LVS_REPORT | LVS_SINGLESEL, CRect(), this, IDC_SCRIPT_LIST);
     list_.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_CHECKBOXES);
-    list_.InsertColumn(0, L"#", LVCFMT_RIGHT, 46);
-    list_.InsertColumn(1, L"Profile", LVCFMT_LEFT, 136);
-    list_.InsertColumn(2, L"Type", LVCFMT_LEFT, 132);
-    list_.InsertColumn(3, L"Addr", LVCFMT_LEFT, 66);
-    list_.InsertColumn(4, L"Reg", LVCFMT_LEFT, 66);
-    list_.InsertColumn(5, L"Data", LVCFMT_LEFT, 160);
-    list_.InsertColumn(6, L"Read", LVCFMT_RIGHT, 50);
-    list_.InsertColumn(7, L"Delay", LVCFMT_RIGHT, 56);
-    list_.InsertColumn(8, L"PEC", LVCFMT_LEFT, 42);
-    list_.InsertColumn(9, L"Summary", LVCFMT_LEFT, 360);
+    {
+        const mfc_tool::ui::DpiScaler dpi = mfc_tool::ui::DpiScaler::FromWindow(*this);
+        list_.InsertColumn(0, L"#", LVCFMT_RIGHT, dpi.Scale(46));
+        list_.InsertColumn(1, L"Profile", LVCFMT_LEFT, dpi.Scale(136));
+        list_.InsertColumn(2, L"Type", LVCFMT_LEFT, dpi.Scale(132));
+        list_.InsertColumn(3, L"Addr", LVCFMT_LEFT, dpi.Scale(66));
+        list_.InsertColumn(4, L"Reg", LVCFMT_LEFT, dpi.Scale(66));
+        list_.InsertColumn(5, L"Data", LVCFMT_LEFT, dpi.Scale(160));
+        list_.InsertColumn(6, L"Read", LVCFMT_RIGHT, dpi.Scale(50));
+        list_.InsertColumn(7, L"Delay", LVCFMT_RIGHT, dpi.Scale(56));
+        list_.InsertColumn(8, L"PEC", LVCFMT_LEFT, dpi.Scale(42));
+        list_.InsertColumn(9, L"Summary", LVCFMT_LEFT, dpi.Scale(360));
+    }
 
     profile_label_.Create(L"Profile", WS_CHILD | WS_VISIBLE, CRect(), this);
     profile_combo_.Create(WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_VSCROLL | CBS_DROPDOWNLIST, CRect(), this, IDC_SCRIPT_PROFILE);
@@ -237,10 +240,26 @@ void CScriptTab::OnSize(UINT nType, int cx, int cy) {
     }
 }
 
+void CScriptTab::RefreshDpiLayout() {
+    if (!::IsWindow(GetSafeHwnd())) {
+        return;
+    }
+    (void)mfc_tool::ui::CreatePointFontForWindow(ui_font_, *this, 90);
+    SetChildFonts();
+    CRect page;
+    GetClientRect(&page);
+    LayoutControls(page);
+    RedrawWindow(nullptr, nullptr, RDW_INVALIDATE | RDW_ALLCHILDREN);
+}
+
 void CScriptTab::LayoutControls(const CRect& r) {
-    const int margin = 8;
-    const int gap = 6;
-    const int row = 24;
+    const mfc_tool::ui::DpiScaler dpi = mfc_tool::ui::DpiScaler::FromWindow(*this);
+    const mfc_tool::ui::LayoutMetrics metrics = mfc_tool::ui::MetricsForWindow(*this);
+    const int margin = metrics.margin8;
+    const int gap = metrics.gap;
+    const int row = metrics.row24;
+    const int label_h = metrics.label18;
+    const int label_y_pad = dpi.Scale(4);
     const int left = r.left + margin;
     const int right = r.right - margin;
     const int top = r.top + margin;
@@ -249,21 +268,21 @@ void CScriptTab::LayoutControls(const CRect& r) {
     const int edit2_y = bottom_buttons_y - row - gap;
     const int edit1_y = edit2_y - row - gap;
     const int list_y = top + row + gap;
-    const int list_h = (std::max)(120, edit1_y - gap - list_y);
-    const int load_w = 70;
-    const int save_w = 70;
-    const int save_as_w = 86;
-    const int dirty_w = (std::max)(128, mfc_tool::ui::MeasureTextWidth(*this, L"Unsaved changes", 12));
-    const int pec_check_w = (std::max)(58, mfc_tool::ui::MeasureButtonMinWidth(pec_check_, 16));
-    const int calc_pec_w = 86;
-    const int pec_label_w = 28;
+    const int list_h = (std::max)(dpi.Scale(120), edit1_y - gap - list_y);
+    const int load_w = (std::max)(dpi.Scale(70), mfc_tool::ui::MeasureButtonMinWidth(load_btn_));
+    const int save_w = (std::max)(dpi.Scale(70), mfc_tool::ui::MeasureButtonMinWidth(save_btn_));
+    const int save_as_w = (std::max)(dpi.Scale(86), mfc_tool::ui::MeasureButtonMinWidth(save_as_btn_));
+    const int dirty_w = (std::max)(dpi.Scale(128), mfc_tool::ui::MeasureTextWidth(*this, L"Unsaved changes", dpi.Scale(12)));
+    const int pec_check_w = (std::max)(dpi.Scale(58), mfc_tool::ui::MeasureButtonMinWidth(pec_check_, dpi.Scale(16)));
+    const int calc_pec_w = (std::max)(dpi.Scale(86), mfc_tool::ui::MeasureButtonMinWidth(calc_pec_btn_));
+    const int pec_label_w = dpi.Scale(28);
     int x = left;
 
-    mfc_tool::ui::SafeMoveWindow(path_label_, x, top + 4, 38, 18);
-    x += 38 + gap;
-    mfc_tool::ui::SafeMoveWindow(path_edit_, x, top, (std::max)(120, right - x - dirty_w - load_w - save_w - save_as_w - gap * 4), row);
-    x += (std::max)(120, right - x - dirty_w - load_w - save_w - save_as_w - gap * 4) + gap;
-    mfc_tool::ui::SafeMoveWindow(dirty_label_, x, top + 4, dirty_w, 18);
+    mfc_tool::ui::SafeMoveWindow(path_label_, x, top + label_y_pad, dpi.Scale(38), label_h);
+    x += dpi.Scale(38) + gap;
+    mfc_tool::ui::SafeMoveWindow(path_edit_, x, top, (std::max)(dpi.Scale(120), right - x - dirty_w - load_w - save_w - save_as_w - gap * 4), row);
+    x += (std::max)(dpi.Scale(120), right - x - dirty_w - load_w - save_w - save_as_w - gap * 4) + gap;
+    mfc_tool::ui::SafeMoveWindow(dirty_label_, x, top + label_y_pad, dirty_w, label_h);
     x = right - load_w - save_w - save_as_w - gap * 2;
     mfc_tool::ui::SafeMoveWindow(load_btn_, x, top, load_w, row);
     x += load_w + gap;
@@ -274,70 +293,78 @@ void CScriptTab::LayoutControls(const CRect& r) {
     mfc_tool::ui::SafeMoveWindow(list_, left, list_y, right - left, list_h);
 
     x = left;
-    mfc_tool::ui::SafeMoveWindow(profile_label_, x, edit1_y + 4, 48, 18);
-    x += 48 + gap;
-    mfc_tool::ui::SafeMoveWindow(profile_combo_, x, edit1_y, 170, 300);
-    x += 170 + gap;
-    mfc_tool::ui::SafeMoveWindow(type_label_, x, edit1_y + 4, 34, 18);
-    x += 34 + gap;
-    mfc_tool::ui::SafeMoveWindow(type_combo_, x, edit1_y, 214, 300);
-    x += 214 + gap;
-    mfc_tool::ui::SafeMoveWindow(addr_label_, x, edit1_y + 4, 36, 18);
-    x += 36 + gap;
-    mfc_tool::ui::SafeMoveWindow(addr_edit_, x, edit1_y, 72, row);
-    x += 72 + gap;
-    mfc_tool::ui::SafeMoveWindow(reg_label_, x, edit1_y + 4, 28, 18);
-    x += 28 + gap;
-    mfc_tool::ui::SafeMoveWindow(reg_edit_, x, edit1_y, 72, row);
-    x += 72 + gap;
-    mfc_tool::ui::SafeMoveWindow(read_len_label_, x, edit1_y + 4, 36, 18);
-    x += 36 + gap;
-    mfc_tool::ui::SafeMoveWindow(read_len_edit_, x, edit1_y, 54, row);
-    x += 54 + gap;
+    mfc_tool::ui::SafeMoveWindow(profile_label_, x, edit1_y + label_y_pad, dpi.Scale(48), label_h);
+    x += dpi.Scale(48) + gap;
+    mfc_tool::ui::SafeMoveWindow(profile_combo_, x, edit1_y, dpi.Scale(170), metrics.comboDrop300);
+    x += dpi.Scale(170) + gap;
+    mfc_tool::ui::SafeMoveWindow(type_label_, x, edit1_y + label_y_pad, dpi.Scale(34), label_h);
+    x += dpi.Scale(34) + gap;
+    mfc_tool::ui::SafeMoveWindow(type_combo_, x, edit1_y, dpi.Scale(214), metrics.comboDrop300);
+    x += dpi.Scale(214) + gap;
+    mfc_tool::ui::SafeMoveWindow(addr_label_, x, edit1_y + label_y_pad, dpi.Scale(36), label_h);
+    x += dpi.Scale(36) + gap;
+    mfc_tool::ui::SafeMoveWindow(addr_edit_, x, edit1_y, dpi.Scale(72), row);
+    x += dpi.Scale(72) + gap;
+    mfc_tool::ui::SafeMoveWindow(reg_label_, x, edit1_y + label_y_pad, dpi.Scale(28), label_h);
+    x += dpi.Scale(28) + gap;
+    mfc_tool::ui::SafeMoveWindow(reg_edit_, x, edit1_y, dpi.Scale(72), row);
+    x += dpi.Scale(72) + gap;
+    mfc_tool::ui::SafeMoveWindow(read_len_label_, x, edit1_y + label_y_pad, dpi.Scale(36), label_h);
+    x += dpi.Scale(36) + gap;
+    mfc_tool::ui::SafeMoveWindow(read_len_edit_, x, edit1_y, dpi.Scale(54), row);
+    x += dpi.Scale(54) + gap;
     {
-        const int delay_label_w = (std::max)(42, mfc_tool::ui::MeasureControlTextWidth(delay_label_, 8));
-        mfc_tool::ui::SafeMoveWindow(delay_label_, x, edit1_y + 4, delay_label_w, 18);
+        const int delay_label_w = (std::max)(dpi.Scale(42), mfc_tool::ui::MeasureControlTextWidth(delay_label_, dpi.Scale(8)));
+        mfc_tool::ui::SafeMoveWindow(delay_label_, x, edit1_y + label_y_pad, delay_label_w, label_h);
         x += delay_label_w + gap;
     }
-    mfc_tool::ui::SafeMoveWindow(delay_edit_, x, edit1_y, 58, row);
+    mfc_tool::ui::SafeMoveWindow(delay_edit_, x, edit1_y, dpi.Scale(58), row);
 
     x = left;
     {
-        const int data_label_w = (std::max)(64, mfc_tool::ui::MeasureControlTextWidth(data_label_, 8));
-        mfc_tool::ui::SafeMoveWindow(data_label_, x, edit2_y + 4, data_label_w, 18);
+        const int data_label_w = (std::max)(dpi.Scale(64), mfc_tool::ui::MeasureControlTextWidth(data_label_, dpi.Scale(8)));
+        mfc_tool::ui::SafeMoveWindow(data_label_, x, edit2_y + label_y_pad, data_label_w, label_h);
         x += data_label_w + gap;
     }
     {
-        const int min_pec_text_w = 100;
+        const int min_pec_text_w = dpi.Scale(100);
         const int tools_w = pec_check_w + gap + calc_pec_w + gap + pec_label_w + gap + min_pec_text_w;
         const int available_w = (std::max)(0, right - x);
         int data_w = available_w - tools_w - gap;
-        if (data_w < 140) {
-            data_w = (std::max)(80, available_w / 2);
+        if (data_w < dpi.Scale(140)) {
+            data_w = (std::max)(dpi.Scale(80), available_w / 2);
         }
         mfc_tool::ui::SafeMoveWindow(data_edit_, x, edit2_y, data_w, row);
         x += data_w + gap;
     }
-    mfc_tool::ui::SafeMoveWindow(pec_check_, x, edit2_y + 2, pec_check_w, row);
+    mfc_tool::ui::SafeMoveWindow(pec_check_, x, edit2_y + dpi.Scale(2), pec_check_w, row);
     x += pec_check_w + gap;
     mfc_tool::ui::SafeMoveWindow(calc_pec_btn_, x, edit2_y, calc_pec_w, row);
     x += calc_pec_w + gap;
-    mfc_tool::ui::SafeMoveWindow(pec_label_, x, edit2_y + 4, pec_label_w, 18);
+    mfc_tool::ui::SafeMoveWindow(pec_label_, x, edit2_y + label_y_pad, pec_label_w, label_h);
     x += pec_label_w + gap;
-    mfc_tool::ui::SafeMoveWindow(pec_edit_, x, edit2_y, (std::max)(60, right - x), row);
+    mfc_tool::ui::SafeMoveWindow(pec_edit_, x, edit2_y, (std::max)(dpi.Scale(60), right - x), row);
 
     x = left;
-    mfc_tool::ui::SafeMoveWindow(select_all_btn_, x, bottom_buttons_y + 2, 96, row);
-    x += 96 + gap;
-    mfc_tool::ui::SafeMoveWindow(add_btn_, x, bottom_buttons_y, 66, row);
-    x += 66 + gap;
-    mfc_tool::ui::SafeMoveWindow(update_btn_, x, bottom_buttons_y, 76, row);
-    x += 76 + gap;
-    mfc_tool::ui::SafeMoveWindow(delete_btn_, x, bottom_buttons_y, 76, row);
-    x += 76 + gap;
-    mfc_tool::ui::SafeMoveWindow(up_btn_, x, bottom_buttons_y, 58, row);
-    x += 58 + gap;
-    mfc_tool::ui::SafeMoveWindow(down_btn_, x, bottom_buttons_y, 70, row);
+    {
+        const int select_w = (std::max)(dpi.Scale(96), mfc_tool::ui::MeasureButtonMinWidth(select_all_btn_));
+        const int add_w = (std::max)(dpi.Scale(66), mfc_tool::ui::MeasureButtonMinWidth(add_btn_));
+        const int update_w = (std::max)(dpi.Scale(76), mfc_tool::ui::MeasureButtonMinWidth(update_btn_));
+        const int delete_w = (std::max)(dpi.Scale(76), mfc_tool::ui::MeasureButtonMinWidth(delete_btn_));
+        const int up_w = (std::max)(dpi.Scale(58), mfc_tool::ui::MeasureButtonMinWidth(up_btn_));
+        const int down_w = (std::max)(dpi.Scale(70), mfc_tool::ui::MeasureButtonMinWidth(down_btn_));
+        mfc_tool::ui::SafeMoveWindow(select_all_btn_, x, bottom_buttons_y + dpi.Scale(2), select_w, row);
+        x += select_w + gap;
+        mfc_tool::ui::SafeMoveWindow(add_btn_, x, bottom_buttons_y, add_w, row);
+        x += add_w + gap;
+        mfc_tool::ui::SafeMoveWindow(update_btn_, x, bottom_buttons_y, update_w, row);
+        x += update_w + gap;
+        mfc_tool::ui::SafeMoveWindow(delete_btn_, x, bottom_buttons_y, delete_w, row);
+        x += delete_w + gap;
+        mfc_tool::ui::SafeMoveWindow(up_btn_, x, bottom_buttons_y, up_w, row);
+        x += up_w + gap;
+        mfc_tool::ui::SafeMoveWindow(down_btn_, x, bottom_buttons_y, down_w, row);
+    }
 }
 
 void CScriptTab::PopulateProfileCombo() {

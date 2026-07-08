@@ -11,6 +11,106 @@
 
 namespace mfc_tool::ui {
 
+inline UINT GetDpiForHwnd(HWND hwnd) {
+    using GetDpiForWindowFn = UINT(WINAPI*)(HWND);
+    static const GetDpiForWindowFn get_dpi_for_window =
+        reinterpret_cast<GetDpiForWindowFn>(::GetProcAddress(::GetModuleHandleW(L"user32.dll"), "GetDpiForWindow"));
+
+    if (get_dpi_for_window != nullptr && hwnd != nullptr) {
+        const UINT dpi = get_dpi_for_window(hwnd);
+        if (dpi != 0u) {
+            return dpi;
+        }
+    }
+
+    HDC dc = ::GetDC(hwnd != nullptr ? hwnd : nullptr);
+    int dpi = 96;
+    if (dc != nullptr) {
+        dpi = ::GetDeviceCaps(dc, LOGPIXELSX);
+        ::ReleaseDC(hwnd != nullptr ? hwnd : nullptr, dc);
+    }
+    return dpi > 0 ? static_cast<UINT>(dpi) : 96u;
+}
+
+inline UINT GetDpiForWnd(const CWnd& wnd) {
+    return GetDpiForHwnd(wnd.GetSafeHwnd());
+}
+
+class DpiScaler {
+public:
+    explicit DpiScaler(UINT dpi = 96u) : dpi_(dpi != 0u ? dpi : 96u) {}
+
+    static DpiScaler FromWindow(const CWnd& wnd) {
+        return DpiScaler(GetDpiForWnd(wnd));
+    }
+
+    [[nodiscard]] UINT Dpi() const noexcept {
+        return dpi_;
+    }
+
+    [[nodiscard]] int Scale(int value) const noexcept {
+        return ::MulDiv(value, static_cast<int>(dpi_), 96);
+    }
+
+    [[nodiscard]] int ScaleAtLeast(int value, int minimum) const noexcept {
+        return (std::max)(Scale(value), minimum);
+    }
+
+private:
+    UINT dpi_;
+};
+
+struct LayoutMetrics {
+    int margin6;
+    int margin8;
+    int gap;
+    int row24;
+    int row26;
+    int label18;
+    int checkbox20;
+    int groupTopPad;
+    int comboDrop120;
+    int comboDrop160;
+    int comboDrop300;
+};
+
+inline LayoutMetrics MetricsForWindow(const CWnd& wnd) {
+    const DpiScaler dpi = DpiScaler::FromWindow(wnd);
+    LayoutMetrics m = {};
+    m.margin6 = dpi.Scale(6);
+    m.margin8 = dpi.Scale(8);
+    m.gap = dpi.Scale(6);
+    m.row24 = dpi.Scale(24);
+    m.row26 = dpi.Scale(26);
+    m.label18 = dpi.Scale(18);
+    m.checkbox20 = dpi.Scale(20);
+    m.groupTopPad = dpi.Scale(22);
+    m.comboDrop120 = dpi.Scale(120);
+    m.comboDrop160 = dpi.Scale(160);
+    m.comboDrop300 = dpi.Scale(300);
+    return m;
+}
+
+inline BOOL CreatePointFontForWindow(CFont& font, CWnd& wnd, int point_tenths, const wchar_t* face = L"Segoe UI") {
+    font.DeleteObject();
+    if (::IsWindow(wnd.GetSafeHwnd())) {
+        CClientDC dc(&wnd);
+        return font.CreatePointFont(point_tenths, face, &dc);
+    }
+    return font.CreatePointFont(point_tenths, face);
+}
+
+inline void ApplyFontToChildWindows(CWnd& wnd, CFont& font, BOOL redraw = FALSE) {
+    if (!::IsWindow(wnd.GetSafeHwnd())) {
+        return;
+    }
+    wnd.SendMessageToDescendants(WM_SETFONT,
+                                 reinterpret_cast<WPARAM>(font.GetSafeHandle()),
+                                 static_cast<LPARAM>(redraw),
+                                 TRUE,
+                                 FALSE);
+}
+
 inline int MeasureTextWidth(CWnd& wnd, const std::wstring& text, int padding = 8) {
     if (!::IsWindow(wnd.GetSafeHwnd())) {
         return static_cast<int>(text.size()) * 8 + padding;

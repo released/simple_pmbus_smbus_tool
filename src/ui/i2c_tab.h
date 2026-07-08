@@ -23,6 +23,7 @@ public:
               mfc_tool::core::PinUsageRegistry* pin_usage);
     void SetConnected(bool connected);
     void OnDisconnected();
+    void RefreshDpiLayout();
 
     void LoadState(const mfc_tool::core::AppState& state);
     void SaveState(mfc_tool::core::AppState* state) const;

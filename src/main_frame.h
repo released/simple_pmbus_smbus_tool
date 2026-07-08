@@ -25,6 +25,8 @@ protected:
     BOOL PreCreateWindow(CREATESTRUCT& cs) override;
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
     afx_msg void OnSize(UINT nType, int cx, int cy);
+    afx_msg LRESULT OnDpiChanged(WPARAM wParam, LPARAM lParam);
+    afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
     afx_msg void OnTabSelChange(NMHDR* pNMHDR, LRESULT* pResult);
     afx_msg void OnBnClickedRefresh();
     afx_msg void OnBnClickedConnect();
@@ -44,6 +46,8 @@ protected:
     DECLARE_MESSAGE_MAP()
 
 private:
+    void RecreateUiFont();
+    void ApplyTopControlFont();
     void LayoutControls(int cx, int cy);
     void InitializeTabs();
     void ShowActiveTabPage();
@@ -74,6 +78,7 @@ private:
 
 private:
     CFont ui_font_;
+    UINT current_dpi_ = 96u;
     CBrush status_chip_brush_;
     COLORREF status_chip_color_ = RGB(95, 104, 117);
     COLORREF status_chip_text_color_ = RGB(255, 255, 255);

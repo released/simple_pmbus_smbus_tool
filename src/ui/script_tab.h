@@ -19,6 +19,7 @@ public:
     void SaveState(mfc_tool::core::AppState* state) const;
     bool HasUnsavedChanges() const;
     bool ConfirmDiscardUnsavedChanges(const std::wstring& action_text) const;
+    void RefreshDpiLayout();
 
 protected:
     afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
