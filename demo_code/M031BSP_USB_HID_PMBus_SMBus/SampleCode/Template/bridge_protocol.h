@@ -21,6 +21,7 @@
 #define BRIDGE_CMD_PING                      0x01u
 #define BRIDGE_CMD_GET_INFO                  0x02u
 #define BRIDGE_CMD_RESET_MCU                 0x03u
+#define BRIDGE_CMD_ENTER_IAP                 0x04u
 
 #define BRIDGE_CMD_I2C_INIT_MASTER           0x20u
 #define BRIDGE_CMD_I2C_MASTER_WRITE          0x21u

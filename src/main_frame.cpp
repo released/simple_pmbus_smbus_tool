@@ -6,6 +6,7 @@
 #include <array>
 #include <chrono>
 #include <cstring>
+#include <cwctype>
 #include <cwchar>
 #include <sstream>
 
@@ -29,6 +30,11 @@ std::wstring NowTimeText() {
     return std::wstring(buf);
 }
 
+std::wstring ExpectedFirmwareVersionForBoard(mfc_tool::core::board_i2c::BoardProfile profile) {
+    (void)profile;
+    return M032_EXPECTED_FW_VERSION;
+}
+
 } // namespace
 
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
@@ -43,6 +49,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
     ON_BN_CLICKED(ID_TOP_GET_INFO_BTN, &CMainFrame::OnBnClickedGetInfo)
     ON_BN_CLICKED(ID_TOP_PING_BTN, &CMainFrame::OnBnClickedPing)
     ON_BN_CLICKED(ID_TOP_RESET_MCU_BTN, &CMainFrame::OnBnClickedResetMcu)
+    ON_BN_CLICKED(ID_TOP_RETURN_BOOTLOADER_BTN, &CMainFrame::OnBnClickedReturnBootloader)
+    ON_CBN_SELCHANGE(ID_TOP_BOARD_COMBO, &CMainFrame::OnBoardChanged)
     ON_BN_CLICKED(ID_TOP_SAVE_INI_BTN, &CMainFrame::OnBnClickedSaveIni)
     ON_BN_CLICKED(ID_TOP_LOAD_INI_BTN, &CMainFrame::OnBnClickedLoadIni)
     ON_BN_CLICKED(ID_TOP_RESET_INI_BTN, &CMainFrame::OnBnClickedResetIni)
@@ -56,6 +64,7 @@ END_MESSAGE_MAP()
 CMainFrame::CMainFrame()
     : ini_(mfc_tool::config::IniManager::DefaultIniPath(L"pmbus_smbus_tool.ini")),
       state_(mfc_tool::core::AppState::Default()) {
+    board_profile_ = mfc_tool::core::board_i2c::ParseBoardProfile(state_.ui.bridge_board);
     expected_fw_version_ = M032_EXPECTED_FW_VERSION;
     state_.ui.expected_fw_version = expected_fw_version_;
     current_fw_version_ = state_.ui.last_seen_fw_version;
@@ -112,11 +121,14 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct) {
     if (!create_or_fail(build_info_value_.Create(L"-", WS_CHILD | WS_VISIBLE | SS_PATHELLIPSIS, CRect(), this, ID_TOP_BUILD_INFO_VALUE), L"Build info value")) return -1;
     if (!create_or_fail(fw_info_title_.Create(L"FW:", WS_CHILD | WS_VISIBLE, CRect(), this, ID_TOP_FW_INFO_TITLE), L"FW info title")) return -1;
     if (!create_or_fail(fw_info_value_.Create(L"-", WS_CHILD | WS_VISIBLE | SS_PATHELLIPSIS, CRect(), this, ID_TOP_FW_INFO_VALUE), L"FW info value")) return -1;
+    if (!create_or_fail(board_label_.Create(L"Board", WS_CHILD | WS_VISIBLE, CRect(), this, ID_TOP_BOARD_LABEL), L"Board label")) return -1;
+    if (!create_or_fail(board_combo_.Create(WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_VSCROLL | CBS_DROPDOWNLIST, CRect(), this, ID_TOP_BOARD_COMBO), L"Board combo")) return -1;
     if (!create_or_fail(device_label_.Create(L"Device", WS_CHILD | WS_VISIBLE, CRect(), this, ID_TOP_DEVICE_LABEL), L"Device label")) return -1;
     if (!create_or_fail(device_combo_.Create(WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_VSCROLL | CBS_DROPDOWNLIST, CRect(), this, ID_TOP_DEVICE_COMBO), L"Device combo")) return -1;
     if (!create_or_fail(get_info_btn_.Create(L"Get Info", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(), this, ID_TOP_GET_INFO_BTN), L"Get Info")) return -1;
     if (!create_or_fail(ping_btn_.Create(L"Ping", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(), this, ID_TOP_PING_BTN), L"Ping")) return -1;
     if (!create_or_fail(reset_mcu_btn_.Create(L"Reset MCU", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(), this, ID_TOP_RESET_MCU_BTN), L"Reset MCU")) return -1;
+    if (!create_or_fail(return_bootloader_btn_.Create(L"Return Bootloader", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(), this, ID_TOP_RETURN_BOOTLOADER_BTN), L"Return Bootloader")) return -1;
     if (!create_or_fail(tab_ctrl_.Create(WS_CHILD | WS_VISIBLE | WS_TABSTOP | TCS_FIXEDWIDTH, CRect(), this, ID_TAB_CTRL), L"Tab ctrl")) return -1;
     if (!create_or_fail(save_log_check_.Create(L"Save Log", WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX, CRect(), this, ID_LOG_SAVE_CHECK), L"Save Log checkbox")) return -1;
     if (!create_or_fail(save_log_btn_.Create(L"Save Log", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(), this, ID_LOG_SAVE_BTN), L"Save Log button")) return -1;
@@ -137,6 +149,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct) {
     i2c_tab_.Bind(&service_, tab_log, &pin_usage_);
     script_tab_.Bind(tab_log, [this]() { SaveIni(); }, [this](bool dirty) { SetScriptTabDirty(dirty); });
 
+    PopulateBoardCombo();
+    ApplyBoardProfileToTabs();
     ApplyTopControlFont();
 
     InitializeTabs();
@@ -150,7 +164,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct) {
     SetConnectionUi(false);
 
     AppendLog(L"PMBus/SMBus HID tool initialized.");
-    AppendLog(L"M032 EVB I2C pin selection is available inside PMBus, SMBus, and I2C tabs.");
+    AppendLog(L"Bridge board I2C pin profile selection is available inside PMBus, SMBus, and I2C tabs.");
     UpdateIniPathUi();
     SetControlText(build_info_value_, std::wstring(L"v") + PMBUS_TOOL_BUILD_VERSION + L" | " + PMBUS_TOOL_BUILD_TIME);
     UpdateFirmwareInfoUi();
@@ -211,12 +225,12 @@ void CMainFrame::RecreateUiFont() {
 }
 
 void CMainFrame::ApplyTopControlFont() {
-    const std::array<CWnd*, 30> controls = {
+    const std::array<CWnd*, 33> controls = {
         &vid_label_, &vid_edit_, &pid_label_, &pid_edit_, &timeout_label_, &timeout_edit_,
         &refresh_btn_, &connect_btn_, &disconnect_btn_, &status_title_, &status_chip_, &save_ini_btn_,
         &load_ini_btn_, &reset_ini_btn_, &ini_path_title_, &ini_path_value_, &build_info_title_,
-        &build_info_value_, &fw_info_title_, &fw_info_value_, &device_label_, &device_combo_,
-        &get_info_btn_, &ping_btn_, &reset_mcu_btn_, &tab_ctrl_, &save_log_check_, &save_log_btn_,
+        &build_info_value_, &fw_info_title_, &fw_info_value_, &board_label_, &board_combo_, &device_label_, &device_combo_,
+        &get_info_btn_, &ping_btn_, &reset_mcu_btn_, &return_bootloader_btn_, &tab_ctrl_, &save_log_check_, &save_log_btn_,
         &clear_log_btn_, &log_edit_
     };
     for (CWnd* w : controls) {
@@ -267,8 +281,12 @@ void CMainFrame::LayoutControls(int cx, int cy) {
 
     y += row_h + gap;
     x = margin;
+    x = mfc_tool::ui::PlaceLabelAndControl(board_label_, board_combo_, x, y + label_y_pad, y,
+                                           dpi.Scale(132), row_h + metrics.comboDrop120, gap, label_pad) + gap;
     x += mfc_tool::ui::PlaceLabel(device_label_, x, y + label_y_pad, label_pad) + gap;
-    const int action_w = btn_w * 3 + gap * 2;
+    const int return_w = (std::max)(btn_w + dpi.Scale(36), mfc_tool::ui::MeasureButtonMinWidth(return_bootloader_btn_));
+    const int reset_w = (std::max)(btn_w + dpi.Scale(8), mfc_tool::ui::MeasureButtonMinWidth(reset_mcu_btn_));
+    const int action_w = btn_w * 2 + reset_w + return_w + gap * 3;
     const int combo_w = (std::max)(260, cx - x - action_w - margin - gap);
     mfc_tool::ui::SafeMoveWindow(device_combo_, x, y, combo_w, row_h + metrics.comboDrop120);
     x += combo_w + gap;
@@ -276,7 +294,9 @@ void CMainFrame::LayoutControls(int cx, int cy) {
     x += btn_w + gap;
     mfc_tool::ui::SafeMoveWindow(ping_btn_, x, y, btn_w, row_h);
     x += btn_w + gap;
-    mfc_tool::ui::SafeMoveWindow(reset_mcu_btn_, x, y, btn_w + dpi.Scale(8), row_h);
+    mfc_tool::ui::SafeMoveWindow(reset_mcu_btn_, x, y, reset_w, row_h);
+    x += reset_w + gap;
+    mfc_tool::ui::SafeMoveWindow(return_bootloader_btn_, x, y, return_w, row_h);
 
     y += row_h + gap;
     x = margin;
@@ -423,7 +443,9 @@ void CMainFrame::SetConnectionUi(bool connected) {
     mfc_tool::ui::SafeEnableWindow(connect_btn_, !connected);
     mfc_tool::ui::SafeEnableWindow(disconnect_btn_, connected);
     mfc_tool::ui::SafeEnableWindow(reset_mcu_btn_, connected);
+    mfc_tool::ui::SafeEnableWindow(return_bootloader_btn_, connected);
     mfc_tool::ui::SafeEnableWindow(device_combo_, !connected);
+    mfc_tool::ui::SafeEnableWindow(board_combo_, !connected);
     mfc_tool::ui::SafeEnableWindow(refresh_btn_, !connected);
     mfc_tool::ui::SafeEnableWindow(save_log_btn_, save_log_check_.GetCheck() == BST_CHECKED);
     SetControlText(status_chip_, connected ? L"Connected" : L"Disconnected");
@@ -456,6 +478,85 @@ void CMainFrame::SetScriptTabDirty(bool dirty) {
     item.mask = TCIF_TEXT;
     item.pszText = text;
     tab_ctrl_.SetItem(3, &item);
+}
+
+void CMainFrame::PopulateBoardCombo() {
+    if (!::IsWindow(board_combo_.GetSafeHwnd())) {
+        return;
+    }
+
+    board_combo_.ResetContent();
+    int selected = 0;
+    int row = 0;
+    for (const auto& board : mfc_tool::core::board_i2c::BoardProfiles()) {
+        const int idx = board_combo_.AddString(board.label);
+        board_combo_.SetItemData(idx, static_cast<DWORD_PTR>(board.profile));
+        if (board.profile == board_profile_) {
+            selected = row;
+        }
+        ++row;
+    }
+    if (board_combo_.GetCount() > 0) {
+        board_combo_.SetCurSel(selected);
+    }
+}
+
+void CMainFrame::ApplyBoardProfileToTabs() {
+    pmbus_tab_.SetBoardProfile(board_profile_);
+    smbus_tab_.SetBoardProfile(board_profile_);
+    i2c_tab_.SetBoardProfile(board_profile_);
+}
+
+void CMainFrame::SetBoardProfile(mfc_tool::core::board_i2c::BoardProfile profile, bool persist) {
+    board_profile_ = profile;
+    const auto& board = mfc_tool::core::board_i2c::BoardProfileInfo(board_profile_);
+    state_.ui.bridge_board = board.ini_name;
+    expected_fw_version_ = ExpectedFirmwareVersionForBoard(board_profile_);
+    state_.ui.expected_fw_version = expected_fw_version_;
+
+    if (::IsWindow(board_combo_.GetSafeHwnd())) {
+        for (int i = 0; i < board_combo_.GetCount(); ++i) {
+            if (static_cast<mfc_tool::core::board_i2c::BoardProfile>(board_combo_.GetItemData(i)) == board_profile_) {
+                board_combo_.SetCurSel(i);
+                break;
+            }
+        }
+    }
+
+    ApplyBoardProfileToTabs();
+    UpdateFirmwareInfoUi();
+    if (persist) {
+        SaveIni();
+    }
+}
+
+mfc_tool::core::board_i2c::BoardProfile CMainFrame::CurrentBoardProfile() const {
+    if (::IsWindow(board_combo_.GetSafeHwnd())) {
+        const int sel = board_combo_.GetCurSel();
+        if (sel != CB_ERR) {
+            return static_cast<mfc_tool::core::board_i2c::BoardProfile>(board_combo_.GetItemData(sel));
+        }
+    }
+    return board_profile_;
+}
+
+mfc_tool::core::board_i2c::BoardProfile CMainFrame::DetectBoardProfileFromBridgeName(
+    const std::wstring& bridge_name,
+    mfc_tool::core::board_i2c::BoardProfile fallback
+) {
+    std::wstring lower;
+    lower.reserve(bridge_name.size());
+    for (wchar_t ch : bridge_name) {
+        lower.push_back(static_cast<wchar_t>(towlower(ch)));
+    }
+
+    if (lower.find(L"m261") != std::wstring::npos || lower.find(L"m263") != std::wstring::npos) {
+        return mfc_tool::core::board_i2c::BoardProfile::M261Evb;
+    }
+    if (lower.find(L"m032") != std::wstring::npos || lower.find(L"m031") != std::wstring::npos) {
+        return mfc_tool::core::board_i2c::BoardProfile::M032Evb;
+    }
+    return fallback;
 }
 
 std::wstring CMainFrame::SelectedDevicePath() const {
@@ -503,6 +604,13 @@ void CMainFrame::LogBridgeInfoPayload(const std::vector<std::uint8_t>& rx, bool 
         }
     }
 
+    const auto detected_board = DetectBoardProfileFromBridgeName(bridge_name, board_profile_);
+    if (detected_board != board_profile_) {
+        SetBoardProfile(detected_board, false);
+        AppendLog(L"Bridge board auto-detected: " +
+                  std::wstring(mfc_tool::core::board_i2c::BoardProfileInfo(board_profile_).label));
+    }
+
     current_fw_version_ = ExtractFirmwareVersion(bridge_name);
     if (current_fw_version_.empty()) {
         current_fw_version_ = L"-";
@@ -512,9 +620,10 @@ void CMainFrame::LogBridgeInfoPayload(const std::vector<std::uint8_t>& rx, bool 
     AppendLog(std::wstring(from_connect ? L"Connected bridge: " : L"Bridge info: ") + bridge_name);
     AppendLog(L"Reset reason: " + ResetReasonText(reset_reason));
     if (!fw_version_match_) {
+        const std::wstring board_label = mfc_tool::core::board_i2c::BoardProfileInfo(board_profile_).label;
         const std::wstring warn =
             L"Firmware version mismatch: expected " + expected_fw_version_ +
-            L", device " + current_fw_version_ + L". Please update M032 EVB bridge firmware.";
+            L", device " + current_fw_version_ + L". Please update " + board_label + L" bridge firmware.";
         AppendLog(warn);
         if (from_connect) {
             ::MessageBoxW(m_hWnd, warn.c_str(), L"Firmware Version Mismatch", MB_ICONWARNING | MB_OK);
@@ -572,6 +681,7 @@ void CMainFrame::LoadIni() {
     }
 
     state_.ApplyIniData(data);
+    SetBoardProfile(mfc_tool::core::board_i2c::ParseBoardProfile(state_.ui.bridge_board, board_profile_), false);
     vid_edit_.SetWindowTextW(state_.ui.vid.c_str());
     pid_edit_.SetWindowTextW(state_.ui.pid.c_str());
     timeout_edit_.SetWindowTextW(state_.ui.timeout_ms.c_str());
@@ -594,6 +704,7 @@ void CMainFrame::SaveIni() {
     state_.ui.vid = GetControlText(vid_edit_);
     state_.ui.pid = GetControlText(pid_edit_);
     state_.ui.timeout_ms = GetControlText(timeout_edit_);
+    state_.ui.bridge_board = mfc_tool::core::board_i2c::BoardProfileInfo(board_profile_).ini_name;
     state_.ui.save_log_checked = (save_log_check_.GetCheck() == BST_CHECKED);
     state_.ui.expected_fw_version = expected_fw_version_;
     state_.ui.last_seen_fw_version = current_fw_version_;
@@ -626,6 +737,7 @@ bool CMainFrame::TryLoadIniFrom(const std::wstring& path) {
 
 void CMainFrame::ResetIniToDefault() {
     state_ = mfc_tool::core::AppState::Default();
+    SetBoardProfile(mfc_tool::core::board_i2c::ParseBoardProfile(state_.ui.bridge_board), false);
     vid_edit_.SetWindowTextW(state_.ui.vid.c_str());
     pid_edit_.SetWindowTextW(state_.ui.pid.c_str());
     timeout_edit_.SetWindowTextW(state_.ui.timeout_ms.c_str());
@@ -747,6 +859,44 @@ void CMainFrame::OnBnClickedResetMcu() {
     } catch (const std::exception& e) {
         ShowErrorBox(L"Reset MCU Error", AnsiToWide(e.what()));
     }
+}
+
+void CMainFrame::OnBnClickedReturnBootloader() {
+    const int confirm = ::MessageBoxW(
+        m_hWnd,
+        L"This will invalidate the bridge application CRC and reboot the board into USB HID ISP bootloader mode.\n\n"
+        L"If programming is canceled after this step, the board will stay in bootloader mode until a valid app image is programmed.\n\n"
+        L"Continue?",
+        L"Return Bootloader",
+        MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2);
+    if (confirm != IDYES) {
+        return;
+    }
+
+    try {
+        service_.EnterIap();
+        AppendLog(L"Return Bootloader command sent. Wait for bootloader HID PID 0x3F00, then use simple_programming_tool.");
+        pmbus_tab_.OnDisconnected();
+        smbus_tab_.OnDisconnected();
+        i2c_tab_.OnDisconnected();
+        service_.Disconnect();
+        SetConnectionUi(false);
+        RefreshDevices();
+    } catch (const std::exception& e) {
+        ShowErrorBox(L"Return Bootloader Error", AnsiToWide(e.what()));
+    }
+}
+
+void CMainFrame::OnBoardChanged() {
+    if (service_.IsConnected()) {
+        PopulateBoardCombo();
+        AppendLog(L"Board profile change ignored while connected. Disconnect first.");
+        return;
+    }
+
+    SetBoardProfile(CurrentBoardProfile(), true);
+    AppendLog(L"Bridge board profile selected: " +
+              std::wstring(mfc_tool::core::board_i2c::BoardProfileInfo(board_profile_).label));
 }
 
 void CMainFrame::OnBnClickedSaveIni() {

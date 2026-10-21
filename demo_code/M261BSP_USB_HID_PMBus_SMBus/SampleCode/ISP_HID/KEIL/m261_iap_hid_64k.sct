@@ -1,0 +1,13 @@
+LOAD_ROM_1 0x00000000 0x00010000
+{
+    IAP_HID.bin 0x00000000 0x00010000
+    {
+        startup_M261.o (RESET, +FIRST)
+        .ANY (+RO)
+    }
+
+    SRAM 0x20000000 0x00017FC0
+    {
+        * (+RW, +ZI)
+    }
+}

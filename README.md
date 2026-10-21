@@ -1,8 +1,17 @@
 # PmbusSmbusHidTool
 
-Windows MFC GUI tool for testing PMBus and SMBus device projects through a Nuvoton M032 EVB USB HID bridge.
+## Publication and local data
 
-The firmware turns the M032 EVB into a USB HID device. The PC GUI connects to that HID device and uses the EVB I2C controller as a PMBus/SMBus host master or a generic I2C master/slave bridge. The current user-facing scope is the `PMBus`, `SMBus`, `I2C`, and `Script` tabs plus HID connection controls.
+The current source/layout and native delivery are published without personal INIs,
+logs or debugger/user options. Defaults are generated locally where supported;
+existing local settings/data are not deleted by clean or publication. Current-tree
+index removals do not erase earlier Git history. See SELF_CHECK.md for actual
+build/test results and hardware limitations. Firmware developers need an installed SRecord (srec_cat) in PATH or the local Keil folder; this repository does not bundle that developer executable. M261 BSP attribution and license are in demo_code/M261BSP_USB_HID_PMBus_SMBus/THIRD_PARTY_NOTICES.md.
+
+
+Windows MFC GUI tool for testing PMBus and SMBus device projects through a Nuvoton USB HID bridge.
+
+The verified bridge board is currently M032 EVB. M261 EVB / M263KIAAE firmware and GUI board/pin profiles are staged for follow-up hardware validation. The PC GUI connects to the bridge HID device and uses the EVB I2C controller as a PMBus/SMBus host master or a generic I2C master/slave bridge. The current user-facing scope is the `PMBus`, `SMBus`, `I2C`, and `Script` tabs plus HID connection controls.
 
 Firmware upload has been split out to the sibling `simple_programming_tool` workspace so the programming procedure and programming bridge firmware do not affect this PMBus/SMBus validation tool.
 
@@ -26,7 +35,8 @@ Implementation notes for keeping other simple-series MFC tools aligned with this
 
 ## Current Scope
 
-- Bridge board: M032 EVB
+- Primary verified bridge board: M032 EVB
+- Staged bridge board firmware: M261 EVB / M263KIAAE, initial port in `demo_code\M261BSP_USB_HID_PMBus_SMBus`
 - Future bridge board: M487 EVB, not implemented yet
 - Bus role: PMBus/SMBus master; generic I2C master/slave in the `I2C` tab
 - Active bus: one selected I2C port/pin pair at a time
@@ -44,6 +54,7 @@ Current PMBus/SMBus tool inventory:
 - PC app: `PmbusSmbusHidTool.sln`, `PmbusSmbusHidTool.vcxproj`, and `src\`
 - GUI tabs: `PMBus`, `SMBus`, `I2C`, and `Script`
 - M032 bridge firmware: `demo_code\M031BSP_USB_HID_PMBus_SMBus`
+- M261 staged bridge firmware and HID IAP bootloader: `demo_code\M261BSP_USB_HID_PMBus_SMBus`
 - PMBus contract docs: `docs\PMBUS_COMMAND_CONTRACT.csv`, `docs\PMBUS_COMMAND_CONTRACT.md`, and `docs\PMBUS_SUPPORT_MATRIX.md`
 - Generated validation scripts: `build\script_presets\*.csv`
 - TI historical reference files: `build\script_presets\ti_reference\`
@@ -59,7 +70,7 @@ Removed from this workspace:
 
 1. Build and flash the M032 EVB firmware.
 2. Connect the M032 EVB USB port to the PC.
-3. Wire one supported M032 I2C pin pair to the target PMBus/SMBus device.
+3. Wire one supported bridge-board I2C pin pair to the target PMBus/SMBus device.
 4. Build or launch the PC tool at `build\PmbusSmbusHidTool.exe`.
 5. In the GUI, scan/connect VID `0x0416`, PID `0x5020`.
 6. Click `Get Info`; the firmware should report `m032-pmbus-smbus-bridge/1.1.3`.
@@ -81,7 +92,7 @@ Required connections:
 - M032 `GND` to target `GND`
 - I2C pull-ups compatible with the selected bus voltage
 
-Check the target and EVB voltage domains before wiring. The firmware only controls the selected M032 I2C peripheral and pin mux; it does not add external level shifting or target power sequencing.
+Check the target and EVB voltage domains before wiring. The firmware only controls the selected bridge-board I2C peripheral and pin mux; it does not add external level shifting or target power sequencing.
 
 ## Build PC Tool
 
@@ -112,7 +123,7 @@ scripts\clean_mfc.bat
 
 The clean script removes PC build intermediates and debug artifacts only:
 
-- `build\obj\`
+- Allowlisted compiler files under `build\obj\` (never a recursive directory purge)
 - `build\PmbusSmbusHidTool.lib`
 - `build\PmbusSmbusHidTool.exp`
 - `build\*.pdb`, `build\*.ilk`, `build\*.idb`, `build\*.iobj`, `build\*.ipdb`
@@ -123,6 +134,11 @@ It intentionally preserves:
 - `build\script_presets\`
 - `build\test_log\`
 - `build\pmbus_smbus_tool.ini`
+
+EXE/INI/logs/data/unknown files are also preserved inside obj/tests/verify. All
+target paths are preflighted for reparse points before any compiler-file deletion.
+PC sources remain in `src`, automation in `scripts`, screenshots in `docs/images`;
+the vendor/firmware `demo_code` tree keeps its existing build contracts.
 
 ## Build And Flash Firmware
 
@@ -158,6 +174,116 @@ Important firmware files:
 - `bridge_protocol.h` - HID command IDs and status codes
 - `bridge_version.h` - firmware version string
 - `hid_transfer.h` - USB VID/PID and HID settings
+- `SampleCode\iap_mailbox.h` - shared SRAM mailbox used by the M032 app-to-bootloader HID IAP request
+
+### M032 HID IAP Firmware Layout
+
+M032 target-board FW upload remains out of scope for this workspace. The HID IAP flow below is only for updating the M032 EVB bridge firmware itself.
+
+The M032 EVB bridge firmware now also supports an APROM bootloader plus application split:
+
+- HID IAP bootloader: `0x00000000` to `0x00003FFF` (`16 KB`)
+- PMBus/SMBus HID bridge application: `0x00004000` to `0x0001FFFF` (`112 KB`)
+
+M032 Keil projects:
+
+- HID bridge application: `demo_code\M031BSP_USB_HID_PMBus_SMBus\SampleCode\Template\Keil\Template.uvprojx`
+- HID IAP bootloader: `demo_code\M031BSP_USB_HID_PMBus_SMBus\SampleCode\ISP_HID\Keil\ISP_HID.uvprojx`
+
+M032 IAP behavior:
+
+1. Build and flash `ISP_HID` first. The bootloader is linked to APROM base `0x00000000` and constrained by the Keil IROM size `0x4000`.
+2. Build the bridge `Template` application. It is linked to `0x00004000`.
+3. The `Template` Keil post-build step runs `generateChecksum.bat` and local `srec_cat.exe` to fill unused application space with `0xFF`, calculate CRC32, and write the CRC word at `0x0001FFFC`.
+4. Use `SampleCode\Template\Keil\obj\template.bin` for HID IAP APROM update. This file is the padded 112 KB application image with CRC. `template.raw.bin` is only the raw fromelf output.
+5. If `ISP_HID.hex` exists, the same post-build step emits `SampleCode\Template\Keil\boot_app.hex` and `boot_app.bin` for full 128 KB bootloader-plus-application programming.
+6. On reset, the bootloader checks whether the application vector exists and whether the CRC32 over `0x00004000` to `0x0001FFFB` matches the word at `0x0001FFFC`. If the check fails, the bootloader stays in USB HID update mode.
+7. `CMD_RUN_APROM`, `CMD_RUN_LDROM`, and `CMD_RESET` reset back to the bootloader first, so the checksum gate always runs before the application is allowed to start.
+8. The bridge application supports `BRIDGE_CMD_ENTER_IAP` (`0x04`) so a programming tool can request reboot into bootloader even when the application checksum is valid.
+9. `BRIDGE_CMD_ENTER_IAP` erases the application CRC word at `0x0001FFFC`, returns an OK HID response, then resets through the bootloader vector path. This intentionally makes the current app invalid so the bootloader stays in HID ISP mode.
+10. No `DetectPin` strap is used for this M032 HID IAP flow.
+
+M032 bootloader LED indicator:
+
+- LED pin: `PB14`, active low, same EVB LED pin used by the M032 bridge application.
+- App checksum check: LED on.
+- Valid app jump: LED off before vector remap and CPU reset.
+- Invalid or missing app / waiting for HID update: 3 short blinks, 250 ms on/off per step, then LED off for 1 second, repeated.
+- HID packet received while in update mode: short LED pulse.
+
+Current M032 IAP build status:
+
+- Local Keil build passed for both `Template` and `ISP_HID`.
+- `ISP_HID.bin` is 8,400 bytes and fits inside the 16 KB bootloader region.
+- `template.bin` is 114,688 bytes, and `boot_app.bin` is 131,072 bytes when the bootloader hex is present.
+- The generated application CRC word is `5B C3 3A 65` at app image offset `0x1BFFC`.
+- M032 HID IAP hardware validation has not been run yet.
+
+Implementation details and remaining risks are tracked in `docs\M032_BRIDGE_IAP_PLAN.md`.
+
+### M261 Staged Bridge Firmware
+
+Initial M261 firmware support is staged under:
+
+- `demo_code\M261BSP_USB_HID_PMBus_SMBus`
+
+This port targets `M263KIAAE` with 512 KB APROM. The flash map is:
+
+- HID IAP bootloader: `0x00000000` to `0x0000FFFF` (`64 KB`)
+- PMBus/SMBus HID bridge application: `0x00010000` to `0x0007FFFF` (`448 KB`)
+
+M261 Keil projects:
+
+- HID bridge application: `demo_code\M261BSP_USB_HID_PMBus_SMBus\SampleCode\Template\Keil\Template.uvprojx`
+- HID IAP bootloader: `demo_code\M261BSP_USB_HID_PMBus_SMBus\SampleCode\ISP_HID\Keil\ISP_HID.uvprojx`
+
+M261 firmware identity:
+
+- VID `0x0416`
+- PID `0x5020`
+- Get Info string: `m261-pmbus-smbus-bridge/1.1.3`
+
+M261 IAP behavior:
+
+1. Build and flash `ISP_HID` first. The bootloader is linked to APROM base `0x00000000` and constrained by `m261_iap_hid_64k.sct`.
+2. Build the bridge `Template` application. It is linked to `0x00010000`.
+3. The `Template` Keil post-build step runs `generateChecksum.bat` and local `srec_cat.exe` to fill unused application space with `0xFF`, calculate CRC32, and write the CRC word at `0x0007FFFC`.
+4. Use `SampleCode\Template\Keil\obj\Template.bin` for HID IAP APROM update. This file is the padded 448 KB application image with CRC. `Template.raw.bin` is only the raw fromelf output.
+5. If `ISP_HID.hex` exists, the same post-build step also emits `SampleCode\Template\Keil\boot_app.hex` and `boot_app.bin` for full 512 KB bootloader-plus-application programming.
+6. On reset, the bootloader checks whether the application vector exists and whether the CRC32 over `0x00010000` to `0x0007FFFB` matches the word at `0x0007FFFC`. If the check fails, the bootloader stays in USB HID update mode.
+7. `CMD_RUN_APROM`, `CMD_RUN_LDROM`, and `CMD_RESET` reset back to the bootloader first, so the checksum gate always runs before the application is allowed to start.
+8. The bridge application supports `BRIDGE_CMD_ENTER_IAP` (`0x04`) so a programming tool can request reboot into bootloader even when the application checksum is valid.
+9. `BRIDGE_CMD_ENTER_IAP` erases the application CRC word at `0x0007FFFC`, returns an OK HID response, then resets through the bootloader vector path. This intentionally makes the current app invalid so the bootloader stays in HID ISP mode.
+10. No `DetectPin` strap is used for this M261 HID IAP flow.
+
+M261 bootloader LED indicator:
+
+- LED pin: `PB10`, active low, same EVB LED pin used by the M261 bridge application.
+- App checksum check: LED on.
+- Valid app jump: LED off before vector remap and CPU reset.
+- Invalid or missing app / waiting for HID update: 3 short blinks, 250 ms on/off per step, then LED off for 1 second, repeated.
+- HID packet received while in update mode: short LED pulse.
+
+Current M261 status:
+
+- Firmware-side HID bridge protocol is aligned with the M032 bridge protocol.
+- M261 I2C backend supports the M032-compatible pin-code pairs that also exist on M261, such as `PA.4/PA.5`, `PB.4/PB.5`, `PC.0/PC.1`, `PF.2/PF.3`, `PB.0/PB.1`, `PA.6/PA.7`, `PA.2/PA.3`, `PF.1/PF.0`, `PC.4/PC.5`, and `PB.10/PB.11`.
+- Local Keil build passed for both `Template` and `ISP_HID`. `Template.bin` is 458,752 bytes, and `boot_app.bin` is 524,288 bytes when the bootloader hex is present.
+- The generated application CRC word is `AD E0 79 50` at app image offset `0x6FFFC`.
+- The PC GUI now includes a `Board` selector with `M032 EVB` and `M261 EVB` profiles. M261 uses the same pin-code encoding as M032 but omits the M032-only `I2C1 PB.2/PB.3` pair.
+- M261 EVB hardware validation has not been run yet.
+
+Implementation details and remaining risks are tracked in `docs\M261_BRIDGE_IAP_PLAN.md`.
+
+### Bridge Firmware Self-Update Flow
+
+The bootloader is only responsible for bridge application update control. It does not depend on whether the application is a PMBus/SMBus bridge, an I2C bridge, or another future application, as long as the image starts at the configured application base address and has a valid CRC word at the configured end address.
+
+When the application is already running, the bootloader HID device is not enumerated. This PMBus/SMBus tool is the app-side entry point because it is connected to the bridge application HID device (`VID 0x0416`, `PID 0x5020`). Click the top-level `Return Bootloader` button to send `BRIDGE_CMD_ENTER_IAP` (`0x04`), invalidate the app CRC word, and reset the board into USB HID ISP bootloader mode. After the bootloader enumerates as `VID 0x0416`, `PID 0x3F00`, use the standalone `simple_programming_tool` to poll `CMD_CONNECT` and program the padded application binary.
+
+Because `BRIDGE_CMD_ENTER_IAP` erases the application CRC word, canceling the update after this step leaves the board in bootloader mode until a valid application image is programmed again.
+
+For parallel rollout to sibling GUI tools, use `docs\BRIDGE_IAP_MULTI_TOOL_ROLLOUT.md`. That document records the aligned M031/M032 and M261 boot/application contract, the per-tool application porting checklist, and the current `demo_code` gaps in `simple_pmbus_gui_tool`, `simple_sgpio_test_tool`, and `simple_smbus_sgpio_tool`.
 
 ## HID Bridge Protocol
 
@@ -175,6 +301,7 @@ The firmware currently supports:
 - Ping
 - Get Info
 - Reset MCU
+- Enter IAP (`BRIDGE_CMD_ENTER_IAP`, `0x04`) for bridge firmware self-update flows
 - I2C master init/deinit
 - I2C master write
 - I2C master read
@@ -200,12 +327,21 @@ The GUI owns I2C selection and sends the selected tuple to firmware:
 - SCL pin
 - bus speed
 
-Only one I2C port/pin pair is active at a time. The firmware configures the selected M032 pin mux during master/slave init and releases the selected mux during deinit.
+Only one I2C port/pin pair is active at a time. The firmware configures the selected bridge-board pin mux during master/slave init and releases the selected mux during deinit.
 
-Supported M032 pin pairs:
+Use the top-level `Board` selector before connecting. The GUI also auto-detects `m032/m031` or `m261/m263` bridge names from `Get Info` and switches the pin profile.
+
+Supported `M032 EVB` pin pairs:
 
 - I2C0: `PB.4/PB.5`, `PF.2/PF.3`, `PA.4/PA.5`, `PC.0/PC.1`
 - I2C1: `PB.2/PB.3`, `PB.0/PB.1`, `PA.6/PA.7`, `PA.2/PA.3`, `PF.1/PF.0`, `PC.4/PC.5`, `PB.10/PB.11`
+
+Supported `M261 EVB` pin pairs:
+
+- I2C0: `PB.4/PB.5`, `PF.2/PF.3`, `PA.4/PA.5`, `PC.0/PC.1`
+- I2C1: `PB.0/PB.1`, `PA.6/PA.7`, `PA.2/PA.3`, `PF.1/PF.0`, `PC.4/PC.5`, `PB.10/PB.11`
+
+The M261 profile intentionally does not show `I2C1 PB.2/PB.3` because the current M261 firmware backend does not support that mux pair.
 
 SDA/SCL order is shown by the GUI pin-pair label. Confirm the EVB schematic before wiring a target board.
 
@@ -214,11 +350,13 @@ SDA/SCL order is shown by the GUI pin-pair label. Confirm the EVB schematic befo
 Top-level HID controls:
 
 - VID/PID selection
+- bridge board profile selection: `M032 EVB` or `M261 EVB`
 - device scan/connect/disconnect
 - timeout setting
 - Ping
 - Get Info
 - Reset MCU
+- Return Bootloader for bridge firmware self-update entry; this invalidates the app CRC and reboots to USB HID ISP mode
 - log output
 
 Shared PMBus/SMBus tab behavior:
@@ -236,7 +374,7 @@ Shared PMBus/SMBus tab behavior:
 
 I2C tab behavior:
 
-- user-selected I2C port and M032 pin pair
+- user-selected I2C port and selected board pin pair
 - user-selected 7-bit address and bus speed
 - `Enable Master`, `Enable Slave`, and `Disable`
 - master `Write`, `Read`, and `Write Then Read`
@@ -249,7 +387,7 @@ I2C tab behavior:
 
 Script tab behavior:
 
-- load, edit, save, and save-as M032 CSV scripts
+- load, edit, save, and save-as tool CSV scripts
 - unsaved edits are indicated by `Unsaved changes`, `Save *`, and `Script *`
 - in-tab row editing; no popup editor is used
 - profile selection: `SMBus-Generic`, `SMBus-UBM`, `PMBus-Base`, `PMBus-CRPS`, `PMBus-TI-UCD90xxx`
@@ -263,7 +401,7 @@ Script tab behavior:
 
 The `PMBus` tab is a PMBus master test surface.
 
-![PMBus tab](main_pmbus.jpg)
+![PMBus tab](docs/images/main_pmbus.jpg)
 
 Profiles:
 
@@ -292,7 +430,7 @@ Supported helpers:
 - PEC enable/disable
 - Force Bad PEC for negative-path target validation
 - device scan
-- M032 CSV script load/run with selectable rows and response display
+- tool CSV script load/run with selectable rows and response display
 - scan summary with PMBUS_REVISION, MFR_ID, and MFR_MODEL where available
 - bus idle/recover preflight
 - ARA receive-byte helper at address `0x0C`
@@ -316,7 +454,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts\validate_pmbus_contr
 
 PMBus button validation workflow:
 
-1. Connect the M032 EVB HID bridge and click `Get Info`; expected firmware is `m032-pmbus-smbus-bridge/1.1.3`.
+1. Select the correct `Board` profile, connect the HID bridge, and click `Get Info`. Expected bridge strings are `m032-pmbus-smbus-bridge/1.1.3` for M032 or `m261-pmbus-smbus-bridge/1.1.3` for M261.
 2. Select `PMBus`, choose the target profile (`PMBus Base`, `M-CRPS`, or `TI UCD90xxx`), I2C port, pin pair, speed, and 7-bit target address. The validation target used by the bundled scripts uses address `0x5A`.
 3. Enable the PMBus master.
 4. Click `Scan` first and confirm the expected PMBus address responds.
@@ -340,11 +478,11 @@ Use `Repeat` only after a single loop passes. Keep `Delay ms` at `10` ms for the
 
 Script editing is centralized in the `Script` tab. The PMBus and SMBus tabs only load and run scripts.
 
-![Script tab](main_scriptjpg.jpg)
+![Script tab](docs/images/main_scriptjpg.jpg)
 
-The saved CSV format is the M032 HID tool format, not the TI USB-to-GPIO 2006 ScriptForm format. This is intentional because the M032 bridge can support repeated-start write-read flows such as write data with PEC followed by read data with PEC, which the TI ScriptForm flow cannot represent cleanly.
+The saved CSV format is this HID tool's format, not the TI USB-to-GPIO 2006 ScriptForm format. This is intentional because the HID bridge can support repeated-start write-read flows such as write data with PEC followed by read data with PEC, which the TI ScriptForm flow cannot represent cleanly.
 
-M032 CSV header:
+Tool CSV header:
 
 ```csv
 Kind,Selected,Profile,Type,Address,Command,Data,ReadLength,DelayMs,PEC,Comment
@@ -409,9 +547,9 @@ TI reference material:
 - Example source CSV: `build\script_presets\ti_reference\SMBusI2CScriptForm.csv`
 - Validated sequence notes: `build\script_presets\ti_reference\TI_USB_TO_GPIO_2006_PMBUS_SMBUS_SCRIPT_SEQUENCE.md`
 
-These two files are reference material only. The GUI does not use them as default runtime scripts. Use the TI sequence document to understand the original test coverage, row counts, and known TI ScriptForm limitations. Use `SMBusI2CScriptForm.csv` only when comparing against the historical TI USB-to-GPIO ScriptForm flow. New saved scripts and normal validation runs should use the M032 CSV format above and the generated presets below.
+These two files are reference material only. The GUI does not use them as default runtime scripts. Use the TI sequence document to understand the original test coverage, row counts, and known TI ScriptForm limitations. Use `SMBusI2CScriptForm.csv` only when comparing against the historical TI USB-to-GPIO ScriptForm flow. New saved scripts and normal validation runs should use the tool CSV format above and the generated presets below.
 
-Generated M032 validation preset scripts:
+Generated tool validation preset scripts:
 
 - `build\script_presets\PMBus_Base_Full.csv`
 - `build\script_presets\PMBus_M_CRPS_Full.csv`
@@ -449,7 +587,7 @@ Validation logs captured during local bring-up are kept under `build\test_log` i
 
 The `SMBus` tab is an SMBus master test surface.
 
-![SMBus tab](main_smbus.jpg)
+![SMBus tab](docs/images/main_smbus.jpg)
 
 Profiles:
 
@@ -473,16 +611,16 @@ Supported master workflows:
 - optional PEC handling
 - Force Bad PEC for negative-path target validation where applicable
 - UBM bad-checksum write for negative-path controller validation
-- M032 CSV script load/run with selectable rows and response display
+- tool CSV script load/run with selectable rows and response display
 - profile-specific `Run All` example validation
 - `Run All` `Delay ms` inserts a cancellable pause after each SMBus validation transaction
 - `Run All` `Repeat` reruns Generic or UBM validation and reports `loops=N` in the summary
 
-The SMBus tab uses the same M032 HID bridge and the same selected I2C port/pin pair model as PMBus.
+The SMBus tab uses the same HID bridge and selected I2C port/pin pair model as PMBus.
 
 SMBus button validation workflow:
 
-1. Connect the M032 EVB HID bridge and click `Get Info`.
+1. Select the correct `Board` profile, connect the HID bridge, and click `Get Info`.
 2. Select `SMBus`, choose profile `Generic` or `UBM Controller`, I2C port, pin pair, speed, and target address. The bundled validation target uses address `0x5A`.
 3. Enable the SMBus master.
 4. For `Generic`, use `Run All` to execute Quick, Send/Receive Byte, Byte/Word read-write, Block, Process Call, Block Write-Read Process Call, Bad PEC, and Bus Recover coverage.
@@ -495,13 +633,13 @@ SMBus button validation workflow:
 
 The `I2C` tab is a generic I2C utility surface for direct master transactions and simple slave-mode bring-up. Use it when the target protocol is not PMBus or SMBus, or when a bus-level sanity check is needed before running higher-level PMBus/SMBus workflows.
 
-![I2C tab](main_i2c.jpg)
+![I2C tab](docs/images/main_i2c.jpg)
 
 Master controls:
 
-- `Port`, `Pins`, and `Speed` select the active M032 I2C hardware path.
+- `Port`, `Pins`, and `Speed` select the active bridge-board I2C hardware path.
 - `Addr` is the 7-bit target address.
-- `Enable Master` initializes the selected M032 I2C peripheral as a host.
+- `Enable Master` initializes the selected bridge-board I2C peripheral as a host.
 - `TX HEX` accepts space-separated hex bytes for write and write-read operations.
 - `Read Len` selects the number of bytes to read.
 - `Write` sends `TX HEX` followed by STOP.
@@ -511,8 +649,8 @@ Master controls:
 
 Slave controls:
 
-- `Enable Slave` initializes the selected M032 I2C peripheral as a slave at `Addr`.
-- `Set TX` preloads the bytes that an external I2C master will read from the M032 bridge.
+- `Enable Slave` initializes the selected bridge-board I2C peripheral as a slave at `Addr`.
+- `Set TX` preloads the bytes that an external I2C master will read from the bridge.
 - `Get RX` fetches bytes written by an external I2C master into the firmware RX buffer.
 - Slave mode is for generic I2C validation only; PMBus/SMBus slave emulation is not part of this workspace scope.
 
@@ -525,7 +663,7 @@ Timers and data helpers:
 
 Recommended I2C workflow:
 
-1. Connect the M032 EVB HID bridge and click `Get Info`.
+1. Select the correct `Board` profile, connect the HID bridge, and click `Get Info`.
 2. Select `I2C`, choose the I2C port, pin pair, speed, and 7-bit address.
 3. Click `Enable Master` for host-side tests, or `Enable Slave` when an external master will drive the bus.
 4. Start with a short `Write`, `Read`, or `Write Then Read`.
@@ -538,7 +676,7 @@ The button and script tests validate the shared HID/I2C transaction helpers. The
 
 Before running manual smoke tests:
 
-1. Connect the M032 EVB HID bridge and click `Get Info`.
+1. Select the correct `Board` profile, connect the HID bridge, and click `Get Info`.
 2. Select the same I2C port, pin pair, speed, and target address used by the passing button/script validation. The bundled validation examples use address `0x5A`.
 3. Enable the target tab master.
 4. Run one row at a time and compare GUI log, MCU UART/TeraTerm log, and LA decode. Check address, command/register code, write data, read length, PEC or checksum byte, and response payload. Ignore timestamp differences.
@@ -620,7 +758,7 @@ This repository intentionally keeps `build\PmbusSmbusHidTool.exe`, `build\pmbus_
 - `src\` - MFC app, HID transport, PMBus/SMBus/I2C/Script tabs, app state
 - `scripts\` - MFC build, version, and validation helper scripts
 - `docs\` - PMBus command contract, support matrix, DPI scaling notes, and protocol references
-- `demo_code\` - M032 EVB HID bridge firmware project
+- `demo_code\` - M032 and M261 HID bridge firmware projects
 - `build\` - generated PC build output
 - `SELF_CHECK.md` - latest verification record
 - `HANDOFF.md` - current implementation handoff notes
@@ -633,6 +771,7 @@ Expected source-controlled content for GitHub:
 - `scripts\`
 - `docs\`
 - `demo_code\M031BSP_USB_HID_PMBus_SMBus`
+- `demo_code\M261BSP_USB_HID_PMBus_SMBus`
 - `build\script_presets\PMBus_Base_Full.csv`
 - `build\script_presets\PMBus_M_CRPS_Full.csv`
 - `build\script_presets\PMBus_TI_UCD90xxx_Full.csv`

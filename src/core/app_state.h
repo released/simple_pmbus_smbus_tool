@@ -4,6 +4,7 @@
 #include <string>
 
 #include "../config/ini_manager.h"
+#include "board_i2c_catalog.h"
 #include "fw_version.generated.h"
 
 namespace mfc_tool::core {
@@ -13,6 +14,7 @@ struct UiState {
     std::wstring pid = L"0x5020";
     std::wstring timeout_ms = L"2000";
     std::wstring device_label = L"Auto Select";
+    std::wstring bridge_board = L"M032_EVB";
     bool save_log_checked = false;
     std::wstring expected_fw_version = M032_EXPECTED_FW_VERSION;
     std::wstring last_seen_fw_version = L"-";

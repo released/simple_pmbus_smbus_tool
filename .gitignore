@@ -20,8 +20,21 @@ build/*.ipdb
 *.idb
 *.iobj
 *.ipdb
+# SRecord is a separately installed developer tool, not a bundled delivery.
+/demo_code/**/srec_cat.exe
 
 # Keil local/user outputs
+/build/*.ini
+/build/test_log/
+/tmp/
+demo_code/**/[Kk][Ee][Ii][Ll]/*.uvoptx
+demo_code/*/SampleCode/*/[Kk][Ee][Ii][Ll]/lst/
+demo_code/*/SampleCode/*/[Kk][Ee][Ii][Ll]/obj/
+demo_code/*/SampleCode/*/[Kk][Ee][Ii][Ll]/*.uvguix.*
+demo_code/*/SampleCode/*/[Kk][Ee][Ii][Ll]/Nu_Link_Driver.ini
+demo_code/*/SampleCode/*/[Kk][Ee][Ii][Ll]/*.log
+demo_code/*/SampleCode/*/[Kk][Ee][Ii][Ll]/boot_app.bin
+demo_code/*/SampleCode/*/[Kk][Ee][Ii][Ll]/boot_app.hex
 demo_code/M031BSP_USB_HID_PMBus_SMBus/SampleCode/Template/Keil/lst/
 demo_code/M031BSP_USB_HID_PMBus_SMBus/SampleCode/Template/Keil/obj/
 demo_code/M031BSP_USB_HID_PMBus_SMBus/SampleCode/Template/Keil/*.uvguix.*

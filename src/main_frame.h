@@ -9,6 +9,7 @@
 
 #include "config/ini_manager.h"
 #include "core/app_state.h"
+#include "core/board_i2c_catalog.h"
 #include "core/bridge_service.h"
 #include "core/pin_usage_registry.h"
 #include "log/logger.h"
@@ -34,6 +35,8 @@ protected:
     afx_msg void OnBnClickedGetInfo();
     afx_msg void OnBnClickedPing();
     afx_msg void OnBnClickedResetMcu();
+    afx_msg void OnBnClickedReturnBootloader();
+    afx_msg void OnBoardChanged();
     afx_msg void OnBnClickedSaveIni();
     afx_msg void OnBnClickedLoadIni();
     afx_msg void OnBnClickedResetIni();
@@ -58,6 +61,12 @@ private:
     void UpdateStatusChipColor();
     void UpdateIniPathUi();
     void SetScriptTabDirty(bool dirty);
+    void PopulateBoardCombo();
+    void ApplyBoardProfileToTabs();
+    void SetBoardProfile(mfc_tool::core::board_i2c::BoardProfile profile, bool persist);
+    mfc_tool::core::board_i2c::BoardProfile CurrentBoardProfile() const;
+    static mfc_tool::core::board_i2c::BoardProfile DetectBoardProfileFromBridgeName(const std::wstring& bridge_name,
+                                                                                    mfc_tool::core::board_i2c::BoardProfile fallback);
     std::wstring SelectedDevicePath() const;
     static std::wstring DeviceLabel(const mfc_tool::hid::DeviceInfo& d, int index);
     void LogBridgeInfoPayload(const std::vector<std::uint8_t>& rx, bool from_connect);
@@ -105,9 +114,12 @@ private:
     CStatic fw_info_value_;
     CStatic device_label_;
     CComboBox device_combo_;
+    CStatic board_label_;
+    CComboBox board_combo_;
     CButton get_info_btn_;
     CButton ping_btn_;
     CButton reset_mcu_btn_;
+    CButton return_bootloader_btn_;
 
     CTabCtrl tab_ctrl_;
     CPmbusTab pmbus_tab_;
@@ -125,6 +137,7 @@ private:
     mfc_tool::core::BridgeService service_;
     mfc_tool::core::PinUsageRegistry pin_usage_;
     mfc_tool::log::Logger logger_;
+    mfc_tool::core::board_i2c::BoardProfile board_profile_ = mfc_tool::core::board_i2c::BoardProfile::M032Evb;
     std::wstring expected_fw_version_ = M032_EXPECTED_FW_VERSION;
     std::wstring current_fw_version_ = L"-";
     bool fw_version_match_ = true;

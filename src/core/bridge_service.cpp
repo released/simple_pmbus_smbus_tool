@@ -46,6 +46,7 @@ std::vector<std::uint8_t> BridgeService::Tx(std::uint8_t cmd, const std::vector<
 std::vector<std::uint8_t> BridgeService::Ping(const std::vector<std::uint8_t>& data) { return Tx(CMD_PING, data); }
 std::vector<std::uint8_t> BridgeService::GetInfo() { return Tx(CMD_GET_INFO, {}); }
 std::vector<std::uint8_t> BridgeService::ResetMcu() { return Tx(CMD_RESET_MCU, {}); }
+std::vector<std::uint8_t> BridgeService::EnterIap() { return Tx(CMD_ENTER_IAP, {}); }
 
 std::vector<std::uint8_t> BridgeService::I2cMasterInit(int port, int sda_pin, int scl_pin, int baud) {
     std::vector<std::uint8_t> p;

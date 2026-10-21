@@ -23,6 +23,7 @@ public:
     std::vector<std::uint8_t> Ping(const std::vector<std::uint8_t>& data);
     std::vector<std::uint8_t> GetInfo();
     std::vector<std::uint8_t> ResetMcu();
+    std::vector<std::uint8_t> EnterIap();
 
     std::vector<std::uint8_t> I2cMasterInit(int port, int sda_pin, int scl_pin, int baud);
     std::vector<std::uint8_t> I2cMasterBusStatus(int port, bool recover_if_needed);

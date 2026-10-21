@@ -30,6 +30,7 @@ public:
               std::function<void(const std::wstring&)> logger,
               mfc_tool::core::PinUsageRegistry* pin_usage,
               std::function<void()> persist_settings = {});
+    void SetBoardProfile(mfc_tool::core::board_i2c::BoardProfile board_profile);
     void SetConnected(bool connected);
     void OnDisconnected();
     void RefreshDpiLayout();
@@ -158,6 +159,7 @@ private:
     std::function<void(const std::wstring&)> log_;
     std::function<void()> persist_settings_;
     Profile profile_ = Profile::BasePmbus;
+    mfc_tool::core::board_i2c::BoardProfile board_profile_ = mfc_tool::core::board_i2c::BoardProfile::M032Evb;
     bool connected_ = false;
     bool master_enabled_ = false;
     bool checklist_running_ = false;

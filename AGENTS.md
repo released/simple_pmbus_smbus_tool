@@ -1,5 +1,10 @@
 # AGENTS.md
 
+## Workspace Layout And Safe Clean
+
+Keep the existing src/scripts/docs/build plus vendor demo_code profile. Documentation images belong in docs/images. clean_mfc.bat uses clean_intermediates.ps1: allowlisted files only, reparse preflight, never whole obj/tests/log directories.
+
+
 ## Project Purpose
 
 This project builds a PMBus/SMBus HID test tool:

@@ -170,6 +170,7 @@ config::IniData AppState::ToIniData(const std::wstring& ini_path) const {
         {L"pid", ui.pid},
         {L"timeout_ms", ui.timeout_ms},
         {L"device_label", ui.device_label},
+        {L"bridge_board", ui.bridge_board},
         {L"save_log_checked", ui.save_log_checked ? L"1" : L"0"},
         {L"expected_fw_version", ui.expected_fw_version},
         {L"last_seen_fw_version", ui.last_seen_fw_version}
@@ -234,6 +235,7 @@ void AppState::ApplyIniData(const config::IniData& data) {
     ui.pid = GetValue(data, L"UI", L"pid", ui.pid);
     ui.timeout_ms = GetValue(data, L"UI", L"timeout_ms", ui.timeout_ms);
     ui.device_label = GetValue(data, L"UI", L"device_label", ui.device_label);
+    ui.bridge_board = GetValue(data, L"UI", L"bridge_board", ui.bridge_board);
     ui.save_log_checked = GetValue(data, L"UI", L"save_log_checked", ui.save_log_checked ? L"1" : L"0") == L"1";
     ui.last_seen_fw_version = GetValue(data, L"UI", L"last_seen_fw_version", ui.last_seen_fw_version);
 

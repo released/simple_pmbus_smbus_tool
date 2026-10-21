@@ -571,6 +571,23 @@ void CPmbusTab::Bind(mfc_tool::core::BridgeService* service,
     RefreshPinUsage();
 }
 
+void CPmbusTab::SetBoardProfile(mfc_tool::core::board_i2c::BoardProfile board_profile) {
+    if (board_profile_ == board_profile) {
+        return;
+    }
+
+    std::wstring preferred_pin;
+    if (::IsWindow(master_pins_combo_.GetSafeHwnd())) {
+        preferred_pin = CurrentMasterPinPair().ini_name;
+    }
+    board_profile_ = board_profile;
+    if (::IsWindow(master_pins_combo_.GetSafeHwnd())) {
+        PopulateMasterPinCombo(preferred_pin);
+        RefreshPinUsage();
+        UpdateEnableState();
+    }
+}
+
 int CPmbusTab::OnCreate(LPCREATESTRUCT lpCreateStruct) {
     if (CWnd::OnCreate(lpCreateStruct) == -1) {
         return -1;
@@ -1743,11 +1760,11 @@ const mfc_tool::core::board_i2c::PinPair& CPmbusTab::CurrentMasterPinPair() cons
     const int sel = master_pins_combo_.GetCurSel();
     if (sel != CB_ERR) {
         const auto idx = static_cast<size_t>(master_pins_combo_.GetItemData(sel));
-        if (idx < pairs.size()) {
+        if (idx < pairs.size() && mfc_tool::core::board_i2c::IsPinPairSupported(board_profile_, pairs[idx])) {
             return pairs[idx];
         }
     }
-    const auto* fallback = mfc_tool::core::board_i2c::DefaultPinPair(CurrentMasterPort());
+    const auto* fallback = mfc_tool::core::board_i2c::DefaultPinPair(board_profile_, CurrentMasterPort());
     return fallback != nullptr ? *fallback : pairs.front();
 }
 
@@ -1772,7 +1789,8 @@ void CPmbusTab::PopulateMasterPinCombo(const std::wstring& preferred_ini_name) {
     master_pins_combo_.ResetContent();
     const auto& pairs = mfc_tool::core::board_i2c::AllPinPairs();
     for (size_t i = 0; i < pairs.size(); ++i) {
-        if (pairs[i].i2c_port != port) {
+        if (pairs[i].i2c_port != port ||
+            !mfc_tool::core::board_i2c::IsPinPairSupported(board_profile_, pairs[i])) {
             continue;
         }
         const int idx = master_pins_combo_.AddString(pairs[i].label);

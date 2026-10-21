@@ -21,6 +21,7 @@ public:
     void Bind(mfc_tool::core::BridgeService* service,
               std::function<void(const std::wstring&)> logger,
               mfc_tool::core::PinUsageRegistry* pin_usage);
+    void SetBoardProfile(mfc_tool::core::board_i2c::BoardProfile board_profile);
     void SetConnected(bool connected);
     void OnDisconnected();
     void RefreshDpiLayout();
@@ -127,6 +128,7 @@ private:
     mfc_tool::core::BridgeService* service_ = nullptr;
     mfc_tool::core::PinUsageRegistry* pin_usage_ = nullptr;
     std::function<void(const std::wstring&)> log_;
+    mfc_tool::core::board_i2c::BoardProfile board_profile_ = mfc_tool::core::board_i2c::BoardProfile::M032Evb;
     bool connected_ = false;
     bool loading_ = false;
     int visible_port_ = 0;

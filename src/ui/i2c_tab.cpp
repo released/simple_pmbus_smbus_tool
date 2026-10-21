@@ -126,6 +126,22 @@ void CI2cTab::Bind(mfc_tool::core::BridgeService* service,
     RefreshPinUsage();
 }
 
+void CI2cTab::SetBoardProfile(mfc_tool::core::board_i2c::BoardProfile board_profile) {
+    if (board_profile_ == board_profile) {
+        return;
+    }
+
+    if (::IsWindow(pins_combo_.GetSafeHwnd())) {
+        SaveVisibleToState();
+    }
+    board_profile_ = board_profile;
+    if (::IsWindow(pins_combo_.GetSafeHwnd())) {
+        LoadVisibleFromState();
+        RefreshPinUsage();
+        UpdateEnableState();
+    }
+}
+
 int CI2cTab::OnCreate(LPCREATESTRUCT lpCreateStruct) {
     if (CWnd::OnCreate(lpCreateStruct) == -1) {
         return -1;
@@ -463,7 +479,8 @@ void CI2cTab::PopulatePinCombo(const std::wstring& preferred_ini_name) {
 
     pins_combo_.ResetContent();
     for (size_t i = 0; i < pairs.size(); ++i) {
-        if (pairs[i].i2c_port != port) {
+        if (pairs[i].i2c_port != port ||
+            !mfc_tool::core::board_i2c::IsPinPairSupported(board_profile_, pairs[i])) {
             continue;
         }
         const int idx = pins_combo_.AddString(pairs[i].label);
@@ -1113,21 +1130,21 @@ const mfc_tool::core::board_i2c::PinPair& CI2cTab::CurrentPinPair() const {
     const int sel = pins_combo_.GetCurSel();
     if (sel != CB_ERR) {
         const auto idx = static_cast<size_t>(pins_combo_.GetItemData(sel));
-        if (idx < pairs.size()) {
+        if (idx < pairs.size() && mfc_tool::core::board_i2c::IsPinPairSupported(board_profile_, pairs[idx])) {
             return pairs[idx];
         }
     }
-    const auto* fallback = mfc_tool::core::board_i2c::DefaultPinPair(visible_port_);
+    const auto* fallback = mfc_tool::core::board_i2c::DefaultPinPair(board_profile_, visible_port_);
     return fallback != nullptr ? *fallback : pairs.front();
 }
 
 const mfc_tool::core::board_i2c::PinPair& CI2cTab::PinPairForPort(int port) const {
     const auto& pairs = mfc_tool::core::board_i2c::AllPinPairs();
-    const auto* saved = mfc_tool::core::board_i2c::FindPinPairByIniName(port_state_[port].pin_pair);
+    const auto* saved = mfc_tool::core::board_i2c::FindPinPairByIniName(board_profile_, port_state_[port].pin_pair);
     if (saved != nullptr && saved->i2c_port == port) {
         return *saved;
     }
-    const auto* fallback = mfc_tool::core::board_i2c::DefaultPinPair(port);
+    const auto* fallback = mfc_tool::core::board_i2c::DefaultPinPair(board_profile_, port);
     return fallback != nullptr ? *fallback : pairs.front();
 }
 

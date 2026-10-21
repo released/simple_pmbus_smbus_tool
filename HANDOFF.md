@@ -1,5 +1,26 @@
 # HANDOFF.md
 
+## Authorized publication preflight (2026-10-21)
+
+- Formatting check: full staged diff --check reports legacy whitespace in imported BSP/library files and three copied M031 boot files; these are not mass-reformatted. The project-owned remainder passes the scoped whitespace check. All six isolated firmware builds completed without errors/warnings.
+
+- The user now authorizes publishing this repository, superseding the earlier deferred-push note. Scope includes the preserved feature work, layout/clean changes, documentation and reviewed native delivery; no unrelated repository is included.
+- Build/tests: Debug and Release x64 builds PASS; Debug reported 2 pre-existing unused-variable warnings, Release 0 warnings/errors. Delivery version 1.0.0.258. Isolated native startup/normal-close PASS; PMBus contract validation PASS (224 rows, zero gaps/mismatches).
+- Clean PASS: actual scripts/clean_mfc.bat; 35 protected output files unchanged by SHA-256. Expanded fixtures retained 17 delivery/runtime/cache sentinels plus source; object removal, help, repeat clean and reparse rejection PASS.
+- Privacy/index: 27 tracked runtime INI/log/Keil-option paths removed from index only; local bytes/hash preserved. New M261 SDK sources/dependencies and required upstream attribution/license included; six vendor library hashes match OpenNuvoton upstream. Unbundled srec_cat.exe and local .uvoptx stay ignored; checksum scripts already support installed SRecord via PATH.
+- Firmware/limits: PASS: isolated copies of M032 boot/app and M261 boot/app built with Keil/Arm Compiler 6.22, each 0 errors/warnings; no original project debugger/user files changed. Hardware/flash acceptance NOT RUN.
+- Candidate text/EXE checks found no tested private-key, access-token or personal-profile-path patterns; this is not a full secret/license audit. Only ordinary non-force publication to the verified existing main is authorized; exact final commit/remote SHA is recorded in the workspace migration ledger.
+
+
+## Workspace layout / clean audit (2026-10-21)
+
+- Scope: Moved four screenshots to `docs/images` and updated README links without overwriting files; source/scripts/vendor tree remains intact. Three verified COFF root objects were hash-moved into build/obj/legacy_root then removed by the compiler-only cleaner.
+- Build/tests: PASS: `scripts/build_mfc.ps1 -Configuration Release -CloseRunningTool $false`, 0 warnings/errors, normal generated version 1.0.0.256. Shared isolated EXE startup/captioned-frame/normal-close PASS, exit 0; no device connection.
+- PASS: shared `verify_clean_preservation.ps1 -ProjectRoot <this-project> -CleanBatch scripts\clean_mfc.bat -CleanActualProject -CheckNestedDelivery -CheckReparseRejection`. Non-destructive help, 17 delivery/runtime sentinels plus source, known object removal, repeat clean, and junction rejection passed; 35 actual protected output files unchanged by SHA-256.
+- Additional evidence: The pre-existing private runtime INI hash is unchanged; its values were not read. Firmware/business modifications from before this audit are preserved, not reviewed or staged as migration work.
+- Limits/publication: NOT RUN: Keil firmware rebuild, physical bus traffic, protocol acceptance or exhaustive UI/DPI. User confirmed this batch's push is deferred; preserve all uncommitted feature work and local results.
+
+
 ## Current State
 
 The PC GUI builds as `build\PmbusSmbusHidTool.exe` and exposes `PMBus`, `SMBus`, `I2C`, and `Script` tabs with M032 EVB I2C port and pin-pair selection where bus ownership is needed.
