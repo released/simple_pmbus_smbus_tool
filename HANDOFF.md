@@ -1,5 +1,20 @@
 # HANDOFF.md
 
+## Verified x64 EXE slimming 2026-10-25
+
+- Canonical Release and isolated Debug builds PASS; actual formal EXE hash
+  96E1B885B27442B7D89229A1015F488F4FAC6D2CAA59132CF6473AD665FC805D.
+- Comparable EXE 3477504 -> 1388032 bytes; required native delivery
+  3477504 -> 1388032 bytes.
+- Fresh disconnected owned fixtures: identical child-control class counts, native
+  file dialog open/cancel, assertion-free Debug and exit 0; five AB/BA pairs PASS.
+- Actual clean removed 35 compiler files; 35 protected actual files SHA unchanged.
+  Nested 17-file/source fixtures, help/idempotence PASS; root INI hashes preserved.
+- Publication commit/remote result is recorded in shared EXE_SLIMMING_PROGRESS.md.
+- Raw samples/limits: docs/verification/exe-slimming-20261025.json.
+  Physical devices, unrelated firmware, visual/DPI/clean-PC/Win32 NOT RUN.
+
+
 ## Authorized publication preflight (2026-10-21)
 
 - Formatting check: full staged diff --check reports legacy whitespace in imported BSP/library files and three copied M031 boot files; these are not mass-reformatted. The project-owned remainder passes the scoped whitespace check. All six isolated firmware builds completed without errors/warnings.

@@ -1,0 +1,178 @@
+{
+  "Date": "2026-10-25",
+  "Target": "Release|x64",
+  "Toolchain": "MSVC 14.44.35207",
+  "OriginalExeBytes": 3477504,
+  "BaselineBytes": 3477504,
+  "FormalBytes": 1388032,
+  "BaselineSHA256": "D926318D811FC504E657C816D022D72A7F966F97460C488CB9BB351BA570EB5F",
+  "FormalSHA256": "96E1B885B27442B7D89229A1015F488F4FAC6D2CAA59132CF6473AD665FC805D",
+  "RequiredFiles": [
+    "PmbusSmbusHidTool.exe"
+  ],
+  "DeliveryBeforeBytes": 3477504,
+  "DeliveryAfterBytes": 1388032,
+  "Profile": "Startup",
+  "Samples": 5,
+  "Order": "baseline calibration before candidate; alternating AB/BA measured pairs",
+  "Limits": {
+    "StartupMs": {
+      "Median": 896.195,
+      "MAD": 42.45590000000004,
+      "AllowedDelta": 127
+    },
+    "PeakBytes": {
+      "Median": 20463616,
+      "MAD": 4096,
+      "AllowedDelta": 1048576
+    },
+    "CpuMs": {
+      "Median": 578.125,
+      "MAD": 62.5,
+      "AllowedDelta": 188
+    },
+    "WorkflowMs": {
+      "Median": 1.1583,
+      "MAD": 0.02839999999999998,
+      "AllowedDelta": 2
+    }
+  },
+  "Checks": [
+    {
+      "Metric": "StartupMs",
+      "BaselineMedian": 859.4414,
+      "CandidateMedian": 883.6449,
+      "Limit": 986.4414,
+      "Pass": true
+    },
+    {
+      "Metric": "PeakBytes",
+      "BaselineMedian": 20443136,
+      "CandidateMedian": 19951616,
+      "Limit": 21491712,
+      "Pass": true
+    },
+    {
+      "Metric": "CpuMs",
+      "BaselineMedian": 546.875,
+      "CandidateMedian": 625,
+      "Limit": 734.875,
+      "Pass": true
+    },
+    {
+      "Metric": "WorkflowMs",
+      "BaselineMedian": 1.6748,
+      "CandidateMedian": 1.679,
+      "Limit": 3.6748000000000003,
+      "Pass": true
+    }
+  ],
+  "Calibration": [
+    {
+      "StartupMs": 853.7391,
+      "WorkflowMs": 1.1299000000000001,
+      "CpuMs": 578.125,
+      "PeakBytes": 20463616
+    },
+    {
+      "StartupMs": 904.1589,
+      "WorkflowMs": 1.1669,
+      "CpuMs": 734.375,
+      "PeakBytes": 20467712
+    },
+    {
+      "StartupMs": 1263.959,
+      "WorkflowMs": 1.1583,
+      "CpuMs": 484.375,
+      "PeakBytes": 20508672
+    },
+    {
+      "StartupMs": 896.195,
+      "WorkflowMs": 0.9415,
+      "CpuMs": 578.125,
+      "PeakBytes": 20463616
+    },
+    {
+      "StartupMs": 852.9685000000001,
+      "WorkflowMs": 1.6287,
+      "CpuMs": 640.625,
+      "PeakBytes": 20426752
+    }
+  ],
+  "Baseline": [
+    {
+      "StartupMs": 860.7464,
+      "WorkflowMs": 1.7715,
+      "CpuMs": 484.375,
+      "PeakBytes": 20475904
+    },
+    {
+      "StartupMs": 824.4252,
+      "WorkflowMs": 2.0201000000000002,
+      "CpuMs": 562.5,
+      "PeakBytes": 20434944
+    },
+    {
+      "StartupMs": 859.4414,
+      "WorkflowMs": 1.6748,
+      "CpuMs": 546.875,
+      "PeakBytes": 20443136
+    },
+    {
+      "StartupMs": 845.9012,
+      "WorkflowMs": 1.3113000000000001,
+      "CpuMs": 546.875,
+      "PeakBytes": 20463616
+    },
+    {
+      "StartupMs": 873.668,
+      "WorkflowMs": 0.7405,
+      "CpuMs": 562.5,
+      "PeakBytes": 20439040
+    }
+  ],
+  "Candidate": [
+    {
+      "StartupMs": 894.6564000000001,
+      "WorkflowMs": 1.2902,
+      "CpuMs": 640.625,
+      "PeakBytes": 19980288
+    },
+    {
+      "StartupMs": 942.5212,
+      "WorkflowMs": 1.669,
+      "CpuMs": 625,
+      "PeakBytes": 20008960
+    },
+    {
+      "StartupMs": 883.0026,
+      "WorkflowMs": 1.741,
+      "CpuMs": 562.5,
+      "PeakBytes": 19947520
+    },
+    {
+      "StartupMs": 883.6449,
+      "WorkflowMs": 1.679,
+      "CpuMs": 609.375,
+      "PeakBytes": 19951616
+    },
+    {
+      "StartupMs": 872.1822000000001,
+      "WorkflowMs": 1.7404000000000002,
+      "CpuMs": 687.5,
+      "PeakBytes": 19951616
+    }
+  ],
+  "ControlShapePass": true,
+  "DebugStartupDialogClose": "PASS",
+  "PhysicalDevices": "NOT RUN; disconnected test-owned processes only",
+  "DesktopVisualDpi": "NOT RUN",
+  "CompilerRuntimeSecurity": "Unchanged /O2 /GL /MT /GS; x64 PE 0x8160; no new runtime dependency",
+  "ActualClean": {
+    "Removed": 35,
+    "Protected": 35,
+    "NestedFixtures": 17,
+    "RootIniHashesUnchanged": true
+  },
+  "RequiredSidecar": null
+}

@@ -1,5 +1,17 @@
 # AGENTS.md
 
+## Verified x64 size configuration (2026-10-25)
+
+- Standard/common/custom controls were reviewed; x64 alone defines
+  _AFX_NO_MFC_CONTROLS_IN_DIALOGS. Reassess before introducing CMFC controls.
+- Keep /O2, /GL, static /MT, /GS, existing architecture/security and actual
+  device/protocol features; never infer unused dependencies from import tables alone.
+- Validate the affected startup/control/common-dialog/normal-close paths in isolated
+  hash-matched Release/Debug fixtures; no personal INIs or device commands.
+- Scoped actual results/raw performance samples: SELF_CHECK.md and
+  docs/verification/exe-slimming-20261025.json. Publish only the verified existing origin; never stage runtime/private INIs.
+
+
 ## Workspace Layout And Safe Clean
 
 Keep the existing src/scripts/docs/build plus vendor demo_code profile. Documentation images belong in docs/images. clean_mfc.bat uses clean_intermediates.ps1: allowlisted files only, reparse preflight, never whole obj/tests/log directories.

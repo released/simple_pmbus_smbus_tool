@@ -1,5 +1,15 @@
 # PmbusSmbusHidTool
 
+## Release EXE size reduction (2026-10-25)
+
+Release x64 EXE: 3,477,504 -> 1,388,032 bytes.
+Only unused MFC control registration is excluded; application/device features,
+static runtime and security settings are retained.
+Startup, controls, native file-dialog cancellation, Debug normal close and paired
+startup/UI performance checks passed. This is not physical-device or visual/DPI
+acceptance. See SELF_CHECK.md for exact scope and raw evidence.
+
+
 ## Publication and local data
 
 The current source/layout and native delivery are published without personal INIs,

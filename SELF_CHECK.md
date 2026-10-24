@@ -1,5 +1,32 @@
 # SELF_CHECK.md
 
+## Verified x64 EXE slimming 2026-10-25
+
+- PASS fresh comparable Release baseline 3477504 bytes (original 3477504);
+  actual formal 1388032 bytes, SHA 96E1B885B27442B7D89229A1015F488F4FAC6D2CAA59132CF6473AD665FC805D.
+- PASS Release x64 canonical build (build_mfc.ps1 -Configuration Release -Platform x64 -CloseRunningTool $false);
+  isolated Debug with version prebuild disabled. Release 0 warnings/errors; Debug retains 2 existing C4189 unused-variable warnings.
+- PASS hash-matched fresh own-process fixtures: identical child-control class counts,
+  native browse/load dialog open/cancel, Debug without assertion, normal exit 0.
+  No real INI, bus transaction, flash, clipboard or hardware action.
+- Impact: x64 unused MFC registration only; no application/protocol/firmware changes.
+  /O2, /GL, /MT, /GS and PE 0x8160 retained, VisualManager RTTI absent, no new DLLs.
+  Only the GUI EXE is counted as required native binary; settings/public data remain protected.
+- PASS performance: two warmups, baseline calibration before candidate, five alternating
+  AB/BA pairs without concurrent compilation. Predeclared delta max(floor, 10% median,
+  3*MAD); memory 5%; floors startup 25ms, UI 2ms, CPU 16ms, memory 1MiB.
+- StartupMs: 859.4414 -> 883.6449; limit 986.4414.
+- PeakBytes: 20443136.0000 -> 19951616.0000; limit 21491712.0000.
+- CpuMs: 546.8750 -> 625.0000; limit 734.8750.
+- WorkflowMs: 1.6748 -> 1.6790; limit 3.6748.
+- Raw samples/limits: docs/verification/exe-slimming-20261025.json.
+- PASS actual clean_mfc.bat: 35 compiler files removed; 35 protected actual files SHA
+  unchanged. 17 nested fixture files/source, help/idempotence PASS. Prior unchanged
+  junction-rejection evidence reused. Personal root INI hashes match starting manifest.
+- NOT RUN: physical-device/protocol throughput, unrelated firmware, visual/DPI,
+  clean-PC and Win32. No new installation prerequisite or security tradeoff.
+
+
 ## Authorized publication preflight (2026-10-21)
 
 - Formatting check: full staged diff --check reports legacy whitespace in imported BSP/library files and three copied M031 boot files; these are not mass-reformatted. The project-owned remainder passes the scoped whitespace check. All six isolated firmware builds completed without errors/warnings.
