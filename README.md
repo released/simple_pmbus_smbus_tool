@@ -1,31 +1,12 @@
 # PmbusSmbusHidTool
 
-## Release EXE size reduction (2026-10-25)
-
-Release x64 EXE: 3,477,504 -> 1,388,032 bytes.
-Only unused MFC control registration is excluded; application/device features,
-static runtime and security settings are retained.
-Startup, controls, native file-dialog cancellation, Debug normal close and paired
-startup/UI performance checks passed. This is not physical-device or visual/DPI
-acceptance. See SELF_CHECK.md for exact scope and raw evidence.
-
-
-## Publication and local data
-
-The current source/layout and native delivery are published without personal INIs,
-logs or debugger/user options. Defaults are generated locally where supported;
-existing local settings/data are not deleted by clean or publication. Current-tree
-index removals do not erase earlier Git history. See SELF_CHECK.md for actual
-build/test results and hardware limitations. Firmware developers need an installed SRecord (srec_cat) in PATH or the local Keil folder; this repository does not bundle that developer executable. M261 BSP attribution and license are in demo_code/M261BSP_USB_HID_PMBus_SMBus/THIRD_PARTY_NOTICES.md.
-
-
 Windows MFC GUI tool for testing PMBus and SMBus device projects through a Nuvoton USB HID bridge.
 
-The verified bridge board is currently M032 EVB. M261 EVB / M263KIAAE firmware and GUI board/pin profiles are staged for follow-up hardware validation. The PC GUI connects to the bridge HID device and uses the EVB I2C controller as a PMBus/SMBus host master or a generic I2C master/slave bridge. The current user-facing scope is the `PMBus`, `SMBus`, `I2C`, and `Script` tabs plus HID connection controls.
+The primary bridge board is M032 EVB. M261 EVB / M263KIAAE firmware and GUI board/pin profiles are also included, but M261 hardware operation is not production-verified. The PC GUI uses the bridge I2C controller as a PMBus/SMBus master or generic I2C master/slave, through the `PMBus`, `SMBus`, `I2C`, and `Script` tabs and HID connection controls.
 
-Firmware upload has been split out to the sibling `simple_programming_tool` workspace so the programming procedure and programming bridge firmware do not affect this PMBus/SMBus validation tool.
-
-After the split, this workspace is back to the same functional scope it had before FW upload was added: PMBus validation, SMBus validation, generic I2C transactions, CSV script editing/running, and the M032 PMBus/SMBus HID bridge firmware.
+Target firmware programming is outside this tool. Use the
+[Nuvoton programming tool](https://github.com/released/simple_nuvoton_isp_tool)
+and matching programming-bridge firmware for that workflow.
 
 ## UI Screenshots
 
@@ -45,36 +26,14 @@ Implementation notes for keeping other simple-series MFC tools aligned with this
 
 ## Current Scope
 
-- Primary verified bridge board: M032 EVB
-- Staged bridge board firmware: M261 EVB / M263KIAAE, initial port in `demo_code\M261BSP_USB_HID_PMBus_SMBus`
-- Future bridge board: M487 EVB, not implemented yet
+- Primary bridge board: M032 EVB
+- M261 EVB / M263KIAAE bridge firmware: `demo_code\M261BSP_USB_HID_PMBus_SMBus` (hardware compatibility is not production-verified)
 - Bus role: PMBus/SMBus master; generic I2C master/slave in the `I2C` tab
 - Active bus: one selected I2C port/pin pair at a time
 - PC transport: Windows HID class driver, 64-byte reports
 - GUI target: testing external PMBus/SMBus device firmware/hardware and generic I2C transactions
 - Not in scope: PMBus/SMBus slave emulation, AVSBus, fixed ALERT#/CONTROL GPIO wiring
 - Not in scope: target firmware upload/ISP programming; use `simple_programming_tool` for that workflow
-
-## Split Status
-
-FW upload was intentionally removed from this workspace. The PMBus/SMBus bridge firmware no longer contains the programming-specific final-byte NACK exception that was needed by the Nuvoton I2C ISP flow. That programming behavior now belongs to the standalone `simple_programming_tool` project and its own M032 programming bridge firmware.
-
-Current PMBus/SMBus tool inventory:
-
-- PC app: `PmbusSmbusHidTool.sln`, `PmbusSmbusHidTool.vcxproj`, and `src\`
-- GUI tabs: `PMBus`, `SMBus`, `I2C`, and `Script`
-- M032 bridge firmware: `demo_code\M031BSP_USB_HID_PMBus_SMBus`
-- M261 staged bridge firmware and HID IAP bootloader: `demo_code\M261BSP_USB_HID_PMBus_SMBus`
-- PMBus contract docs: `docs\PMBUS_COMMAND_CONTRACT.csv`, `docs\PMBUS_COMMAND_CONTRACT.md`, and `docs\PMBUS_SUPPORT_MATRIX.md`
-- Generated validation scripts: `build\script_presets\*.csv`
-- TI historical reference files: `build\script_presets\ti_reference\`
-
-Removed from this workspace:
-
-- FW Upload GUI tab
-- Nuvoton I2C ISP PC helper
-- M031 target ISP I2C sample projects
-- programming-specific M032 bridge firmware behavior
 
 ## Quick Start
 
@@ -190,7 +149,7 @@ Important firmware files:
 
 M032 target-board FW upload remains out of scope for this workspace. The HID IAP flow below is only for updating the M032 EVB bridge firmware itself.
 
-The M032 EVB bridge firmware now also supports an APROM bootloader plus application split:
+The M032 EVB bridge firmware supports an APROM bootloader plus application split:
 
 - HID IAP bootloader: `0x00000000` to `0x00003FFF` (`16 KB`)
 - PMBus/SMBus HID bridge application: `0x00004000` to `0x0001FFFF` (`112 KB`)
@@ -221,19 +180,9 @@ M032 bootloader LED indicator:
 - Invalid or missing app / waiting for HID update: 3 short blinks, 250 ms on/off per step, then LED off for 1 second, repeated.
 - HID packet received while in update mode: short LED pulse.
 
-Current M032 IAP build status:
+### M261 Bridge Firmware
 
-- Local Keil build passed for both `Template` and `ISP_HID`.
-- `ISP_HID.bin` is 8,400 bytes and fits inside the 16 KB bootloader region.
-- `template.bin` is 114,688 bytes, and `boot_app.bin` is 131,072 bytes when the bootloader hex is present.
-- The generated application CRC word is `5B C3 3A 65` at app image offset `0x1BFFC`.
-- M032 HID IAP hardware validation has not been run yet.
-
-Implementation details and remaining risks are tracked in `docs\M032_BRIDGE_IAP_PLAN.md`.
-
-### M261 Staged Bridge Firmware
-
-Initial M261 firmware support is staged under:
+M261 firmware source is under:
 
 - `demo_code\M261BSP_USB_HID_PMBus_SMBus`
 
@@ -274,13 +223,11 @@ M261 bootloader LED indicator:
 - Invalid or missing app / waiting for HID update: 3 short blinks, 250 ms on/off per step, then LED off for 1 second, repeated.
 - HID packet received while in update mode: short LED pulse.
 
-Current M261 status:
+M261 compatibility:
 
 - Firmware-side HID bridge protocol is aligned with the M032 bridge protocol.
 - M261 I2C backend supports the M032-compatible pin-code pairs that also exist on M261, such as `PA.4/PA.5`, `PB.4/PB.5`, `PC.0/PC.1`, `PF.2/PF.3`, `PB.0/PB.1`, `PA.6/PA.7`, `PA.2/PA.3`, `PF.1/PF.0`, `PC.4/PC.5`, and `PB.10/PB.11`.
-- Local Keil build passed for both `Template` and `ISP_HID`. `Template.bin` is 458,752 bytes, and `boot_app.bin` is 524,288 bytes when the bootloader hex is present.
-- The generated application CRC word is `AD E0 79 50` at app image offset `0x6FFFC`.
-- The PC GUI now includes a `Board` selector with `M032 EVB` and `M261 EVB` profiles. M261 uses the same pin-code encoding as M032 but omits the M032-only `I2C1 PB.2/PB.3` pair.
+- The PC GUI provides a `Board` selector with `M032 EVB` and `M261 EVB` profiles. M261 uses the same pin-code encoding as M032 but omits the M032-only `I2C1 PB.2/PB.3` pair.
 - M261 EVB hardware validation has not been run yet.
 
 Implementation details and remaining risks are tracked in `docs\M261_BRIDGE_IAP_PLAN.md`.
@@ -292,8 +239,6 @@ The bootloader is only responsible for bridge application update control. It doe
 When the application is already running, the bootloader HID device is not enumerated. This PMBus/SMBus tool is the app-side entry point because it is connected to the bridge application HID device (`VID 0x0416`, `PID 0x5020`). Click the top-level `Return Bootloader` button to send `BRIDGE_CMD_ENTER_IAP` (`0x04`), invalidate the app CRC word, and reset the board into USB HID ISP bootloader mode. After the bootloader enumerates as `VID 0x0416`, `PID 0x3F00`, use the standalone `simple_programming_tool` to poll `CMD_CONNECT` and program the padded application binary.
 
 Because `BRIDGE_CMD_ENTER_IAP` erases the application CRC word, canceling the update after this step leaves the board in bootloader mode until a valid application image is programmed again.
-
-For parallel rollout to sibling GUI tools, use `docs\BRIDGE_IAP_MULTI_TOOL_ROLLOUT.md`. That document records the aligned M031/M032 and M261 boot/application contract, the per-tool application porting checklist, and the current `demo_code` gaps in `simple_pmbus_gui_tool`, `simple_sgpio_test_tool`, and `simple_smbus_sgpio_tool`.
 
 ## HID Bridge Protocol
 
@@ -591,7 +536,6 @@ Preset script validation workflow:
 5. Use `Stop` to cancel the remaining selected rows after the in-flight transaction completes.
 6. Compare the script GUI log against the matching button-test log. Script runs should match the same bus transaction intent; button tests may include extra GUI-side assertions and manual-only checks.
 
-Validation logs captured during local bring-up are kept under `build\test_log` in this workspace. These logs are published with the repository as validation evidence for the known-good PMBus/SMBus button and script runs.
 
 ## SMBus Tab
 
@@ -680,11 +624,11 @@ Recommended I2C workflow:
 5. Confirm the LA decode shows the same address, write bytes, read length, STOP/repeated-start behavior, and ACK/NACK pattern expected by the target.
 6. Click `Disable` when finished so PMBus, SMBus, or Script can own the I2C bus.
 
-## Manual UI Equivalence Smoke Test
+## Manual Transaction Examples
 
-The button and script tests validate the shared HID/I2C transaction helpers. The manual UI smoke test below validates the extra UI layer: dropdown selection, command/register field parsing, data-byte parsing, read-length parsing, PEC/bad-PEC controls, and UBM checksum selection.
+Use the following examples to select transactions, fill command/register and data fields, set read lengths, and inspect PEC or UBM checksum behavior against a compatible bench target.
 
-Before running manual smoke tests:
+Before sending a transaction:
 
 1. Select the correct `Board` profile, connect the HID bridge, and click `Get Info`.
 2. Select the same I2C port, pin pair, speed, and target address used by the passing button/script validation. The bundled validation examples use address `0x5A`.
@@ -761,7 +705,7 @@ Saved state includes:
 - Script tab CSV path
 - PMBus/SMBus runner CSV paths
 
-This repository intentionally keeps `build\PmbusSmbusHidTool.exe`, `build\pmbus_smbus_tool.ini`, and `build\test_log` so a new user can launch the known-good binary and inspect the validation evidence directly after checkout.
+The executable is `build\PmbusSmbusHidTool.exe`; portable settings are stored in `build\pmbus_smbus_tool.ini`. Review device settings before connecting to a board.
 
 ## Project Structure
 
@@ -791,64 +735,7 @@ Expected source-controlled content for GitHub:
 - `build\script_presets\ti_reference\TI_USB_TO_GPIO_2006_PMBUS_SMBUS_SCRIPT_SEQUENCE.md`
 - `build\script_presets\_staging\README.md`
 
-## GitHub Upload Notes
-
-Before uploading a public copy, keep source, scripts, docs, firmware project files, generated script presets, TI reference files, the built GUI executable, the default INI, and validation logs:
-
-- `build\PmbusSmbusHidTool.exe`
-- `build\pmbus_smbus_tool.ini`
-- `build\test_log\`
-
-Exclude the remaining local and generated artifacts:
-
-- `build\obj\`
-- `build\*.pdb` and other PC build intermediates
-- root `teraterm.log`
-- root `*.obj`, `*.pdb`, and other compiler/linker intermediates
-- Keil `lst\`, `obj\`, `*.uvguix.*`, and local debug-driver INI files
-
-The included `.gitignore` is set up for this split. It keeps source-controlled validation assets such as `build\script_presets\*.csv`, `build\script_presets\ti_reference\SMBusI2CScriptForm.csv`, `build\script_presets\ti_reference\TI_USB_TO_GPIO_2006_PMBUS_SMBUS_SCRIPT_SEQUENCE.md`, `build\PmbusSmbusHidTool.exe`, `build\pmbus_smbus_tool.ini`, and `build\test_log\` available while excluding other local runtime/build artifacts and scratch files under `build\script_presets\_staging`.
-
-Repository check before upload:
-
-1. Confirm the local folder is a valid Git worktree. If `git status` reports `not a git repository`, initialize or recreate the repository metadata before uploading.
-2. Confirm `git status --short` includes `build\PmbusSmbusHidTool.exe`, `build\pmbus_smbus_tool.ini`, and `build\test_log\` when they are not already tracked.
-3. Confirm `git status --short` does not include root `teraterm.log`, `build\obj`, root object files, Keil `obj`/`lst`, or user-specific Keil files.
-4. Confirm no accidental FW upload source files are present in this workspace.
-5. Confirm `Get Info` expects `m032-pmbus-smbus-bridge/1.1.3`.
-6. Keep target firmware upload content in `simple_programming_tool`, not this repository.
-
-## Verification
-
-PC build:
-
-```bat
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts\build_mfc.ps1 -Configuration Release -Platform x64
-```
-
-PMBus contract validation:
-
-```bat
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts\validate_pmbus_contract.ps1
-```
-
-Firmware syntax check, when `arm-none-eabi-gcc` is available:
-
-```bat
-arm-none-eabi-gcc -mcpu=cortex-m0 -mthumb -std=gnu99 -fsyntax-only ^
-  -Idemo_code\M031BSP_USB_HID_PMBus_SMBus\Library\CMSIS\Core\Include ^
-  -Idemo_code\M031BSP_USB_HID_PMBus_SMBus\Library\Device\Nuvoton\M031\Include ^
-  -Idemo_code\M031BSP_USB_HID_PMBus_SMBus\Library\StdDriver\inc ^
-  -Idemo_code\M031BSP_USB_HID_PMBus_SMBus\SampleCode\Template ^
-  demo_code\M031BSP_USB_HID_PMBus_SMBus\SampleCode\Template\m031_bridge_i2c.c
-
-arm-none-eabi-gcc -mcpu=cortex-m0 -mthumb -std=gnu99 -fsyntax-only ^
-  -Idemo_code\M031BSP_USB_HID_PMBus_SMBus\Library\CMSIS\Core\Include ^
-  -Idemo_code\M031BSP_USB_HID_PMBus_SMBus\Library\Device\Nuvoton\M031\Include ^
-  -Idemo_code\M031BSP_USB_HID_PMBus_SMBus\Library\StdDriver\inc ^
-  -Idemo_code\M031BSP_USB_HID_PMBus_SMBus\SampleCode\Template ^
-  demo_code\M031BSP_USB_HID_PMBus_SMBus\SampleCode\Template\hid_tool_api.c
-```
+## Example Board Operation
 
 Hardware smoke test:
 
@@ -863,4 +750,9 @@ Hardware smoke test:
 9. Run a simple read/write transaction.
 10. For slave mode, have an external master write to the selected address and confirm `Get RX`; preload `Set TX` and confirm the external master can read it.
 
-See `SELF_CHECK.md` for the latest verification result captured in this workspace.
+Validate the selected bridge/target combination on hardware; software checks do
+not establish electrical, Flash or timing acceptance.
+
+Firmware builds require the matching Keil toolchain and SRecord (`srec_cat`) in
+PATH or the configured local Keil folder. The developer executable is not bundled.
+M261 BSP attribution: [third-party notices](demo_code/M261BSP_USB_HID_PMBus_SMBus/THIRD_PARTY_NOTICES.md).
