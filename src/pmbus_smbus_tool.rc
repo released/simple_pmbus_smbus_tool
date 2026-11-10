@@ -1,11 +1,12 @@
+#include "tool_build_identity.h"
 #include <winres.h>
 #include "resource.h"
 
 IDR_MAINFRAME ICON "res\\p_tool.ico"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,259
- PRODUCTVERSION 1,0,0,259
+ FILEVERSION 1,0,0,261
+ PRODUCTVERSION 1,0,0,261
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS VS_FF_DEBUG
@@ -22,11 +23,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "PMBus SMBus HID Tool Team\0"
             VALUE "FileDescription", "PMBus SMBus HID Tool\0"
-            VALUE "FileVersion", "1.0.0.259\0"
+            VALUE "FileVersion", "1.0.0.261\0"
             VALUE "InternalName", "PmbusSmbusHidTool.exe\0"
             VALUE "OriginalFilename", "PmbusSmbusHidTool.exe\0"
             VALUE "ProductName", "PMBus SMBus HID Tool\0"
-            VALUE "ProductVersion", "1.0.0.259\0"
+            VALUE "ProductVersion", "1.0.0.261\0"
+            VALUE "BuildDateTime", TOOL_BUILD_TIMESTAMP_ISO "\0"
         END
     END
     BLOCK "VarFileInfo"

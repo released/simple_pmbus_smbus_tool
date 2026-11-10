@@ -1,0 +1,21 @@
+{
+  "publication_enabled": true,
+  "repository": "released/simple_pmbus_smbus_tool",
+  "visibility": "PUBLIC",
+  "branch": "main",
+  "readme_title": "PmbusSmbusHidTool",
+  "identity_files": [
+    "README.md",
+    "PmbusSmbusHidTool.vcxproj"
+  ],
+  "delivery_files": [
+    "build/PmbusSmbusHidTool.exe",
+    "build/script_presets/PMBus_Base_Full.csv",
+    "build/script_presets/PMBus_M_CRPS_Full.csv",
+    "build/script_presets/PMBus_TI_UCD90xxx_Full.csv",
+    "build/script_presets/SMBus_Generic_RunAll.csv",
+    "build/script_presets/SMBus_UBM_RunAll.csv",
+    "build/script_presets/ti_reference/SMBusI2CScriptForm.csv",
+    "build/script_presets/ti_reference/TI_USB_TO_GPIO_2006_PMBUS_SMBUS_SCRIPT_SEQUENCE.md"
+  ]
+}

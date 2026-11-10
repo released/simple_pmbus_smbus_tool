@@ -39,3 +39,47 @@ demo_code/M031BSP_USB_HID_PMBus_SMBus/SampleCode/Template/Keil/lst/
 demo_code/M031BSP_USB_HID_PMBus_SMBus/SampleCode/Template/Keil/obj/
 demo_code/M031BSP_USB_HID_PMBus_SMBus/SampleCode/Template/Keil/*.uvguix.*
 demo_code/M031BSP_USB_HID_PMBus_SMBus/SampleCode/Template/Keil/Nu_Link_Driver.ini
+
+# Prepared metadata and local engineering/state.
+/src/tool_build_identity.h
+/docs/internal/
+/AGENTS.md
+/HANDOFF.md
+/SELF_CHECK.md
+/MANUAL_CLEANUP.md
+/github_push.local.psd1
+/build/Debug/
+
+# Merge into the project's .gitignore after reviewing actual content/paths.
+# These are local engineering records, not public user guides or source tests.
+# Already tracked files/history need separate review; ignore alone is insufficient.
+/AGENTS.md
+/AGENTS_for_Codex.md
+/CLAUDE.md
+/WORKSPACE_RULES.md
+/HANDOFF.md
+/CODEX_HANDOFF.md
+/SELF_CHECK.md
+/MANUAL_CLEANUP.md
+/PROJECT_README_TEMPLATE.md
+/.codex/
+/.claude/
+/github_push.local.psd1
+
+# Dedicated internal records and generated verification payloads.
+/docs/internal/
+/docs/development/
+/artifacts/audits/
+/artifacts/tests/
+/.verify/
+
+# Live environment values stay local. Only a reviewed example is publishable.
+/.env*
+!/.env.example
+
+# Classify SPEC.md and additional logs/captures/data by purpose before upload.
+# Preserve README/user/architecture/protocol guides, LICENSE/NOTICE, meaningful
+# tests/fixtures source and required runtime assets. Do not ignore all *.md,
+# docs/, tests/ or build/. Merge compiler intermediates separately.
+
+/docs/verification/

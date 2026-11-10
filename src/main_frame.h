@@ -2,6 +2,7 @@
 
 #include <afxcmn.h>
 #include <afxwin.h>
+#include "tool_build_display.h"
 
 #include <cstdint>
 #include <string>
@@ -19,6 +20,7 @@
 #include "ui/smbus_tab.h"
 
 class CMainFrame : public CFrameWnd {
+    native_tool_ui::BuildIdentityLabel build_identity_;
 public:
     CMainFrame();
 

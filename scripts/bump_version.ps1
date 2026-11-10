@@ -93,11 +93,14 @@ $updated = [System.Text.RegularExpressions.Regex]::Replace(
 
 [System.IO.File]::WriteAllText($RcPath, $updated, [System.Text.Encoding]::ASCII)
 
+& (Join-Path $PSScriptRoot 'prepare_tool_build_identity.ps1') -Version $text -OutputHeader (Join-Path (Split-Path -Parent $HeaderPath) 'tool_build_identity.h')
+
 $header = @"
 #pragma once
+#include "tool_build_identity.h"
 
-#define PMBUS_TOOL_BUILD_VERSION L"$text"
-#define PMBUS_TOOL_BUILD_TIME L"$buildTime"
+#define PMBUS_TOOL_BUILD_VERSION TOOL_BUILD_VERSION_W
+#define PMBUS_TOOL_BUILD_TIME TOOL_BUILD_DISPLAY_TIME_W
 "@
 [System.IO.File]::WriteAllText($HeaderPath, $header, [System.Text.Encoding]::ASCII)
 
